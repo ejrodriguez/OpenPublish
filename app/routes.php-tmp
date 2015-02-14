@@ -49,6 +49,8 @@ Route::post('/user/delete', array('as' => 'userdel', 'uses' => 'UserController@d
 
 Route::get('/video', array('as' => 'downloadxml', 'uses' => 'VideoController@showVideoAdmin'))->before("auth_user");
 
+//niña
+
 //rutear a errores
 App::missing(function ($exception) {
 		return Response::view('errors.error404', array(), 404);

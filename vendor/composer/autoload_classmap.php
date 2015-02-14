@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Alaouy\\Youtube\\Facades\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/YoutubeFacades.php',
+    'Alaouy\\Youtube\\Facades\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Facades/Youtube.php',
     'Alaouy\\Youtube\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Youtube.php',
     'Alaouy\\Youtube\\YoutubeServiceProvider' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/YoutubeServiceProvider.php',
     'AuthController' => $baseDir . '/app/controllers/AuthController.php',
@@ -705,7 +705,9 @@ return array(
     'Patchwork\\PHP\\Shim\\Xml' => $vendorDir . '/patchwork/utf8/class/Patchwork/PHP/Shim/Xml.php',
     'Patchwork\\TurkishUtf8' => $vendorDir . '/patchwork/utf8/class/Patchwork/TurkishUtf8.php',
     'Patchwork\\Utf8' => $vendorDir . '/patchwork/utf8/class/Patchwork/Utf8.php',
+    'Patchwork\\Utf8\\BestFit' => $vendorDir . '/patchwork/utf8/class/Patchwork/Utf8/BestFit.php',
     'Patchwork\\Utf8\\Bootup' => $vendorDir . '/patchwork/utf8/class/Patchwork/Utf8/Bootup.php',
+    'Patchwork\\Utf8\\WindowsStreamWrapper' => $vendorDir . '/patchwork/utf8/class/Patchwork/Utf8/WindowsStreamWrapper.php',
     'Pingpong\\Menus\\Builder' => $vendorDir . '/pingpong/menus/src/Pingpong/Menus/Builder.php',
     'Pingpong\\Menus\\Facades\\Menu' => $vendorDir . '/pingpong/menus/src/Pingpong/Menus/Facades/Menu.php',
     'Pingpong\\Menus\\Menu' => $vendorDir . '/pingpong/menus/src/Pingpong/Menus/Menu.php',
@@ -1282,6 +1284,7 @@ return array(
     'Symfony\\Component\\HttpKernel\\CacheWarmer\\CacheWarmerInterface' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/CacheWarmer/CacheWarmerInterface.php',
     'Symfony\\Component\\HttpKernel\\CacheWarmer\\WarmableInterface' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/CacheWarmer/WarmableInterface.php',
     'Symfony\\Component\\HttpKernel\\Client' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Client.php',
+    'Symfony\\Component\\HttpKernel\\Config\\EnvParametersResource' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Config/EnvParametersResource.php',
     'Symfony\\Component\\HttpKernel\\Config\\FileLocator' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Config/FileLocator.php',
     'Symfony\\Component\\HttpKernel\\Controller\\ControllerReference' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Controller/ControllerReference.php',
     'Symfony\\Component\\HttpKernel\\Controller\\ControllerResolver' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Controller/ControllerResolver.php',
