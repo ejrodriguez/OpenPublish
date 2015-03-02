@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/tables/dataTables.responsive.css">
+<link rel="stylesheet" type="text/css" href="css/tables/jquery.dataTables.css">
+<script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="js/jsfunctions/dataTables.responsive.js"></script>
+</head>
+<body>
 <br>
 <div class="panel panel-primary">
 	<div class="row">
@@ -21,8 +31,10 @@
 					</div>
 					<div class="no-move"></div>
 				</div>
-				<div class="box-content no-padding">
-					<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-1">
+				<br>
+				<br>
+				<div  >
+					<table style="overflow:scroll;" id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%">
 						<thead>
 							<tr>
 								<th>Id</th>
@@ -40,7 +52,7 @@
 							@foreach($usuarios as $usuario)
 							<tr>
 								<td id="user_id">{{$usuario->id}}</td>
-								<td id="user_name"><img class="img-rounded" src="http://i.forbesimg.com/media/lists/people/carlos-slim-helu_50x50.jpg" alt="">{{$usuario->UserName}}</td>
+								<td id="user_name">{{$usuario->UserName}}</td>
 								<td id="user_email">{{$usuario->email}}</td>
 								<td id="user_stat">{{$usuario->StatusDescrip}}</td>
 								<td id="user_rol">{{$usuario->RolDescrip}}</td>
@@ -258,9 +270,13 @@ $(document).ready(function() {
 	// // Load example of form validation
 	LoadBootstrapValidatorScript(DemoFormValidator);
 	// Load Datatables and run plugin on tables 
-	LoadDataTablesScripts(AllTables);
+	// LoadDataTablesScripts(AllTables);
+	$('#datatable-1').DataTable({
+			
+	});
 	// Add Drag-n-Drop feature
 	WinMove();
+
 });
 
 //seleccion de una fila
@@ -553,7 +569,7 @@ $("#erase").click(function(e) {
 });
 </script>
 
-
+</body>
 
 
 

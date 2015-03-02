@@ -9705,8 +9705,9 @@
 		 *        "bScrollCollapse": true
 		 *      } );
 		 *    } );
+		 aki cambie
 		 */
-		"sScrollX": "",
+		"sScrollX": "100",
 	
 	
 		/**

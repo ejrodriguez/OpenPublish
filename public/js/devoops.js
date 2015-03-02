@@ -88,25 +88,33 @@ function LoadSelect2Script(callback){
 //  Dynamically load DataTables plugin
 //  homepage: http://datatables.net v1.9.4 license - GPL or BSD
 //
-function LoadDataTablesScripts(callback){
-	function LoadDatatables(){
-		$.getScript('plugins/datatables/jquery.dataTables.js', function(){
-			$.getScript('plugins/datatables/ZeroClipboard.js', function(){
-				$.getScript('plugins/datatables/TableTools.js', function(){
-					$.getScript('plugins/datatables/dataTables.bootstrap.js', callback);
-				});
-			});
-		});
-	}
-	if (!$.fn.dataTables){
-		LoadDatatables();
-	}
-	else {
-		if (callback && typeof(callback) === "function") {
-			callback();
-		}
-	}
-}
+
+
+
+// aki
+// function LoadDataTablesScripts(callback){
+// 	function LoadDatatables(){
+// 		$.getScript('plugins/datatables/jquery.dataTables.js', function(){
+// 			$.getScript('plugins/datatables/ZeroClipboard.js', function(){
+// 				$.getScript('plugins/datatables/TableTools.js', function(){
+// 					$.getScript('plugins/datatables/dataTables.bootstrap.js', callback);
+// 				});
+// 			});
+// 		});
+// 	}
+// 	if (!$.fn.dataTables){
+// 		LoadDatatables();
+// 	}
+// 	else {
+// 		if (callback && typeof(callback) === "function") {
+// 			callback();
+// 		}
+// 	}
+// }
+// aki
+
+
+
 //
 //  Dynamically load Widen FineUploader
 //  homepage: https://github.com/Widen/fine-uploader  v5.0.1 license - GPL3
@@ -2390,6 +2398,14 @@ function CreateAllSliders(){
 //
 function AllTimePickers(){
 	$('#datetime_example').datetimepicker({});
+	$('#datetime_despuesq').datetimepicker({
+		dateFormat: 'yy-mm-dd',
+		timeFormat: 'HH:mm'
+	});
+	$('#datetime_antesq').datetimepicker({
+		dateFormat: 'yy-mm-dd',
+		timeFormat: 'HH:mm'
+	});
 	$('#time_example').timepicker({
 		hourGrid: 4,
 		minuteGrid: 10,

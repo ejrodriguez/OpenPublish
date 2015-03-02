@@ -50,8 +50,17 @@ Route::post('/user/delete',array('as' => 'userdel', 'uses' => 'UserController@de
 
 Route::get('/video',array('as' => 'downloadxml', 'uses' => 'VideoController@showVideoAdmin'))->before("auth_user");
 
+//rutear a administracion en youtube
 
+Route::post('/video/youtube/videoid',array('as' => 'getvideoid', 'uses' => 'VideoController@getVideoById'))->before("auth_user");
 
+Route::post('/video/youtube/popularvideos',array('as' => 'getpopularvideos', 'uses' => 'VideoController@getPopularVideos'))->before("auth_user");
+
+Route::post('/video/youtube/videocategorias',array('as' => 'categoriesvideos', 'uses' => 'VideoController@getVideoCategories'))->before("auth_user");
+
+Route::post('/video/youtube/masvistos',array('as' => 'videosmasvistos', 'uses' => 'VideoController@getMostViewed'))->before("auth_user");
+
+Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' => 'VideoController@searchVideos'))->before("auth_user");
 
 
 
