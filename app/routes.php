@@ -62,6 +62,9 @@ Route::post('/video/youtube/masvistos',array('as' => 'videosmasvistos', 'uses' =
 
 Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' => 'VideoController@searchVideos'))->before("auth_user");
 
+//ejemplo con base joomla
+Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
+
 
 
 

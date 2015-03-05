@@ -70,7 +70,7 @@ class Youtube {
 		$API_URL = $this->getApi('search.list');
 		$params = array(
 			'part' => 'id,snippet',
-			'fields' => 'items(id(videoId),snippet(title,description)',
+			'fields' => 'items(id(videoId),snippet(title,description))',
 			'type' => 'video',
 			'order' => $order,
 			'hl' => 'es',
