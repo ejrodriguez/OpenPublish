@@ -174,6 +174,33 @@ class VideoController extends BaseController {
 					                    ));
 	}
 
+	//listar videos de alavista
+	public function LoadVideo(){
+
+		return View::make('pages.video.listvideo');
+	}
+
+	public function ListVideo(){
+		$videos = Video::all();
+
+		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Video</th><th>Titulo</th><th>Descripcion</th><th>Share</th></tr></thead><tbody>';
+				foreach ($videos as $video) {
+					// $encontrados=$encontrados.'<div class="col-sm-6 col-md-3"><div class="thumbnail">'.$video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'}.'<div class="caption"><h3>'.$video->{'snippet'}->{'channelTitle'}.'</h3><p>'.$video->{'snippet'}->{'localized'}->{'title'}.'</p><p>Video ID: '.$video->{'id'}.'</p><input type="checkbox" class="ajoomla"> OK</input></p></div></div></div></div>';
+					// $encontrados=$encontrados.'<div style="with=20%" ><a href="#" class="thumbnail"><p class="small">'.$video->{'snippet'}->{'localized'}->{'title'}.'</p>'.$emb.'</a></div>';
+					$encontrados=$encontrados.'<tr><td id="video_emb"><img src="'.$video->thumburl.'" width="160" height="100"/></td><td id="video_title">'.$video->title.'</td><td id="video_desc">'.$video->seotitle.'</td>
+					<td><button onclick="share('.$video->id.')" type="button" class="btn btn-default" aria-label="Left Align">
+                <span class="fa fa-user txt-primary" aria-hidden="true"></span></td></tr>';
+				}
+
+			$encontrados=$encontrados.'</tbody><tfoot><tr><th>Video</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th></tr></tfoot></table>';
+
+
+		return Response::json(array(
+			'success' => true,
+			'list' => $encontrados
+            )); 
+	}
+
 
 	
 

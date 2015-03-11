@@ -1286,6 +1286,7 @@ return array(
     'Symfony\\Component\\HttpKernel\\CacheWarmer\\CacheWarmerInterface' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/CacheWarmer/CacheWarmerInterface.php',
     'Symfony\\Component\\HttpKernel\\CacheWarmer\\WarmableInterface' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/CacheWarmer/WarmableInterface.php',
     'Symfony\\Component\\HttpKernel\\Client' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Client.php',
+    'Symfony\\Component\\HttpKernel\\Config\\EnvParametersResource' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Config/EnvParametersResource.php',
     'Symfony\\Component\\HttpKernel\\Config\\FileLocator' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Config/FileLocator.php',
     'Symfony\\Component\\HttpKernel\\Controller\\ControllerReference' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Controller/ControllerReference.php',
     'Symfony\\Component\\HttpKernel\\Controller\\ControllerResolver' => $vendorDir . '/symfony/http-kernel/Symfony/Component/HttpKernel/Controller/ControllerResolver.php',

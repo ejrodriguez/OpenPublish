@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/tables/dataTables.responsive.css">
 <link rel="stylesheet" type="text/css" href="css/tables/jquery.dataTables.css">
-<script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.js"></script>
+
 <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>
 <script type="text/javascript" language="javascript" src="js/jsfunctions/dataTables.responsive.js"></script>
 </head>
