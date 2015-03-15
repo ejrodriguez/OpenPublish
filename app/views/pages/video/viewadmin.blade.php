@@ -438,6 +438,7 @@
 	</div>
 </div>
 
+<!-- <a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a> -->
 <div class="col-xs-12 col-sm-12">
 		<div class="box">
 			<div class="box-header">
@@ -468,16 +469,203 @@
 
 		</div>
 	</div>
+	<center><button id="enviaralavista" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button></center>
+	<!--edit -->
 
+	<div id="modaldataedit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="largeModal">
+		<div class="modal-dialog modal-lg">   
+		  <div class="modal-content"> 
+		     <div class="modal-header alert alert-info">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+		        ×
+		        </button>
+		        <h3>Editar Datos de Video</h3>
+		     </div>
+		     <div class="modal-body">
+
+		        	<form id="EditDataVideoForm" method="POST"  action="{{URL::route('useredit')}}" class="form-horizontal">
+		        		<div class="form-group">
+							<label class="col-sm-2 control-label" for="form-styles">Titulo:</label>
+							<div class="col-sm-8">
+									<input type="text" class="form-control" placeholder="Titulo" data-toggle="tooltip" data-placement="bottom" title="Titulo del video" id="tituloalavista">
+							</div>
+						</div>
+						<label class=" control-label" for="form-styles">Descripcion:</label>
+						<div class="form-group">
+							
+							<div class="col-sm-12">
+									<textarea class="form-control" rows="10" id="wysiwig_full"></textarea>
+							</div>
+						</div>
+						<div class="form-group" >
+			        		<label class="col-sm-2 control-label" >Categoria: </label>
+						  	<div id='dcatalavista' class="col-sm-4">
+								
+							</div>
+							
+						  	<!-- <div class="col-sm-4">
+								<select class="populate placeholder" name="nivelalavista" id="nivelalavista" >
+								<option  selected value="">-- Seleccione un Nivel --</option>
+								<option  value="niv1">-- n1 --</option>
+								<option  value="niv2">-- n2 --</option>
+								</select>
+							</div> -->
+							
+						</div>
+						<div class="form-group" >
+							<label class="col-sm-2 control-label" >Id Video: </label>
+							<label id="idalavista" class="col-sm-2 control-label" > </label>
+							
+						  	<!-- <div class="col-sm-4">
+								<select class="populate placeholder" name="estadoalavista" id="estadoalavista" >
+								<option  selectedvalue="">-- Seleccione un Estado --</option>
+								</select>
+							</div> -->
+						</div>
+					</form>
+
+		     </div>
+		     <div id="uniqedit"></div>
+		     <div class="modal-footer">
+		        <!-- <a href="#" class="btn btn-primary">Guardar</a> -->
+		        <button id="guardaralavista" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button>
+		        <a id="cerraralavista" href="#" data-dismiss="modal" class="btn btn-default btn-label-left btn-lg"><span><i class="fa fa-arrows-alt"></i></span>Cerrar</a>
+		        
+		        <div id='cargar'></div>
+
+		     </div>
+		     
+			</div>
+
+		</div>
+	</div>
 
 
 <script type="text/javascript">
 
 
+$('#enviaralavista').click(function(event) {
+	/* Act on the event */
+	event.preventDefault();
+	$.each(datas.items, function(n) {
+				 /* iterate through array or object */
+				 
+				 	datas.items[n].sel=false;
+				 
+			
+			});
+
+	$("input:checkbox:checked").each(   
+	    function() {
+	    	var a=$(this).val();
+	        // alert("El checkbox con valor " + a + " está seleccionado");
+	        $.each(datas.items, function(n) {
+				 /* iterate through array or object */
+				 if(datas.items[n].ide ==a){
+				 	// datas.items.push(item);
+				 	datas.items[n].sel=true;
+				 }
+				 
+				 // console.log(datas.items[n].ide+' '+datas.items[n].sel);
+			});
+	    }
+	);
+
+
+	// console.log(datas);
+	
+	$.ajax({
+		url: "{{URL::route('savealavista')}}",
+		type: 'POST',
+		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+		data: {videos: datas},
+	})
+	.done(function(data) {
+		console.log("success22");
+		if(data.success==true){
+			console.log((data.list));
+		}
+		if(!data.success){
+			console.log((data.list));
+		}
+		
+	})
+	.fail(function(data) {
+		console.log("error");
+	})
+	.always(function(data) {
+		console.log("complete");
+	});
+});
+
+
+
+
+//add object
+var datas = {items: 
+	[
+	    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+	]};
+		
+
+
+// $("#guardaralavista").click(function(e) {
+// 	/* Act on the event */
+// 	e.preventDefault();
+
+ 	
+//  	console.log(getFormJson($("#categoriaalavista").val(),$("#nivelalavista").val(),$("#tituloalavista").val()));
+// });
+
+function getFormJson(a,b,c,d,e,f){
+
+	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f};
+		
+		datas.items.push(item);
+
+		return datas;
+};
+//add object
+
+
+
 
 $(document).ready(function() {
 
-	
+	//cargar categorias de alavista
+		$.ajax({
+		url: "{{URL::route('categoryalavista')}}",
+		type: 'POST',
+		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+		// data: {param1: 'value1'},
+		})
+		.done(function(data) {
+			console.log("success");
+			if(data.success){
+				$('#dcatalavista').html(data.list);
+				function DemoSelect2(){
+						$('#categoriaalavista').select2();
+					};
+					LoadSelect2Script(DemoSelect2);
+					$('#wysiwig_full').html('text1');
+							$('#tituloalavista').val('text2');
+			}
+			
+
+		})
+		.fail(function(data) {
+			console.log("error");
+		})
+		.always(function(data) {
+			console.log("complete");
+		});
+
+
+
+
+
+	//area de texto
+	// TinyMCEStart('#wysiwig_full', 'extreme');
 	// Load spinner plugin and callback  date spinner
 	$("#maxregion").spinner({
 		max: 50,
@@ -520,7 +708,6 @@ $(document).ready(function() {
 	// // Load selects
 	LoadSelect2Script(DemoSelect2);
 	$("#accordion .panel-heading a").css('style', 'none');
-
 	// Run beauty tables plugin on every table with class .beauty-table
 	// $('.beauty-table').each(function(){
 	// 	// Run keyboard navigation in table
@@ -528,7 +715,6 @@ $(document).ready(function() {
 	// 	// Nice CSS-hover row and col for current cell
 	// 	$(this).beautyHover();
 	// });
-
 	//load select categorias para region
 	$.ajax({
 		url: "{{URL::route('categoriesvideos')}}",
@@ -554,9 +740,7 @@ $(document).ready(function() {
 	})
 	.fail(function() {
 		console.log("error");
-
 	});
-
 	//load select categorias para query
 	$.ajax({
 		url: "{{URL::route('categoriesvideos')}}",
@@ -580,12 +764,8 @@ $(document).ready(function() {
 	})
 	.fail(function() {
 		console.log("error");
-
 	});
-
-
 });
-
 function DemoSelect2(){
 	$('#criterio').select2();
 	$('#criterio2').select2();
@@ -603,8 +783,10 @@ function DemoSelect2(){
 	$('#synq').select2();
 	$('#tipoq').select2();
 	$('#orderq').select2();
+	$('#categoriaalavista').select2();
+	$('#nivelalavista').select2();
+	$('#estadoalavista').select2();
 };
-
 //informacion al seleccionar un criterio
 // $("#criterio").change(function(e) {
 // 	// alert($("#criterio").val());
@@ -617,8 +799,6 @@ function DemoSelect2(){
 // 		$("#info_criterio").html('<span  class="label label-info"><i class="fa fa-info-circle" ></i></span>');	
 // 	}
 // });
-
-
 // acordion eventos
 $("#accordion .panel-heading").mouseover(function(e) {
 	e.preventDefault();
@@ -628,10 +808,6 @@ $("#accordion .panel-heading").mouseleave(function(e) {
 	e.preventDefault();
 	$(this).css('backgroundColor','#F2F2F2');
 });
-
-
-
-
 //tooltips de informacion
 $('#info1').mouseenter(function(e) {
 	e.preventDefault();
@@ -660,7 +836,6 @@ $('#info3').mouseenter(function(e) {
         animation: 'true'
     });
 });
-
 //buscar videos youtube
 // getvideo by id
 $("#buscar1").click(function(e) {
@@ -699,7 +874,6 @@ $("#buscar1").click(function(e) {
 		// $('#cargardel').html('<label></label>');
 		// console.log("success");
 		if(data.success=='true'){
-
 					// alert(data.msg);
 					$('#buscar1').html('<span><i class="fa fa-search"></i></span> Buscar');
 					$('#listresult').html(data.resultobt);
@@ -708,7 +882,6 @@ $("#buscar1").click(function(e) {
 					// });
 				}
 		if(data.success=='falserollb'){
-
 					// alert('Internal Server Error [500].');
 				}
 	})
@@ -720,8 +893,6 @@ $("#buscar1").click(function(e) {
 		console.log("complete");
 	});
 });
-
-
 //buscar por codigo de region
 $("#buscar2").click(function(e) {
 	/* Act on the event */
@@ -794,9 +965,6 @@ $("#buscar2").click(function(e) {
 		console.log("complete");
 	});
 });
-
-
-
 $("#buscar3").click(function(e) {
 	/* Act on the event */
 	e.preventDefault();
@@ -807,6 +975,10 @@ $("#buscar3").click(function(e) {
 		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 		data: {order : $('#ordenarmasv').val() , max : $('#maxmas').val()},
 		beforeSend: function(){
+					datas = {items: 
+					[
+					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+					]};
 	    			// alert("message");
                     $('#buscar3').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
                 },
@@ -833,13 +1005,15 @@ $("#buscar3").click(function(e) {
 		// $('#cargardel').html('<label></label>');
 		// console.log("success");
 		if(data.success==true){
-
 					// alert(data.msg);
 					$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
 					// $('#listresult').html(data.resultobt);
 					$('#listresult').html(data.list);
 					$('#datatable-1').DataTable({
-			
+						// "bPaginate": false
+						"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+						}
 						});
 						//cambiar de color al pasar el puntero
 						$("#datatable-1 tr").mouseenter(function(){
@@ -850,25 +1024,87 @@ $("#buscar3").click(function(e) {
 						        $(this).css('background-color','#F4F4F4');
 						        $(this).css('color','#333');
 						    });
+
+
+					// var yea=document.getElementById("datatable-1").rows.length;
+					// // alert(yea);
+					// oTable = $('#datatable-1').dataTable();
+					// if(yea != 0){
+					// 	var aData = oTable.fnGetData( aPos[0] );
+					// }
+					
+					var oTable = $('#datatable-1').dataTable();
+					// alert(oTable.fnGetData().length);
+					var di=oTable.fnGetData().length;
+					// alert('dim'+di);
+					// oTable.rows().data().length
+					if(di > 0){
+
+						for (var i = 0 ; i < di; i++) {
+							var aData = oTable.fnGetData( i );
+							// console.log('vale'+aData);
+							getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+						};
+						
+
+						
+
+						// alert('pasa'+di);
+					}
+					console.log(datas);
+						    // tabla obj
+
+
+
+
+						$('#datatable-1 tbody td').click( function () {
+							//  oTable = $('#datatable-1').dataTable();
+							//  var aPos = oTable.fnGetPosition( this );
+							//  var aData = oTable.fnGetData( aPos[0] );
+
+							// $('#wysiwig_full').val(aData[4]);
+							// $('#tituloalavista').val(aData[3]);
+							// $('#idalavista').text(aData[2]);
+
+
+							
+
+					         // Get the position of the current data from the node
+					         
+
+					         oTable = $('#datatable-1').dataTable();
+					         var aPos = oTable.fnGetPosition( this );
+					 		// alert(aPos);
+					         // // Get the data array for this row
+					         var aData = oTable.fnGetData( aPos[0] );
+					          // JSON.parse(aData);
+					         var dim= aData.length;
+					         $('#wysiwig_full').val(aData[5]);
+							 $('#tituloalavista').val(aData[4]);
+							 $('#idalavista').text(aData[3]);
+
+					         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+					 		// alert(aData);
+					         // // Update the data array and return the value
+					         // aData[ aPos[1] ] = 'clicked';
+					         // this.innerHTML = 'clicked';
+
+
+					       } );
 									
 				}
 		if(data.success=='falserollb'){
-
 					// alert('Internal Server Error [500].');
 				}
 	})
 	.fail(function() {
 		console.log("error");
 		$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
-
 	})
 	.always(function() {
 		console.log("complete");
-
 	});
 });
-
-
 $("#buscar4").click(function(e) {
 	/* Act on the event */
 	e.preventDefault();
@@ -905,7 +1141,6 @@ $("#buscar4").click(function(e) {
 		// $('#cargardel').html('<label></label>');
 		// console.log("success");
 		if(data.success==true){
-
 					// alert(data.msg);
 					$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
 					// $('#listresult').html(data.resultobt);
@@ -925,21 +1160,58 @@ $("#buscar4").click(function(e) {
 									
 				}
 		if(data.success=='falserollb'){
-
 					// alert('Internal Server Error [500].');
 				}
 	})
 	.fail(function() {
 		console.log("error");
 		$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-
 	})
 	.always(function() {
 		console.log("complete");
-
 	});
 });
 
 
+
+//borrar datos de modal
+$('#modaldataedit').on('hidden.bs.modal', function (){
+  // keyboard: false
+  // alert('Modal is successfully shown!');
+  	$('#mtituloalavista').val("");
+ 	$('#descripcionalavista').val("");
+ 	$('#idalavista').text("");  
+});
+
+
+$('#guardaralavista').click(function(et) {
+	/* Act on the event */
+	et.preventDefault();
+	console.log(datas.items[0].ide);
+	// JSON.parse(datas);
+	// console.log(datas);
+	$.each(datas.items, function(n) {
+		 /* iterate through array or object */
+		 if(datas.items[n].ide ==$('#idalavista').text()){
+		 	// datas.items.push(item);
+		 	datas.items[n].ide=$('#idalavista').text();
+		 	datas.items[n].titulo=$('#tituloalavista').val();
+		 	datas.items[n].descr=$('#wysiwig_full').val();
+		 	datas.items[n].cat=$('#categoriaalavista').val();
+		 }
+		 console.log(datas.items[n].ide+' '+datas.items[n].titulo+': '+datas.items[n].descr+': '+datas.items[n].emb+': '+datas.items[n].cat);
+	});
+
+
+	
+	// console.log(datas);
+});
+
+
+
 </script>
+
+
+
+
 </body>
