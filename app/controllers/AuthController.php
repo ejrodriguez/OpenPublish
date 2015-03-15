@@ -75,6 +75,7 @@ class AuthController extends BaseController {
 	public function makeLogout()
 	{
 		 Auth::user()->logout();
+		 Session::forget('session');
 		 return Redirect::route("index");
 	}
 
