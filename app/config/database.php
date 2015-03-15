@@ -66,7 +66,7 @@ return array(
 		'alavista' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'joomla',
+			'database'  => 'bitnami_joomla',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',

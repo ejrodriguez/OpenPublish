@@ -78,12 +78,13 @@ class FacebookController extends \BaseController {
 	}
 
 	public function listgroups()
-	{ /*
+	{ 
 		if(Request::ajax())
 		{
 			$user_groups=$this->fb->getGraphGroups();
 			$groups = $user_groups->getProperty('data');
-			if(Input::get('share')='')
+			$groups = $groups->asArray();
+			if(Input::get('share')==1)
 			{
 				
 				return Response::json(array(
@@ -98,7 +99,7 @@ class FacebookController extends \BaseController {
                     'list'         =>     'Error en el servidor no se pudo obtener la lista de menus intente nuevamente'
                     ));
 			}
-		} */
+		} 
 	}
 
 	public function events()

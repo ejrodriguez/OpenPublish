@@ -220,7 +220,7 @@ function showModalGroup(rate,ide,title,image)
 	document.getElementById("descripcion").value=""; 
 	document.getElementById("linkvideo").value = link;
 	document.getElementById("imgvideo_g").src = image;
-	/*
+	
 	$.ajax({
 				url: "{{URL::route('listgroups')}}",
 				type: 'POST',
@@ -242,7 +242,7 @@ function showModalGroup(rate,ide,title,image)
 			})
 			.fail(function() {
 				console.log("error");
-			}); */
+			}); 
 	$('#modalsharegroups').modal('show');
 }
 //funcion para compartir en el perfil

@@ -583,7 +583,7 @@ $('#enviaralavista').click(function(event) {
 	.done(function(data) {
 		console.log("success22");
 		if(data.success==true){
-			console.log((data.list));
+			alert((data.list));
 		}
 		if(!data.success){
 			console.log((data.list));
@@ -1200,8 +1200,9 @@ $('#guardaralavista').click(function(et) {
 		 	datas.items[n].cat=$('#categoriaalavista').val();
 		 }
 		 console.log(datas.items[n].ide+' '+datas.items[n].titulo+': '+datas.items[n].descr+': '+datas.items[n].emb+': '+datas.items[n].cat);
-	});
 
+	});
+	alert('Informacion Agregada');
 
 	
 	// console.log(datas);
