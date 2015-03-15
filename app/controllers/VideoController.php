@@ -235,7 +235,7 @@ class VideoController extends BaseController {
 		 		foreach ($datos as  $value) {
 		 			# code...
 		 			
-		 			if ($value['sel']==true) {
+		 			if ($value['sel']=='true') {
 		 				# code...
 		 				// $a=$a.$value['titulo'];
 

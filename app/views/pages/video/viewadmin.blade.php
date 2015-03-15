@@ -572,15 +572,37 @@ $('#enviaralavista').click(function(event) {
 	);
 
 
-	// console.log(datas);
+	console.log(datas);
 	
 	$.ajax({
 		url: "{{URL::route('savealavista')}}",
 		type: 'POST',
 		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 		data: {videos: datas},
+		beforeSend: function(){
+	    			// alert("message");
+                    $('#enviaralavista').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+                },
+        error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            alert('Internal Server Error [500].');
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	})
 	.done(function(data) {
+		 $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
 		console.log("success22");
 		if(data.success==true){
 			alert((data.list));
@@ -594,7 +616,7 @@ $('#enviaralavista').click(function(event) {
 		console.log("error");
 	})
 	.always(function(data) {
-		console.log("complete");
+		console.log("complete"); $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
 	});
 });
 
