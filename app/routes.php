@@ -65,14 +65,18 @@ Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' =
 //ejemplo con base joomla
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 
-// show ventana videos
-Route::get('redsocial',array('as' => 'sharefb', 'uses' => 'VideoController@LoadVideo'))->before("auth_user");
-//cargar videos
-// Route::post('/video/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
+
+Route::get('/login/fb',array('as' => 'loginfb', 'uses' => 'FacebookController@login'))->before("auth_user");
+
+Route::get('/facebook/callback',array('as' => 'callback', 'uses' => 'FacebookController@callback'))->before("auth_user");
+
+Route::get('/redsocial',array('as' => 'sharefb', 'uses' => 'VideoController@LoadVideo'))->before("auth_user");
+
 Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
 
+Route::post('facebook/share/profile',array('as' => 'shareprofile', 'uses' => 'FacebookController@shareProfile'))->before("auth_user");
 
-
+Route::post('/facebook/groups',array('as' => 'listgroups', 'uses' => 'FacebookController@listgroups'))->before("auth_user");
 
 
 

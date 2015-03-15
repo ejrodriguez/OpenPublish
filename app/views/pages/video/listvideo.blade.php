@@ -40,42 +40,105 @@
 
 
 <!--modal share perfil -->
-<!--delete -->
-	<div id="modaldatadel" class="modal fade">
+	<div id="modalshareprofile" class="modal fade">
 	<div class="modal-dialog">   
 	  <div class="modal-content"> 
-	     <div class="modal-header alert alert-danger">
+	     <div class="modal-header alert alert-info">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 	        ×
 	        </button>
-	        <h3>¿Esta seguro que desea eliminar al usuario?</h3>
+	        <h4>Publicar en Facebook</h4>
 	     </div>
 	     <div class="modal-body">
 
-	        	<form id="DelDataPersonalForm" method="POST"  action="" class="form-horizontal">
+	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
 	        		<fieldset>
-		        		<div class="list-group">
-						  <a href="#" class="list-group-item active">
-						    <h4 class="list-group-item-heading">Datos de Usuario</h4>
-						  </a>
-						  <a class="list-group-item">Id: <label id="useriddel"></label></a>
-						  <a  class="list-group-item">Nombre: <label id="usernombredel"></label></a>
-						  <a  class="list-group-item">Email: <label id="useremaildel"></label></a>
-						  <a  class="list-group-item">Estado: <label id="userestadodel"></label></a>
-						  <a  class="list-group-item">Rol: <label id="userroldel"></label></a>
-						  <a  class="list-group-item">Ultima Actualización: <label id="useractualdel"></label></a>
+	        			<div class="form-group">
+	        			<!--<label id="linkvideo"  style="display:none" ></label> -->
+	        			<input type="text" id="linkvideo" name="linkvideo" style="display:none" />
+						<img class="col-sm-3 " src="" id="imgvideo" width="600px"  />
+						<div class="col-sm-8">	
+						<h4 id="titlevideo" class="control-label"></h4>
+						</div>
+						</div>
+						<div class="form-group" >
+						<label class="col-sm-3 control-label">Mensaje</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="mensaje" id="mensaje"/>
+						</div>
+						</div>
+						<div class="form-group" >
+						<label class="col-sm-3 control-label">Descripción</label>
+						<div class="col-sm-8">
+							<textarea class="form-control" name="descripcion" id="descripcion" height="100px"></textarea>
+						</div>
 						</div>
 					</fieldset>
 
 				</form>
-
 	     </div>
-	     <div id="uniqdel"></div>
+	     <div id="resultshare"></div>
 	     <div class="modal-footer">
-	        <!-- <a href="#" class="btn btn-primary">Guardar</a> -->
-	        <button id="erase" type="submit" class="btn btn-danger btn-label-left btn-lg"><span><i class="fa fa-trash-o"></i></span> Si</button>
-	        <a id="close" href="#" data-dismiss="modal" class="btn btn-info btn-label-left btn-lg"><span><i class="fa fa-arrows-alt"></i></span>No</a>
-	        <div id='cargardel'></div>
+	        <button onclick="ShareProfile()" type="button" class="btn btn-default" aria-label="Left Align">
+                <span class="fa fa-facebook-square txt-primary" aria-hidden="true">Publicar</span>
+	     </div>
+		</div>
+
+	</div>
+	</div>
+<!--FIN-->
+
+<!--modal share groups -->
+	<div id="modalsharegroups" class="modal fade">
+	<div class="modal-dialog">   
+	  <div class="modal-content"> 
+	     <div class="modal-header alert alert-info">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	        ×
+	        </button>
+	        <h4>Publicar en Facebook</h4>
+	     </div>
+	     <div class="modal-body">
+
+	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
+	        		<fieldset>
+	        			<div class="form-group">
+	        			<!--<label id="linkvideo"  style="display:none" ></label> -->
+	        			<input type="text" id="linkvideo_g" name="linkvideo" style="display:none" />
+						<img class="col-sm-3 " src="" id="imgvideo_g" width="600px"  />
+						<div class="col-sm-8">	
+						<h4 id="titlevideo_g" class="control-label"></h4>
+						</div>
+						</div>
+						<div class="form-group" >
+						<label class="col-sm-3 control-label">Mensaje</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="mensaje" id="mensaje_g"/>
+						</div>
+						</div>
+						<div class="form-group" >
+						<label class="col-sm-3 control-label">Descripción</label>
+						<div class="col-sm-8">
+							<textarea class="form-control" name="descripcion" id="descripcion_g" height="100px"></textarea>
+						</div>
+						</div>
+					</fieldset>
+					<fieldset>
+					<legend>Grupos</legend>
+					<div class="form-group">
+						<div class="col-sm-8">
+							<select id="smenu" name="modal_menu" multiple="multiple" class="populate placeholder">
+							</select>
+						</div>
+					</div>
+					</fieldset>
+
+				</form>
+	     </div>
+	     <div id="resultshare"></div>
+	     <div class="modal-footer">
+	        <button onclick="ShareProfile()" type="button" class="btn btn-default" aria-label="Left Align">
+                <span class="fa fa-facebook-square txt-primary" aria-hidden="true">Publicar</span>
 	     </div>
 		</div>
 
@@ -85,6 +148,7 @@
 
 
 <script type="text/javascript">
+
 $(document).ready(function() {
 // Sortable for elements
 	$(".sort").sortable({
@@ -92,6 +156,7 @@ $(document).ready(function() {
 		appendTo: 'div.box-content'
 	});
 	// Create jQuery-UI tabs
+//cargar videos
 $.ajax({
 		url: "{{URL::route('listvideos')}}",
 		type: 'POST',
@@ -125,14 +190,125 @@ $.ajax({
 
 	});
 });
-//funcion para publicar
-function share(a)
+//funcion para publicar perfil
+function showModalProfile(rate,ide,title,image)
 {
-	//window.location.href = '#modaldatadel';
-	 //window.location.assign("#modaldatadel");
-	 $('#modaldatadel').modal('show');
-	alert(a);
+
+	link = 'http://localhost/joomla/index.php/player/'+rate+'/'+ide;
+	$('#titlevideo').text(title);
+	document.getElementById("mensaje").value = "";
+	document.getElementById("descripcion").value="";
+	document.getElementById("resultshare").value=""; 
+	document.getElementById("linkvideo").value = link;
+	document.getElementById("imgvideo").src = image;
+	$('#modalshareprofile').modal('show');
+}
+
+function DemoSelect2(){
+	$('#sestado').select2();
+	$('#srol').select2();
+	$('#smenu').select2({placeholder: "Seleccione Menu"});
+}
+//funcion para publicar en grupo
+function showModalGroup(rate,ide,title,image)
+{
+	LoadSelect2Script(DemoSelect2);
+
+	link = 'http://localhost/joomla/index.php/player/'+rate+'/'+ide;
+	$('#titlevideo_g').text(title);
+	document.getElementById("mensaje").value = "";
+	document.getElementById("descripcion").value=""; 
+	document.getElementById("linkvideo").value = link;
+	document.getElementById("imgvideo_g").src = image;
+	/*
+	$.ajax({
+				url: "{{URL::route('listgroups')}}",
+				type: 'POST',
+				data: {share:1},
+			})
+			.done(function(data) {
+				console.log(data.list);
+				if(data.success==true){
+					$.each(data.list ,function(id)
+												   {
+												   	$("#smenu").append('<option value='+data.list[id].id+'><b>'+data.list[id].name+'</option>');
+												   		// console.log(data.list[id].StatusId+' '+data.list[id].StatusDescrip+': '+data.list[id].StatusComent);									   		
+												   });
+				}
+				else
+				{
+					alert(data.list);
+				}
+			})
+			.fail(function() {
+				console.log("error");
+			}); */
+	$('#modalsharegroups').modal('show');
+}
+//funcion para compartir en el perfil
+function ShareProfile()
+{
+	link = document.getElementById("linkvideo").value;
+	mensaje = document.getElementById("mensaje").value;
+	descripcion = document.getElementById("descripcion").value; 
+	
+	$.ajax({
+		url: "{{URL::route('shareprofile')}}",
+		type: 'POST',
+		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+		data: {link:link,mensaje:mensaje,descripcion:descripcion},
+		beforeSend: function(){
+	    			
+                    $('#resultshare').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+                },
+        error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            alert('Internal Server Error [500].');
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+	})
+	.done(function(data) {
+		$('#resultshare').html('<label></label>');
+		// console.log("success");
+		if(data.success=='true'){
+
+					// alert(data.msg);
+					$('#resultshare').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+				}
+		if(data.success=='falseval'){
+
+					// alert(data.msg);
+					$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					
+				}
+	 	if(data.success=='falsecla'){
+
+					// alert(data.msg);
+					$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+				}
+		if(data.success=='falserollb'){
+
+					alert('Internal Server Error [500].');
+				}
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	}); 
 }
 </script>
-
 </body>

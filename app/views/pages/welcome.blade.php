@@ -113,9 +113,15 @@
 	});
 
 	//listar videos
-
 	$(document).on('click', '#sharefb',function (e) {
 	e.preventDefault();
+	<?php 
+	//redireccionamiento a login facebook.
+	$sessionfb = Session::get('session');
+	if (!$sessionfb) { ?>
+		alert("Inicie sesion en facebook para poder compartir los videos.");
+		window.location.href = "{{URL::route('loginfb')}}";
+	<?php 	} 	?>	
 	$.ajax({
 	    	
 	    	url: "{{URL::route('sharefb')}}",
@@ -135,12 +141,17 @@
 	});
 
 	
-
-
-
-
+if (window.location.hash == '#_=_')
+{ // Check if the browser supports history.replaceState.
+	if (history.replaceState) 
+	{ // Keep the exact URL up to the hash. 
+		var cleanHref = window.location.href.split('#')[0]; // Replace the URL in the address bar without messing with the back button.
+		history.replaceState(null, null, cleanHref); } else { // Well, you're on an old browser, we can get rid of the _=_ but not the #.
+		window.location.hash = ''; 
+	} 
+}
 	
-  </script>
+</script>
 
 
 @stop

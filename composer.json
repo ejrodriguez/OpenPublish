@@ -9,7 +9,8 @@
 		"ollieread/multiauth": "dev-master",
 		"pingpong/menus": "1.0.*",
 		"way/generators": "~2.0",
-		"alaouy/youtube": "dev-master"
+		"alaouy/youtube": "dev-master",
+		"facebook/php-sdk-v4":"4.0.*"
 	},
 	"autoload": {
 		"classmap": [
