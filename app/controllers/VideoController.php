@@ -246,14 +246,14 @@ class VideoController extends BaseController {
 									$thum= $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'};
 									$thumh= $video->{'snippet'}->{'thumbnails'}->{'high'}->{'url'};
 						date_default_timezone_set('America/Guayaquil');
-
+						$seo = str_replace(" ", "-",$value['titulo']);
 		 				$DataVideo = array(
 					        
 					        // 'id',
 					        'memberid' => 42,
 					        'published' => 1,
 					        'title' => $value['titulo'], 
-					        'seotitle' => $value['titulo'] , 
+					        'seotitle' => $seo, 
 					        'featured' => 1,
 					        'type' => 0,
 					        'rate' => 2, 
