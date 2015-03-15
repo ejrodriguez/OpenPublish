@@ -1606,6 +1606,7 @@ return array(
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserController' => $baseDir . '/app/controllers/UserController.php',
+    'Video' => $baseDir . '/app/models/Video.php',
     'VideoController' => $baseDir . '/app/controllers/VideoController.php',
     'Way\\Generators\\Commands\\ControllerGeneratorCommand' => $vendorDir . '/way/generators/src/Way/Generators/Commands/ControllerGeneratorCommand.php',
     'Way\\Generators\\Commands\\GeneratorCommand' => $vendorDir . '/way/generators/src/Way/Generators/Commands/GeneratorCommand.php',

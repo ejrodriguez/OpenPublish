@@ -62,6 +62,8 @@ Route::post('/video/youtube/masvistos',array('as' => 'videosmasvistos', 'uses' =
 
 Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' => 'VideoController@searchVideos'))->before("auth_user");
 
+
+
 //ejemplo con base joomla
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 
@@ -71,6 +73,9 @@ Route::get('redsocial',array('as' => 'sharefb', 'uses' => 'VideoController@LoadV
 // Route::post('/video/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
 Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
 
+Route::post('/categorias/alavista',array('as' => 'categoryalavista', 'uses' => 'VideoController@CategoryAlavista'))->before("auth_user");
+
+Route::post('/categorias/alavista/guardar',array('as' => 'savealavista', 'uses' => 'VideoController@SaveAlavista'))->before("auth_user");
 
 
 

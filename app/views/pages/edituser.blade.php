@@ -420,18 +420,18 @@ $("#datatable-1 tr").mouseenter(function(){
         $(this).css('color','#333');
     });
 
-//limpiar datos de edicion
-$("#close").click(function(e) {
-	/* Act on the event */
-	e.preventDefault();
-	$('#modal_nombre').val("");
- 	$('#modal_email').val("");
- 	$('#modal_clave').val("");
- 	$('#modal_reclave').val("");
- 	$("#smenu").empty();
- 	$("#sestado").empty();
- 	$("#srol").empty();
-});
+// //limpiar datos de edicion
+// $("#close").click(function(e) {
+// 	/* Act on the event */
+// 	e.preventDefault();
+// 	$('#modal_nombre').val("");
+//  	$('#modal_email').val("");
+//  	$('#modal_clave').val("");
+//  	$('#modal_reclave').val("");
+//  	$("#smenu").empty();
+//  	$("#sestado").empty();
+//  	$("#srol").empty();
+// });
 
 $("#callmodal").click(function(e) {
 	/* Act on the event */
@@ -567,6 +567,24 @@ $("#erase").click(function(e) {
 	});
 	
 });
+
+$('#modaldataedit').on('hidden.bs.modal', function (){
+  // keyboard: false
+  // alert('Modal is successfully shown!');
+  	$('#modal_nombre').val("");
+ 	$('#modal_email').val("");
+ 	$('#modal_clave').val("");
+ 	$('#modal_reclave').val("");
+ 	$("#smenu").empty();
+ 	$("#sestado").empty();
+ 	$("#srol").empty();
+ 	$('#uniqedit').html('<legend id="uniq"></legend>');
+  
+});
+
+
+
+
 </script>
 
 </body>
