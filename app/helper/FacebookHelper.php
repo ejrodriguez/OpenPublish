@@ -141,26 +141,29 @@ public function getGraphPages()
 			}
 	}
 
-	public function postGroups($group_id)
+	public function postGroups($group_id, $link,$message,$description)
 	{
 		$session = Session::get('session');
 		if($session) {
   		try {
     			$response = (new FacebookRequest(
       			$session, 'POST', '/'.$group_id.'/feed', array(
-		        'link' => 'https://www.youtube.com/watch?v=xGiBiHocSZM',
-		        'message' => 'Prueba',
-		        'description'=> 'Descripcion video')
+		        'link' => $link,
+		        'message' => $message,
+		        'description'=> $description)
     			))->execute()->getGraphObject();
 
-    			echo  "Posted with id: " . $response->getProperty('id');
+    			return  "Posted with id: " . $response->getProperty('id');
 
   			}   catch(FacebookRequestException $e) {
-   		 		echo  "Exception occured, code: " . $e->getCode();
+   		 		return  "Exception occured, code: " . $e->getCode();
   			}   
 		}
 		else
-			echo "no a iniciado sesion";
+		{
+			Session::forget('session');
+			return  "no a iniciado sesion";
+		}
 	}
 }
 ?>

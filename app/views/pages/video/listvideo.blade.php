@@ -126,8 +126,8 @@
 					<fieldset>
 					<legend>Grupos</legend>
 					<div class="form-group">
-						<div class="col-sm-8">
-							<select id="smenu" name="modal_menu" multiple="multiple" class="populate placeholder">
+						<div class="col-sm-11">
+							<select id="groups" name="modal_menu" multiple="multiple" class="populate placeholder" >
 							</select>
 						</div>
 					</div>
@@ -135,9 +135,9 @@
 
 				</form>
 	     </div>
-	     <div id="resultshare"></div>
+	     <div id="resultshare_g"></div>
 	     <div class="modal-footer">
-	        <button onclick="ShareProfile()" type="button" class="btn btn-default" aria-label="Left Align">
+	        <button onclick="ShareGroups()" type="button" class="btn btn-default" aria-label="Left Align">
                 <span class="fa fa-facebook-square txt-primary" aria-hidden="true">Publicar</span>
 	     </div>
 		</div>
@@ -148,6 +148,7 @@
 
 
 <script type="text/javascript">
+
 
 $(document).ready(function() {
 // Sortable for elements
@@ -198,16 +199,18 @@ function showModalProfile(rate,ide,title,image)
 	$('#titlevideo').text(title);
 	document.getElementById("mensaje").value = "";
 	document.getElementById("descripcion").value="";
-	document.getElementById("resultshare").value="";
+	//document.getElementById("resultshare").value="";
+	document.getElementById('resultshare').innerHTML='';
 	document.getElementById("linkvideo").value = link;
 	document.getElementById("imgvideo").src = image;
 	$('#modalshareprofile').modal('show');
 }
 
 function DemoSelect2(){
-	$('#sestado').select2();
+	//$('#sestado').select2();
 	$('#srol').select2();
-	$('#smenu').select2({placeholder: "Seleccione Menu"});
+	$("#groups").empty();
+	$('#groups').select2({placeholder: "Seleccione los grupos"});
 }
 //funcion para publicar en grupo
 function showModalGroup(rate,ide,title,image)
@@ -216,22 +219,24 @@ function showModalGroup(rate,ide,title,image)
 
 	link = 'http://localhost/joomla/index.php/player/'+rate+'/'+ide;
 	$('#titlevideo_g').text(title);
-	document.getElementById("mensaje").value = "";
-	document.getElementById("descripcion").value=""; 
-	document.getElementById("linkvideo").value = link;
+	document.getElementById("mensaje_g").value = "";
+	document.getElementById("descripcion_g").value=""; 
+	document.getElementById('groups').innerHTML = ''; 
+	document.getElementById('resultshare_g').innerHTML='';
+	document.getElementById("linkvideo_g").value = link;
 	document.getElementById("imgvideo_g").src = image;
 	
 	$.ajax({
 				url: "{{URL::route('listgroups')}}",
 				type: 'POST',
-				data: {share:1},
+				data: {vaue:true},
 			})
 			.done(function(data) {
 				console.log(data.list);
 				if(data.success==true){
 					$.each(data.list ,function(id)
 												   {
-												   	$("#smenu").append('<option value='+data.list[id].id+'><b>'+data.list[id].name+'</option>');
+												   	$("#groups").append('<option value='+data.list[id].id+'><b>'+data.list[id].name+'</option>');
 												   		// console.log(data.list[id].StatusId+' '+data.list[id].StatusDescrip+': '+data.list[id].StatusComent);									   		
 												   });
 				}
@@ -255,7 +260,6 @@ function ShareProfile()
 	$.ajax({
 		url: "{{URL::route('shareprofile')}}",
 		type: 'POST',
-		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 		data: {link:link,mensaje:mensaje,descripcion:descripcion},
 		beforeSend: function(){
 	    			
@@ -310,5 +314,73 @@ function ShareProfile()
 		console.log("complete");
 	}); 
 }
+//funcion para compartir en el perfil
+function ShareGroups()
+{
+	link = document.getElementById("linkvideo_g").value;
+	mensaje = document.getElementById("mensaje_g").value;
+	descripcion = document.getElementById("descripcion_g").value; 
+	groups =  $("#groups").val();
+	
+	$.ajax({
+		url: "{{URL::route('sharegroups')}}",
+		type: 'POST',
+		data: {link:link,mensaje:mensaje,descripcion:descripcion,groups:groups},
+		beforeSend: function(){
+	    			
+                    $('#resultshare_g').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+                },
+        error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            alert('Internal Server Error [500].');
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+	})
+	.done(function(data) {
+		$('#resultshare_g').html('<label></label>');
+		// console.log("success");
+		if(data.success=='true'){
+
+					// alert(data.msg);
+					$('#resultshare_g').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+				}
+		if(data.success=='falseval'){
+
+					// alert(data.msg);
+					$('#resultshare_g').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					
+				}
+	 	if(data.success=='falsecla'){
+
+					// alert(data.msg);
+					$('#resultshare_g').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+				}
+		if(data.success=='falserollb'){
+
+					alert('Internal Server Error [500].');
+				}
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	}); 
+}
+
+
+
 </script>
 </body>

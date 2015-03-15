@@ -76,7 +76,34 @@ class FacebookController extends \BaseController {
 		}
 		
 	}
+//share groups
+public function shareGroups()
+	{
+		$mensaje="";
+		if (Request::ajax()) {
+			if (Input::get('groups')!=null)
+			{
+				$groups = Input::get('groups');
 
+				foreach ($groups as $group) {
+					$mensaje =$mensaje.$this->fb->postGroups($group,Input::get('link'),Input::get('mensaje'),Input::get('descripcion'))."</br>";
+				}				
+					return Response::json(array(
+			                    'success'         =>     'true',
+			                    'msg'         =>   $mensaje
+			                    ));
+			}
+			else
+			{
+				return Response::json(array(
+		                    'success'         =>     'falseval',
+		                    'msg'         =>     'Seleccione por lo menos un grupo'
+		                    ));
+			}
+
+		}
+		
+	}
 	public function listgroups()
 	{ 
 		if(Request::ajax())
@@ -84,7 +111,7 @@ class FacebookController extends \BaseController {
 			$user_groups=$this->fb->getGraphGroups();
 			$groups = $user_groups->getProperty('data');
 			$groups = $groups->asArray();
-			if(Input::get('share')==1)
+			if($groups)
 			{
 				
 				return Response::json(array(
@@ -96,7 +123,7 @@ class FacebookController extends \BaseController {
 			{
 				return Response::json(array(
                     'success'         =>     false,
-                    'list'         =>     'Error en el servidor no se pudo obtener la lista de menus intente nuevamente'
+                    'list'         =>     'Error en el servidor no se pudo obtener la lista de grupos, intente nuevamente'
                     ));
 			}
 		} 

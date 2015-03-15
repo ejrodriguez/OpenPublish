@@ -85,7 +85,7 @@ Route::post('facebook/share/profile',array('as' => 'shareprofile', 'uses' => 'Fa
 
 Route::post('/facebook/groups',array('as' => 'listgroups', 'uses' => 'FacebookController@listgroups'))->before("auth_user");
 
-
+Route::post('facebook/share/groups',array('as' => 'sharegroups', 'uses' => 'FacebookController@shareGroups'))->before("auth_user");
 
 //rutear a errores
 App::missing(function($exception)
