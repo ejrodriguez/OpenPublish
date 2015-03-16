@@ -459,7 +459,7 @@
 			</div>
 				<div class="box-content">
 					
-						<div style="overflow:scroll;" >
+						<div style="overflow:auto;" >
 							<div id="listresult">
 								
 							</div>
@@ -928,6 +928,10 @@ $("#buscar2").click(function(e) {
 		beforeSend: function(){
 	    			// alert("message");
                     $('#buscar2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+                    datas = {items: 
+					[
+					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+					]};
                 },
         error: function(jqXHR, exception) {
 		        if (jqXHR.status === 0) {
@@ -956,10 +960,14 @@ $("#buscar2").click(function(e) {
 					// alert(data.msg);
 					$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
 					$('#listresult').html(data.resultobt);
-									
-						$('#datatable-1').DataTable({
-			
+					$('#datatable-1').DataTable({
+						// "bPaginate": false
+						"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+						}
 						});
+									
+						
 						//cambiar de color al pasar el puntero
 						$("#datatable-1 tr").mouseenter(function(){
 						        $(this).css('background-color','#369');
@@ -969,13 +977,55 @@ $("#buscar2").click(function(e) {
 						        $(this).css('background-color','#F4F4F4');
 						        $(this).css('color','#333');
 						    });
+
+						    var oTable = $('#datatable-1').dataTable();
+					// alert(oTable.fnGetData().length);
+					var di=oTable.fnGetData().length;
+					// alert('dim'+di);
+					// oTable.rows().data().length
+					if(di > 0){
+
+						for (var i = 0 ; i < di; i++) {
+							var aData = oTable.fnGetData( i );
+							// console.log('vale'+aData);
+							getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+						};
+
+					}
+					console.log(datas);
+						    // tabla obj
+						$('#datatable-1 tbody td').click( function () {
+
+					         
+
+					         oTable = $('#datatable-1').dataTable();
+					         var aPos = oTable.fnGetPosition( this );
+					 		// alert(aPos);
+					         // // Get the data array for this row
+					         var aData = oTable.fnGetData( aPos[0] );
+					          // JSON.parse(aData);
+					         var dim= aData.length;
+					         $('#wysiwig_full').val(aData[5]);
+							 $('#tituloalavista').val(aData[4]);
+							 $('#idalavista').text(aData[3]);
+
+					         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+					 		// alert(aData);
+					         // // Update the data array and return the value
+					         // aData[ aPos[1] ] = 'clicked';
+					         // this.innerHTML = 'clicked';
+
+
+					       } );
+
+
 					// });
 				}
 		if(data.success=='false'){
 					$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
 					$('#uniq').html('<label></label>');
 					$('#uniq').append('<legend id="uniq" class="alert alert-danger">'+data.resultobt+'</legend>');
-					// alert(data.resultobt);
+					console.log(data.resultobt);
 					// alert('Internal Server Error [500].');
 				}
 	})
@@ -1047,13 +1097,6 @@ $("#buscar3").click(function(e) {
 						        $(this).css('color','#333');
 						    });
 
-
-					// var yea=document.getElementById("datatable-1").rows.length;
-					// // alert(yea);
-					// oTable = $('#datatable-1').dataTable();
-					// if(yea != 0){
-					// 	var aData = oTable.fnGetData( aPos[0] );
-					// }
 					
 					var oTable = $('#datatable-1').dataTable();
 					// alert(oTable.fnGetData().length);
@@ -1067,31 +1110,12 @@ $("#buscar3").click(function(e) {
 							// console.log('vale'+aData);
 							getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
 						};
-						
 
-						
-
-						// alert('pasa'+di);
 					}
 					console.log(datas);
 						    // tabla obj
-
-
-
-
 						$('#datatable-1 tbody td').click( function () {
-							//  oTable = $('#datatable-1').dataTable();
-							//  var aPos = oTable.fnGetPosition( this );
-							//  var aData = oTable.fnGetData( aPos[0] );
 
-							// $('#wysiwig_full').val(aData[4]);
-							// $('#tituloalavista').val(aData[3]);
-							// $('#idalavista').text(aData[2]);
-
-
-							
-
-					         // Get the position of the current data from the node
 					         
 
 					         oTable = $('#datatable-1').dataTable();
@@ -1139,6 +1163,10 @@ $("#buscar4").click(function(e) {
 		beforeSend: function(){
 	    			// alert("message");
                     $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+                    datas = {items: 
+					[
+					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+					]};
                 },
         error: function(jqXHR, exception) {
 		        if (jqXHR.status === 0) {
@@ -1168,7 +1196,10 @@ $("#buscar4").click(function(e) {
 					// $('#listresult').html(data.resultobt);
 					$('#listresult').html(data.list);
 					$('#datatable-1').DataTable({
-			
+						// "bPaginate": false
+						"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+						}
 						});
 						//cambiar de color al pasar el puntero
 						$("#datatable-1 tr").mouseenter(function(){
@@ -1179,6 +1210,45 @@ $("#buscar4").click(function(e) {
 						        $(this).css('background-color','#F4F4F4');
 						        $(this).css('color','#333');
 						    });
+						    var oTable = $('#datatable-1').dataTable();
+					// alert(oTable.fnGetData().length);
+					var di=oTable.fnGetData().length;
+					// alert('dim'+di);
+					// oTable.rows().data().length
+					if(di > 0){
+
+						for (var i = 0 ; i < di; i++) {
+							var aData = oTable.fnGetData( i );
+							// console.log('vale'+aData);
+							getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+						};
+
+					}
+					console.log(datas);
+						    // tabla obj
+						$('#datatable-1 tbody td').click( function () {
+
+					         
+
+					         oTable = $('#datatable-1').dataTable();
+					         var aPos = oTable.fnGetPosition( this );
+					 		// alert(aPos);
+					         // // Get the data array for this row
+					         var aData = oTable.fnGetData( aPos[0] );
+					          // JSON.parse(aData);
+					         var dim= aData.length;
+					         $('#wysiwig_full').val(aData[5]);
+							 $('#tituloalavista').val(aData[4]);
+							 $('#idalavista').text(aData[3]);
+
+					         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+					 		// alert(aData);
+					         // // Update the data array and return the value
+					         // aData[ aPos[1] ] = 'clicked';
+					         // this.innerHTML = 'clicked';
+
+
+					       } );
 									
 				}
 		if(data.success=='falserollb'){

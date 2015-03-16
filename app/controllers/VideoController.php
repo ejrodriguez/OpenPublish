@@ -51,18 +51,19 @@ class VideoController extends BaseController {
 				
 				$videoList = Youtube::getPopularVideos(Input::get('cod'), Input::get('categ'), Input::get('max'));
 
-				$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th><th>Editar</th></tr></thead><tbody>';
+				$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody>';
 				foreach ($videoList as $video) {
 					$emb1 = $video->{'player'}->{'embedHtml'};
 					$emb2 = str_replace(640, 160, $emb1);
 					$emb = str_replace(360, 100, $emb2);
 					// $encontrados=$encontrados.'<div class="col-sm-6 col-md-3"><div class="thumbnail">'.$video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'}.'<div class="caption"><h3>'.$video->{'snippet'}->{'channelTitle'}.'</h3><p>'.$video->{'snippet'}->{'localized'}->{'title'}.'</p><p>Video ID: '.$video->{'id'}.'</p><input type="checkbox" class="ajoomla"> OK</input></p></div></div></div></div>';
 					// $encontrados=$encontrados.'<div style="with=20%" ><a href="#" class="thumbnail"><p class="small">'.$video->{'snippet'}->{'localized'}->{'title'}.'</p>'.$emb.'</a></div>';
-					$encontrados=$encontrados.'<tr><td id="video_emb">'.$emb.'</td><td id="video_id">'.$video->{'id'}.'</td><td id="video_title">'.$video->{'snippet'}->{'title'}.'</td><td id="video_desc">'.$video->{'snippet'}->{'description'}.'</td><td><input type="checkbox" class="ajoomla"> OK</input></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a></td></tr>'; 
+					$encontrados=$encontrados.'<tr><td><input class="ajoomla" type="checkbox" name="elemento1" value="'.$video->{'id'}.'"/></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span></a></td><td id="video_emb">'.$emb.'</td><td id="video_id">'.$video->{'id'}.'</td><td id="video_title">'.$video->{'snippet'}->{'title'}.'</td><td id="video_desc">'.$video->{'snippet'}->{'description'}.'</td></tr>'; 
+					
 
 				}
 
-				$encontrados=$encontrados.'</tbody><tfoot><tr><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th><th>Editar</th></tr></tfoot></table>';
+				$encontrados=$encontrados.'</tbody><tfoot><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></tfoot></table>';
 				return Response::json(array(
 											'success' => 'true',
 											'resultobt' => $encontrados
@@ -158,12 +159,13 @@ class VideoController extends BaseController {
 
 		$videoList = Youtube::searchVideos(Input::get('q'),Input::get('max'),Input::get('evento'),Input::get('restri'),Input::get('sub'),Input::get('cat'),Input::get('def'),Input::get('dim'),Input::get('dur'),Input::get('emb'),Input::get('lic'),Input::get('syn'),Input::get('tipo'),Input::get('order'),$despues2,$antes2);
 
-		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th><th>Editar</th></tr></thead><tbody>';
+		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody>';
 				foreach ($videoList as $video) {
 					$emb = "<iframe type='text/html' src='http://www.youtube.com/embed/".$video->{'id'}->{'videoId'}."' width='160' height='100' frameborder='0' allowfullscreen='true' />";
 					// $encontrados=$encontrados.'<div class="col-sm-6 col-md-3"><div class="thumbnail">'.$video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'}.'<div class="caption"><h3>'.$video->{'snippet'}->{'channelTitle'}.'</h3><p>'.$video->{'snippet'}->{'localized'}->{'title'}.'</p><p>Video ID: '.$video->{'id'}.'</p><input type="checkbox" class="ajoomla"> OK</input></p></div></div></div></div>';
 					// $encontrados=$encontrados.'<div style="with=20%" ><a href="#" class="thumbnail"><p class="small">'.$video->{'snippet'}->{'localized'}->{'title'}.'</p>'.$emb.'</a></div>';
-					$encontrados=$encontrados.'<tr><td id="video_emb">'.$emb.'</td><td id="video_id">'.$video->{'id'}->{'videoId'}.'</td><td id="video_title">'.$video->{'snippet'}->{'title'}.'</td><td id="video_desc">'.$video->{'snippet'}->{'description'}.'</td><td><input type="checkbox" class="ajoomla"> OK</input></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a></td></tr>'; 
+					// $encontrados=$encontrados.'<tr><td id="video_emb">'.$emb.'</td><td id="video_id">'.$video->{'id'}->{'videoId'}.'</td><td id="video_title">'.$video->{'snippet'}->{'title'}.'</td><td id="video_desc">'.$video->{'snippet'}->{'description'}.'</td><td><input type="checkbox" class="ajoomla"> OK</input></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a></td></tr>'; 
+					$encontrados=$encontrados.'<tr><td><input class="ajoomla" type="checkbox" name="elemento1" value="'.$video->{'id'}->{'videoId'}.'"/></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span></a></td><td id="video_emb">'.$emb.'</td><td id="video_id">'.$video->{'id'}->{'videoId'}.'</td><td id="video_title">'.$video->{'snippet'}->{'title'}.'</td><td id="video_desc">'.$video->{'snippet'}->{'description'}.'</td></tr>'; 
 				}
 
 			$encontrados=$encontrados.'</tbody><tfoot><tr><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th><th>Editar</th></tr></tfoot></table>';
