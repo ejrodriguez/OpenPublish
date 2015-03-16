@@ -87,6 +87,13 @@ Route::post('/facebook/groups',array('as' => 'listgroups', 'uses' => 'FacebookCo
 
 Route::post('facebook/share/groups',array('as' => 'sharegroups', 'uses' => 'FacebookController@shareGroups'))->before("auth_user");
 
+Route::post('/facebook/pages',array('as' => 'listpages', 'uses' => 'FacebookController@listpages'))->before("auth_user");
+
+Route::post('facebook/share/pages',array('as' => 'sharepages', 'uses' => 'FacebookController@sharePages'))->before("auth_user");
+
+Route::post('/facebook/events',array('as' => 'listevents', 'uses' => 'FacebookController@listevents'))->before("auth_user");
+
+Route::post('facebook/share/events',array('as' => 'shareevents', 'uses' => 'FacebookController@shareEvents'))->before("auth_user");
 //rutear a errores
 App::missing(function($exception)
 {

@@ -195,6 +195,10 @@ class VideoController extends BaseController {
 	                <span class="fa fa-user txt-primary" aria-hidden="true">Perfil</span>
 	                <button onclick="showModalGroup('.$video->rate.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
 	                <span class="fa fa-group  txt-primary" aria-hidden="true">Grupo</span>
+	                <button onclick="showModalPage('.$video->rate.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+	                <span class="fa fa-group  txt-primary" aria-hidden="true">Fan Page</span>
+	                <button onclick="showModalEvent('.$video->rate.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+	                <span class="fa fa-group  txt-primary" aria-hidden="true">Events</span>
 					</td></tr>';
 				}
 		$encontrados=$encontrados.'</tbody><tfoot><tr><th>Video</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th></tr></tfoot></table>';

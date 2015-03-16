@@ -76,34 +76,93 @@ class FacebookController extends \BaseController {
 		}
 		
 	}
-//share groups
-public function shareGroups()
-	{
-		$mensaje="";
-		if (Request::ajax()) {
-			if (Input::get('groups')!=null)
-			{
-				$groups = Input::get('groups');
+	//share groups
+	public function shareGroups()
+		{
+			$mensaje="";
+			if (Request::ajax()) {
+				if (Input::get('groups')!=null)
+				{
+					$groups = Input::get('groups');
 
-				foreach ($groups as $group) {
-					$mensaje =$mensaje.$this->fb->postGroups($group,Input::get('link'),Input::get('mensaje'),Input::get('descripcion'))."</br>";
-				}				
+					foreach ($groups as $group) {
+						$mensaje =$mensaje.$this->fb->postGroups($group,Input::get('link'),Input::get('mensaje'),Input::get('descripcion'))."</br>";
+					}				
+						return Response::json(array(
+				                    'success'         =>     'true',
+				                    'msg'         =>   $mensaje
+				                    ));
+				}
+				else
+				{
 					return Response::json(array(
-			                    'success'         =>     'true',
-			                    'msg'         =>   $mensaje
+			                    'success'         =>     'falseval',
+			                    'msg'         =>     'Seleccione por lo menos un grupo'
 			                    ));
-			}
-			else
-			{
-				return Response::json(array(
-		                    'success'         =>     'falseval',
-		                    'msg'         =>     'Seleccione por lo menos un grupo'
-		                    ));
-			}
+				}
 
+			}
+			
+		}
+
+	//share pages
+	public function sharePages()
+		{
+			$mensaje="";
+			if (Request::ajax()) {
+				if (Input::get('pages')!=null)
+				{
+					$pages = Input::get('pages');
+
+					foreach ($pages as $page) {
+						$mensaje =$mensaje.$this->fb->postPages($page,Input::get('link'),Input::get('mensaje'),Input::get('descripcion'))."</br>";
+					}				
+						return Response::json(array(
+				                    'success'         =>     'true',
+				                    'msg'         =>   $mensaje
+				                    ));
+				}
+				else
+				{
+					return Response::json(array(
+			                    'success'         =>     'falseval',
+			                    'msg'         =>     'Seleccione por lo menos una pagina'
+			                    ));
+				}
+
+			}
+			
+		}
+
+//share events
+	public function shareEvents()
+		{
+			$mensaje="";
+			if (Request::ajax()) {
+				if (Input::get('events')!=null)
+				{
+					$events = Input::get('events');
+
+					foreach ($events as $event) {
+						$mensaje =$mensaje.$this->fb->postEvents($event,Input::get('link'),Input::get('mensaje'),Input::get('descripcion'))."</br>";
+					}				
+						return Response::json(array(
+				                    'success'         =>     'true',
+				                    'msg'         =>   $mensaje
+				                    ));
+				}
+				else
+				{
+					return Response::json(array(
+			                    'success'         =>     'falseval',
+			                    'msg'         =>     'Seleccione por lo menos un evento'
+			                    ));
+				}
+
+			}
+			
 		}
 		
-	}
 	public function listgroups()
 	{ 
 		if(Request::ajax())
@@ -128,26 +187,56 @@ public function shareGroups()
 			}
 		} 
 	}
-
-	public function events()
-	{
-		$user_events=$this->fb->getGraphEvents();
-		if(!$user_events){
-			return Redirect::to('/')->with('message','Objeto getGraphEvent vacio');
-		}
-		$events = $user_events->getProperty('data');
-		$events = $events->asArray();
-		return View::make('events',array('events'=>$events));
+//listar los paginas 
+	public function listpages()
+	{ 
+		if(Request::ajax())
+		{
+			$user_pages=$this->fb->getGraphPages();
+			$pages = $user_pages->getProperty('data');
+			$pages = $pages->asArray();
+			if($pages)
+			{
+				
+				return Response::json(array(
+                    'success'         =>     true,
+                    'list'         =>   $pages  
+                    ));
+			}
+			else
+			{
+				return Response::json(array(
+                    'success'         =>     false,
+                    'list'         =>     'Error en el servidor no se pudo obtener la lista de páginas, intente nuevamente'
+                    ));
+			}
+		} 
 	}
 
-	public function pages()
-	{
-		$user_pages=$this->fb->getGraphPages();
-		if(!$user_pages){
-			return Redirect::to('/')->with('message','Objeto getGraphPages vacio');
-		}
-		$pages = $user_pages->getProperty('data');
-		$pages = $pages->asArray();
-		return View::make('pages',array('pages'=>$pages));
+//listar los eventos
+	public function listevents()
+	{ 
+		if(Request::ajax())
+		{
+			$user_events=$this->fb->getGraphEvents();
+			$events = $user_events->getProperty('data');
+			$events = $events->asArray();
+			if($events)
+			{
+				
+				return Response::json(array(
+                    'success'         =>     true,
+                    'list'         =>   $events  
+                    ));
+			}
+			else
+			{
+				return Response::json(array(
+                    'success'         =>     false,
+                    'list'         =>     'Error en el servidor no se pudo obtener la lista de eventos, intente nuevamente'
+                    ));
+			}
+		} 
 	}
+
 }

@@ -165,5 +165,56 @@ public function getGraphPages()
 			return  "no a iniciado sesion";
 		}
 	}
+
+	public function postPages($page_id, $link,$message,$description)
+		{
+			$session = Session::get('session');
+			if($session) {
+	  		try {
+	    			$response = (new FacebookRequest(
+	      			$session, 'POST', '/'.$page_id.'/feed', array(
+			        'link' => $link,
+			        'message' => $message,
+			        'description'=> $description)
+	    			))->execute()->getGraphObject();
+ 	
+	    			return  "Posted with id: " . $response->getProperty('id');
+
+	  			}   catch(FacebookRequestException $e) {
+	   		 		return  "Exception occured, code: " . $e->getCode();
+	  			}   
+			}
+			else
+			{
+				Session::forget('session');
+				return  "no a iniciado sesion";
+			}
+		}
+
+	public function postEvents($event_id, $link,$message,$description)
+			{
+				$session = Session::get('session');
+				if($session) {
+		  		try {
+		    			$response = (new FacebookRequest(
+		      			$session, 'POST', '/'.$event_id.'/feed', array(
+				        'link' => $link,
+				        'message' => $message,
+				        'description'=> $description)
+		    			))->execute()->getGraphObject();
+	 	
+		    			return  "Posted with id: " . $response->getProperty('id');
+
+		  			}   catch(FacebookRequestException $e) {
+		   		 		return  "Exception occured, code: " . $e->getCode();
+		  			}   
+				}
+				else
+				{
+					Session::forget('session');
+					return  "no a iniciado sesion";
+				}
+			}
+
 }
 ?>
