@@ -13,7 +13,7 @@
 			<div class="box-header">
 				<div class="box-name">
 					<i class="fa fa-table"></i>
-					<span>Videos</span>
+					<span>Cuentas</span>
 				</div>
 				<div class="box-icons">
 					<a class="collapse-link">
