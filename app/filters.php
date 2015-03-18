@@ -90,8 +90,8 @@ Route::filter('csrf', function()
 			return Response::json(array(
                     'success'         =>     false,
                     'session'         =>     'Los tokens no coinciden',
-                    'input'			  =>	 Input::get('token'),
-                    'session'		  =>	 Session::token(),
+                    // 'input'			  =>	 Input::get('token'),
+                    // 'session'		  =>	 Session::token(),
                     ));
 		}
 		

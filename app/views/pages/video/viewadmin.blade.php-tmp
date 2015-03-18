@@ -10,7 +10,7 @@
 <body>
 <br>
 <div class="row">
-	
+
 	<div class="col-xs-12 col-sm-12">
 		<div class="box">
 			<div class="box-header">
@@ -43,7 +43,7 @@
 						<div id="tabs-1">
 							<div class="panel panel-danger">
 								<div class="alert alert-danger" role="alert">
-								  <i class="fa fa-youtube-square" ></i> 
+								  <i class="fa fa-youtube-square" ></i>
 								  YouTube
 								</div>
 								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -51,9 +51,9 @@
 										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
 										    <div  class="panel-heading" role="tab" id="headingOne">
 										      <h4 class="panel-title">
-										       
+
 										         Obtener Video <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info1" class="" ><i class="fa fa-info-circle" ></i></a>
-										        
+
 										      </h4>
 										    </div>
 										</a>
@@ -71,8 +71,8 @@
 
 														</select>
 													</div>
-													
-													
+
+
 												</div>
 
 												<div class="form-group" >
@@ -85,14 +85,14 @@
 												<div class="form-group" >
 
 													<div class="col-sm-4 ">
-													
+
 													</div>
 													<div class="col-sm-4">
 															<button  data-loading-text="Loading..." id="buscar1" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 													</div>
 												</div>
 												</fieldset>
-																							
+
 											</form>
 
 									      </div>
@@ -103,7 +103,7 @@
 									    <div class="panel-heading" role="tab" id="headingTwo">
 									      <h4 class="panel-title">
 									        	Videos Populares en un pais 	<a tabindex="0" data-toggle="popover" data-trigger="focus" id="info2" class="" ><i class="fa fa-info-circle" ></i></a>
-									        	
+
 									      </h4>
 									    </div>
 									    </a>
@@ -120,8 +120,8 @@
 
 															</select>
 														</div>
-														
-														
+
+
 													</div>
 
 													<div class="form-group" >
@@ -153,12 +153,12 @@
 													<div class="form-group" >
 														<label class="col-sm-2 control-label">Categoria: </label>
 														<div class="col-sm-3" id="listarcategorias">
-															
+
 														</div>
 													<!-- </div> -->
 
 													<!-- <div class="form-group" > -->
-														
+
 														<!-- <div class="form-group" > -->
 															<label  class="col-sm-2 control-label">Max Result: </label>
 															<div class="col-sm-1">
@@ -168,11 +168,11 @@
 															<div class="col-sm-2">
 																<button  data-loading-text="Loading..." id="buscar2" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 															</div>
-														</div>	
-														
+														</div>
+
 													<!-- </div> -->
 													</fieldset>
-																								
+
 												</form>
 
 									      </div>
@@ -183,9 +183,9 @@
 										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 									    <div class="panel-heading" role="tab" id="headingThree">
 									      <h4 class="panel-title">
-									        
+
 									          Videos Mas Vistos <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info3" class="" ><i class="fa fa-info-circle" ></i></a>
-									        
+
 									      </h4>
 									    </div>
 									    </a>
@@ -212,8 +212,8 @@
 																<button  data-loading-text="Loading..." id="buscar3" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 														</div>
 													</div>
-									    					
-														    
+
+
 									    </div>
 									    </div>
 									</div>
@@ -221,16 +221,16 @@
 										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
 									    <div class="panel-heading" role="tab" id="headingFour">
 									      <h4 class="panel-title">
-									        
+
 									          Busqueda Avanzada <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info3" class="" ><i class="fa fa-info-circle" ></i></a>
-									        
+
 									      </h4>
 									    </div>
 									    </a>
 									    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
 									    <div class="panel-body">
 												    <div class="form-group" >
-														
+
 														<label  class="col-sm-2 control-label">Buscar: </label>
 														<div class="col-sm-9">
 																<input type="text" class="form-control" name="buscarq" id="buscarq" />
@@ -242,8 +242,8 @@
 														<div class="col-sm-2">
 																<input type="text" class="form-control" name="maxq" id="maxq" value="10" />
 														</div>
-														<div class="col-sm-2"></div>												
-														
+														<div class="col-sm-2"></div>
+
 														<label class="col-sm-2 control-label">Evento: </label>
 														<div class="col-sm-3">
 															<select class="populate placeholder" name="eventoq" id="eventoq" >
@@ -253,8 +253,8 @@
 															<option  value="upcoming">Proximas Transmisiones</option>
 															</select>
 														</div>
-														
-														
+
+
 													</div>
 													<br>
 													<div class="form-group" >
@@ -265,12 +265,12 @@
 															<option  value="none">No Filtrar Resultados</option>
 															<option  value="moderate">Filtrar el contenido que está restringido para la configuración regional</option>
 															<option  value="strict">Excluir del conjunto de resultados de búsqueda todo el contenido restringido</option>
-															
+
 															</select>
 														</div>
 														<br>
-														
-									    			</div>	
+
+									    			</div>
 									    			<div class="form-group" >
 									    				<label class="col-sm-2 control-label">Subtitulos : </label>
 														<div class="col-sm-3">
@@ -279,16 +279,16 @@
 															<option  value="any">No Filtrar Resultados</option>
 															<option  value="closedCaption">Videos que tengan subtítulos</option>
 															<option  value="none">Videos que no tengan subtítulos</option>
-															
+
 															</select>
 														</div>
 														<div class="col-sm-1"></div>
 														<label class="col-sm-2 control-label">Categoria: </label>
 														<div class="col-sm-3" id="listarcategoriasq">
-															
+
 														</div>
 													</div>
-													<br>	
+													<br>
 													<div class="form-group" >
 														<label class="col-sm-2 control-label">Definicion : </label>
 														<div class="col-sm-3">
@@ -297,7 +297,7 @@
 															<option  value="any">Mostrar todos los videos</option>
 															<option  value="high">Videos de Alta Definición</option>
 															<option  value="standard">Videos de Definición Estándar</option>
-															
+
 															</select>
 														</div>
 														<div class="col-sm-1"></div>
@@ -308,7 +308,7 @@
 															<option  value="any">Videos en 3D y que no sean 3D</option>
 															<option  value="2d">Excluir los videos en 3D</option>
 															<option  value="3d">Incluir solo videos en 3D</option>
-															
+
 															</select>
 														</div>
 														<!-- <br> -->
@@ -316,7 +316,7 @@
 														<!-- <div class="col-sm-2">
 																<button  data-loading-text="Loading..." id="buscar4" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 														</div> -->
-									    			</div>	
+									    			</div>
 									    			<br>
 
 									    			<div class="form-group" >
@@ -407,14 +407,14 @@
 													</div>
 													<br>
 													<div class="form-group" >
-										    			
+
 														<div class="col-sm-9"></div>
-														
+
 														<div class="col-sm-3">
 																<button  data-loading-text="Loading..." id="buscar4" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 														</div>
 													</div>
-														    
+
 									    </div>
 									    </div>
 									</div>
@@ -425,14 +425,14 @@
 						<div id="tabs-2">
 							<div class="panel panel-info">
 								<div class="alert alert-info" role="alert">
-								  <i class="fa fa-vimeo-square" ></i> 
+								  <i class="fa fa-vimeo-square" ></i>
 								  Vimeo
 								</div>
 							</div>
 						</div>
-						
+
 					</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -453,17 +453,17 @@
 					<a class="expand-link">
 						<i class="fa fa-expand"></i>
 					</a>
-					
+
 				</div>
 				<div class="no-move"></div>
 			</div>
 				<div class="box-content">
-					
+
 						<div style="overflow:auto;" >
 							<div id="listresult">
-								
+
 							</div>
-	
+
 					</div>
 				</div>
 
@@ -473,8 +473,8 @@
 	<!--edit -->
 
 	<div id="modaldataedit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="largeModal">
-		<div class="modal-dialog modal-lg">   
-		  <div class="modal-content"> 
+		<div class="modal-dialog modal-lg">
+		  <div class="modal-content">
 		     <div class="modal-header alert alert-info">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 		        ×
@@ -492,18 +492,18 @@
 						</div>
 						<label class=" control-label" for="form-styles">Descripcion:</label>
 						<div class="form-group">
-							
+
 							<div class="col-sm-12">
 									<textarea class="form-control" rows="10" id="wysiwig_full"></textarea>
 							</div>
 						</div>
 						<div class="form-group" >
 			        		<label class="col-sm-2 control-label" >Categoria: </label>
-						  	
+
 							<div class="col-sm-8">
 								<select class="populate placeholder" name="categoriaalavista" id="categoriaalavista">
 									<option value="">-- Seleccione una Categoria --</option>
-									
+
 								</select>
 							</div>
 						  	<!-- <div class="col-sm-4">
@@ -513,12 +513,12 @@
 								<option  value="niv2">-- n2 --</option>
 								</select>
 							</div> -->
-							
+
 						</div>
 						<div class="form-group" >
 							<label class="col-sm-2 control-label" >Id Video: </label>
 							<label id="idalavista" class="col-sm-2 control-label" > </label>
-							
+
 						  	<!-- <div class="col-sm-4">
 								<select class="populate placeholder" name="estadoalavista" id="estadoalavista" >
 								<option  selectedvalue="">-- Seleccione un Estado --</option>
@@ -533,11 +533,11 @@
 		        <!-- <a href="#" class="btn btn-primary">Guardar</a> -->
 		        <button id="guardaralavista" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button>
 		        <a id="cerraralavista" href="#" data-dismiss="modal" class="btn btn-default btn-label-left btn-lg"><span><i class="fa fa-arrows-alt"></i></span>Cerrar</a>
-		        
+
 		        <div id='cargar'></div>
 
 		     </div>
-		     
+
 			</div>
 
 		</div>
@@ -566,7 +566,7 @@ function getCat(){
 					$('#wysiwig_full').html('text1');
 					$('#tituloalavista').val('text2');
 			}
-			
+
 
 		})
 		.fail(function(data) {
@@ -588,13 +588,13 @@ $('#enviaralavista').click(function(event) {
 	event.preventDefault();
 	$.each(datas.items, function(n) {
 				 /* iterate through array or object */
-				 
+
 				 	datas.items[n].sel=false;
-				 
-			
+
+
 			});
 
-	$("input:checkbox:checked").each(   
+	$("input:checkbox:checked").each(
 	    function() {
 	    	var a=$(this).val();
 	        // alert("El checkbox con valor " + a + " está seleccionado");
@@ -604,7 +604,7 @@ $('#enviaralavista').click(function(event) {
 				 	// datas.items.push(item);
 				 	datas.items[n].sel=true;
 				 }
-				 
+
 				 // console.log(datas.items[n].ide+' '+datas.items[n].sel);
 			});
 	    }
@@ -612,7 +612,7 @@ $('#enviaralavista').click(function(event) {
 
 
 	console.log(datas);
-	
+
 	$.ajax({
 		url: "{{URL::route('savealavista')}}",
 		type: 'POST',
@@ -649,13 +649,15 @@ $('#enviaralavista').click(function(event) {
 		if(!data.success){
 			console.log((data.list));
 		}
-		
+
 	})
 	.fail(function(data) {
 		console.log("error");
 	})
 	.always(function(data) {
-		console.log("complete"); $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
+		console.log("complete");
+ $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
+
 	});
 });
 
@@ -663,25 +665,25 @@ $('#enviaralavista').click(function(event) {
 
 
 //add object
-var datas = {items: 
+var datas = {items:
 	[
 	    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
 	]};
-		
+
 
 
 // $("#guardaralavista").click(function(e) {
 // 	/* Act on the event */
 // 	e.preventDefault();
 
- 	
+
 //  	console.log(getFormJson($("#categoriaalavista").val(),$("#nivelalavista").val(),$("#tituloalavista").val()));
 // });
 
 function getFormJson(a,b,c,d,e,f){
 
 	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f};
-		
+
 		datas.items.push(item);
 
 		return datas;
@@ -693,7 +695,7 @@ function getFormJson(a,b,c,d,e,f){
 
 $(document).ready(function() {
 
-	
+
 
 
 
@@ -759,19 +761,19 @@ $(document).ready(function() {
 		if(data.success==true){
 			$('#listarcategorias').html('');
 			$('#listarcategorias').html(data.list);
-			
+
 			function DemoSelect2(){
 				$('#rcategoria').select2();
 			};
 			LoadSelect2Script(DemoSelect2);
-			
-			
+
+
 		}
 		else
 		{
 			alert(data.list);
 		}
-		
+
 	})
 	.fail(function() {
 		console.log("error");
@@ -789,13 +791,13 @@ $(document).ready(function() {
 				$('#qcategoria').select2();
 			};
 			LoadSelect2Script(DemoSelect2);
-			
+
 		}
 		else
 		{
 			alert(data.list);
 		}
-		
+
 	})
 	.fail(function() {
 		console.log("error");
@@ -828,10 +830,10 @@ function DemoSelect2(){
 // 	if($("#criterio").val() != '')
 // 	{
 // 		var array = ['Obtenga informacion de un video', "Obtenga videos populares en un país","Buscar listas de reproducción, canales y vídeos","Buscar sólo Videos","Buscar sólo Videos en un canal determinado","Obtenga informacion de un canal","Buscar con argumentos para mostrar datos de página como página de fichas"];
-// 		$("#info_criterio").html('<span  class="label label-info"><i class="fa fa-info-circle" ></i> '+array[$("#criterio").val()]+'</span>');	
+// 		$("#info_criterio").html('<span  class="label label-info"><i class="fa fa-info-circle" ></i> '+array[$("#criterio").val()]+'</span>');
 // 	}
 // 	else{
-// 		$("#info_criterio").html('<span  class="label label-info"><i class="fa fa-info-circle" ></i></span>');	
+// 		$("#info_criterio").html('<span  class="label label-info"><i class="fa fa-info-circle" ></i></span>');
 // 	}
 // });
 // acordion eventos
@@ -876,7 +878,7 @@ $('#info3').mouseenter(function(e) {
 $("#buscar1").click(function(e) {
 	/* Act on the event */
 	e.preventDefault();
-	
+
 	$.ajax({
 		url: "{{URL::route('getvideoid')}}",
 		type: 'POST',
@@ -912,8 +914,8 @@ $("#buscar1").click(function(e) {
 					// alert(data.msg);
 					$('#buscar1').html('<span><i class="fa fa-search"></i></span> Buscar');
 					$('#listresult').html(data.resultobt);
-									
-						
+
+
 					// });
 				}
 		if(data.success=='falserollb'){
@@ -933,7 +935,7 @@ $("#buscar2").click(function(e) {
 	getCat();
 	/* Act on the event */
 	e.preventDefault();
-	
+
 	$.ajax({
 		url: "{{URL::route('getpopularvideos')}}",
 		type: 'POST',
@@ -942,7 +944,7 @@ $("#buscar2").click(function(e) {
 		beforeSend: function(){
 	    			// alert("message");
                     $('#buscar2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-                    datas = {items: 
+                    datas = {items:
 					[
 					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
 					]};
@@ -980,8 +982,8 @@ $("#buscar2").click(function(e) {
 						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
 						}
 						});
-									
-						
+
+
 						//cambiar de color al pasar el puntero
 						$("#datatable-1 tr").mouseenter(function(){
 						        $(this).css('background-color','#369');
@@ -1010,7 +1012,7 @@ $("#buscar2").click(function(e) {
 						    // tabla obj
 						$('#datatable-1 tbody td').click( function () {
 
-					         
+
 
 					         oTable = $('#datatable-1').dataTable();
 					         var aPos = oTable.fnGetPosition( this );
@@ -1061,7 +1063,7 @@ $("#buscar3").click(function(e) {
 		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 		data: {order : $('#ordenarmasv').val() , max : $('#maxmas').val()},
 		beforeSend: function(){
-					datas = {items: 
+					datas = {items:
 					[
 					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
 					]};
@@ -1111,7 +1113,7 @@ $("#buscar3").click(function(e) {
 						        $(this).css('color','#333');
 						    });
 
-					
+
 					var oTable = $('#datatable-1').dataTable();
 					// alert(oTable.fnGetData().length);
 					var di=oTable.fnGetData().length;
@@ -1130,7 +1132,7 @@ $("#buscar3").click(function(e) {
 						    // tabla obj
 						$('#datatable-1 tbody td').click( function () {
 
-					         
+
 
 					         oTable = $('#datatable-1').dataTable();
 					         var aPos = oTable.fnGetPosition( this );
@@ -1151,7 +1153,7 @@ $("#buscar3").click(function(e) {
 
 
 					       } );
-									
+
 				}
 		if(data.success=='falserollb'){
 					// alert('Internal Server Error [500].');
@@ -1177,7 +1179,7 @@ $("#buscar4").click(function(e) {
 		beforeSend: function(){
 	    			// alert("message");
                     $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-                    datas = {items: 
+                    datas = {items:
 					[
 					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
 					]};
@@ -1242,7 +1244,7 @@ $("#buscar4").click(function(e) {
 						    // tabla obj
 						$('#datatable-1 tbody td').click( function () {
 
-					         
+
 
 					         oTable = $('#datatable-1').dataTable();
 					         var aPos = oTable.fnGetPosition( this );
@@ -1263,7 +1265,7 @@ $("#buscar4").click(function(e) {
 
 
 					       } );
-									
+
 				}
 		if(data.success=='falserollb'){
 					// alert('Internal Server Error [500].');
@@ -1286,7 +1288,7 @@ $('#modaldataedit').on('hidden.bs.modal', function (){
   // alert('Modal is successfully shown!');
   	$('#mtituloalavista').val("");
  	$('#descripcionalavista').val("");
- 	$('#idalavista').text("");  
+ 	$('#idalavista').text("");
 });
 
 
@@ -1310,7 +1312,7 @@ $('#guardaralavista').click(function(et) {
 	});
 	alert('Informacion Agregada');
 
-	
+
 	// console.log(datas);
 });
 

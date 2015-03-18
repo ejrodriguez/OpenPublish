@@ -191,15 +191,16 @@ class VideoController extends BaseController {
 				foreach ($videos as $video) {
 					$title = "'".$video->title."'";
 					$imagen = "'".$video->thumburl."'";
+					$seo = "'".$video->rate."'";
 					$encontrados=$encontrados.'<tr><td id="video_emb"><img src="'.$video->thumburl.'" width="160" height="100"/></td><td id="video_title">'.$video->title.'</td><td id="video_desc">'.$video->seotitle.'</td>
 					<td>
-					<button onclick="showModalProfile('.$video->rate.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+					<button onclick="showModalProfile('.$seo.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
 	                <span class="fa fa-user txt-primary" aria-hidden="true">Perfil</span>
-	                <button onclick="showModalGroup('.$video->rate.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+	                <button onclick="showModalGroup('.$seo.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
 	                <span class="fa fa-group  txt-primary" aria-hidden="true">Grupo</span>
-	                <button onclick="showModalPage('.$video->rate.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+	                <button onclick="showModalPage('.$seo.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
 	                <span class="fa fa-group  txt-primary" aria-hidden="true">Fan Page</span>
-	                <button onclick="showModalEvent('.$video->rate.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+	                <button onclick="showModalEvent('.$seo.','.$video->id.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
 	                <span class="fa fa-group  txt-primary" aria-hidden="true">Events</span>
 					</td></tr>';
 				}
@@ -213,122 +214,129 @@ class VideoController extends BaseController {
 
 	public function CategoryAlavista(){
 		$cats = Category::all();
+		$var = array( );
 		$encontrados='<select class="populate placeholder" name="categoriaalavista" id="categoriaalavista" ><option  value="">-- Seleccione una categoria --</option>';
 		foreach ($cats as $categoria)
 		{
-			$encontrados=$encontrados.'<option  value="'.$categoria->id.'">'.$categoria->category.'</option>';
-			
+			if($categoria->parent_id != 0)
+			{
+				array_push($var,array('iden' => $categoria->id , 'desc' => ' -- '.$categoria->category ));
+			}
+			else
+			{
+				array_push($var,array('iden' => $categoria->id , 'desc' => $categoria->category ));
+			}
+
 		}
 		$encontrados=$encontrados.'</select>';
-		// json_encode($cat);
+
 		return Response::json(array(
 			'success' => true,
-			'list' => $encontrados
+			'list' => $var
             )); 
 	}
 
 
 	public function SaveAlavista(){
-		// $a='';
-		// foreach (Input::get('videos') as  $value) {
-		// 	$a=$a.$value->items[0]->titulo;
-		// }
+
 		DB::beginTransaction();
-		try {
-			foreach(Input::get('videos') as $datos)
-		 	{
-		 		// $a=$a.$datos[1]['titulo'];
-		 		foreach ($datos as  $value) {
-		 			# code...
-		 			
-		 			if ($value['sel']=='true') {
-		 				# code...
-		 				// $a=$a.$value['titulo'];
-
-		 				$video = Youtube::getVideoInfo($value['ide']);
-		 				
-									// $id = $video->{'id'};
-
-									$thum= $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'};
-									$thumh= $video->{'snippet'}->{'thumbnails'}->{'high'}->{'url'};
-						date_default_timezone_set('America/Guayaquil');
-						$seo = str_replace(" ", "-",$value['titulo']);
-		 				$DataVideo = array(
-					        
-					        // 'id',
-					        'memberid' => 42,
-					        'published' => 1,
-					        'title' => $value['titulo'], 
-					        'seotitle' => $seo, 
-					        'featured' => 1,
-					        'type' => 0,
-					        'rate' => 2, 
-					        'rateduser' => '', 
-					        'ratecount' => 0 ,
-					        'times_viewed' => 1, 
-					        'videos' => '' , 
-					        'filepath' => 'Youtube',
-					        'videourl' => 'https://www.youtube.com/watch?v='.$value['ide'], 
-					        'thumburl' => $thum,
-					        'previewurl' => $thumh, 
-					        // 'videos' , 
-					        'hdurl' => '',
-					        'home' => 0,
-					        'playlistid' => 8,
-					        'duration' => '',
-					        'ordering' => 0,
-					        'streamerpath' => '',
-					        'streameroption' => 'None',
-					        'postrollads' => 0,
-					        'prerollads' => 0,
-					        'midrollads' => 0,
-					        'description' => $value['descr'],
-					        'targeturl' => '',
-					        'download' => 0,
-					        'prerollid' => 0,
-					        'postrollid' => 0,
-					        'created_date' => date("Y-m-d H:i:s"),
-					        'addedon' => date("Y-m-d H:i:s"),
-					        'usergroupid' => '8',
-					        'tags' => '',
-					        'useraccess' => 0,
-					        'islive' => 0,
-					        'imaads' => 0,
-					        'embedcode' => '',
-					        'subtitle1' => '',
-					        'subtitle2' => '',
-					        'subtile_lang2' => '',
-					        'subtile_lang1' => '',
-					        'amazons3' => 0,
-					       );
-						Video::create($DataVideo);
-
-		 			}
-
-		 		}
-		 	}
-		 	DB::commit();
-		 	return Response::json(array(
-			'success' => true,
-			'list' => 'se inserto correctamente'
-            ));
-			
-		} catch (ValidationException $e) {
-			DB::rollback();
-			return Response::json(array(
-			'success' => false,
-			'list' =>  $e->getErrors()
-            ));
-		}
-		 
 
 
-		
 
-		
-            
-		
-		
+						try {
+							foreach(Input::get('videos') as $datos)
+						 	{
+						 		foreach ($datos as  $value) {
+
+
+							 			if ($value['sel']=='true') {
+							 				$video = Youtube::getVideoInfo($value['ide']);
+
+											$count = VideoOpenpub::where('VideoId', '=', $video->{'id'})->count();
+								 			if($count == 0)
+								 			{
+								 				//ingresar video en market
+								 				$market = array('VideoId' => $video->{'id'},'UserId' => Auth::user()->get()->id,'VideoTitle' => $value['titulo'],'VideoUrl' => 'https://www.youtube.com/watch?v='.$value['ide'] ,'VideoImage' => $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'},'VideoDate' => date("Y-m-d H:i:s"));
+								 				VideoOpenpub::create($market);
+
+									 				$thum= $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'};
+													$thumh= $video->{'snippet'}->{'thumbnails'}->{'high'}->{'url'};
+													date_default_timezone_set('America/Guayaquil');
+													$seo = str_replace(" ", "-",$value['titulo']);
+									 				$DataVideo = array(
+											        
+											        // ingresar a alavista
+											        'memberid' => 42,
+											        'published' => 1,
+											        'title' => $value['titulo'], 
+											        'seotitle' => $seo, 
+											        'featured' => 1,
+											        'type' => 0,
+											        'rate' => 2, 
+											        'rateduser' => '', 
+											        'ratecount' => 0 ,
+											        'times_viewed' => 1, 
+											        'videos' => '' , 
+											        'filepath' => 'Youtube',
+											        'videourl' => 'https://www.youtube.com/watch?v='.$value['ide'], 
+											        'thumburl' => $thum,
+											        'previewurl' => $thumh, 
+											        // 'videos' , 
+											        'hdurl' => '',
+											        'home' => 0,
+											        'playlistid' => 8,
+											        'duration' => '',
+											        'ordering' => 0,
+											        'streamerpath' => '',
+											        'streameroption' => 'None',
+											        'postrollads' => 0,
+											        'prerollads' => 0,
+											        'midrollads' => 0,
+											        'description' => $value['descr'],
+											        'targeturl' => '',
+											        'download' => 0,
+											        'prerollid' => 0,
+											        'postrollid' => 0,
+											        'created_date' => date("Y-m-d H:i:s"),
+											        'addedon' => date("Y-m-d H:i:s"),
+											        'usergroupid' => '8',
+											        'tags' => '',
+											        'useraccess' => 0,
+											        'islive' => 0,
+											        'imaads' => 0,
+											        'embedcode' => '',
+											        'subtitle1' => '',
+											        'subtitle2' => '',
+											        'subtile_lang2' => '',
+											        'subtile_lang1' => '',
+											        'amazons3' => 0,
+											       );
+												$newVideo = Video::create($DataVideo);
+												if
+
+												$VidCat = array ('vid' => $newVideo->id , 'catid' => $value['cat']);
+												VideoCategory::create($VidCat);
+
+								 			}
+								 			
+							 			}
+
+						 		}
+						 	}
+						 	DB::commit();
+						 	return Response::json(array(
+							'success' => true,
+							'list' => 'Se inserto correctamente'
+				            ));
+							
+						} catch (ValidationException $e) {
+							DB::rollback();
+							return Response::json(array(
+							'success' => false,
+							'list' =>  $e->getErrors()
+				            ));
+						}
+		 	
 	}
 
 
