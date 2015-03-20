@@ -54,6 +54,7 @@ class FacebookController extends \BaseController {
 		//return View::make('pages.welcome');
 	} 
 
+//publicar perfil
 	public function shareProfile()
 	{
 		if (Request::ajax()) {
@@ -76,7 +77,7 @@ class FacebookController extends \BaseController {
 		}
 		
 	}
-	//share groups
+	//publicar  groups
 	public function shareGroups()
 		{
 			$mensaje="";
@@ -238,5 +239,43 @@ class FacebookController extends \BaseController {
 			}
 		} 
 	}
+
+//listar cuentas
+	public function Listaccounts()
+	{ 
+		$accounts = Account::all();
+		$contador =0;
+		$encontrados='<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+		foreach ($accounts as $account) {
+
+		//obtener sesion en faecbook
+		$account->access_token_fb
+		//------------------------
+
+			$contador +=1;
+			$encontrados= $encontrados.'
+						<div  class="panel panel-default">
+						<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$contador.'" aria-expanded="false" aria-controls="collapse'.$contador.'">
+						    <div  class="panel-heading" role="tab" id="heading'.$contador.'">
+							    <h4 class="panel-title">										       
+								     '.$account->name.' <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info1" class="" ></a>
+								</h4>	
+							</div>
+						</a>
+						<div id="collapse'.$contador.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'.$contador.'">
+						    <div class="panel-body">
+						    cuenta '.$account->access_token_fb.'
+						   	</div>
+						</div></div>';
+		
+					}			
+
+		return Response::json(array(
+			'success' => true,
+			'list' => $encontrados	
+            )); 
+	}
+
+
 
 }

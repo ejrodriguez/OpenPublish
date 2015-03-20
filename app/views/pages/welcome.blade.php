@@ -115,13 +115,7 @@
 //listar videos
 	$(document).on('click', '#sharefb',function (e) {
 	e.preventDefault();
-	<?php 
-	//redireccionamiento a login facebook.
-	$sessionfb = Session::get('session');
-	if (!$sessionfb) { ?>
-		alert("Inicie sesion en facebook para poder compartir los videos.");
-		window.location.href = "{{URL::route('loginfb')}}";
-	<?php 	} 	?>	
+	
 	$.ajax({
 	    	
 	    	url: "{{URL::route('sharefb')}}",

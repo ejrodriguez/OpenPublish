@@ -201,14 +201,8 @@ class VideoController extends BaseController {
 					$encontrados=$encontrados.'<tr><td id="video_emb"><img src="'.$video->thumburl.'" width="160" height="100"/></td><td id="video_title">'.$video->title.'</td><td id="video_desc">'.$video->seotitle.'</td>
 					<td>
 					<button onclick="showModalProfile('.$seo.','.$namecategory.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
-	                <span class="fa fa-user txt-primary" aria-hidden="true">Perfil</span>
-	                <button onclick="showModalGroup('.$seo.','.$namecategory.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
-	                <span class="fa fa-group  txt-primary" aria-hidden="true">Grupo</span>
-	                <button onclick="showModalPage('.$seo.','.$namecategory.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
-	                <span class="fa fa-group  txt-primary" aria-hidden="true">Fan Page</span>
-	                <button onclick="showModalEvent('.$seo.','.$namecategory.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
-	                <span class="fa fa-group  txt-primary" aria-hidden="true">Events</span>
-					</td></tr>';
+	                <span class="fa fa-user txt-primary" aria-hidden="true">Publicar</span>
+	                </td></tr>';
 				}
 		$encontrados=$encontrados.'</tbody><tfoot><tr><th>Video</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th></tr></tfoot></table>';
 		return Response::json(array(

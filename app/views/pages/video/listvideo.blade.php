@@ -40,8 +40,8 @@
 
 
 <!--modal share perfil -->
-	<div id="modalshareprofile" class="modal fade">
-	<div class="modal-dialog">   
+	<div id="modalshareprofile" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="largeModal ">
+	<div class="modal-dialog modal-lg">   
 	  <div class="modal-content"> 
 	     <div class="modal-header alert alert-info">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -52,20 +52,20 @@
 	     <div class="modal-body">
 
 	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
-	        		<fieldset>
+	        		<fieldset>	        		
 	        			<div class="form-group">
-	        			<!--<label id="linkvideo"  style="display:none" ></label> -->
-	        			<input type="text" id="linkvideo" name="linkvideo" style="display:none" />
-						<img class="col-sm-3 " src="" id="imgvideo" width="600px"  />
-						<div class="col-sm-8">	
-						<h4 id="titlevideo" class="control-label"></h4>
-						</div>
+		        			<!--<label id="linkvideo"  style="display:none" ></label> -->
+		        			<input type="text" id="linkvideo" name="linkvideo" style="display:none" />
+							<img class="col-sm-3 " src="" id="imgvideo" width="600px"  />
+								<div class="col-sm-8">	
+								<h4 id="titlevideo" class="control-label"></h4>
+								</div>
 						</div>
 						<div class="form-group" >
 						<label class="col-sm-3 control-label">Mensaje</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" name="mensaje" id="mensaje"/>
-						</div>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" name="mensaje" id="mensaje"/>
+							</div>
 						</div>
 						<div class="form-group" >
 						<label class="col-sm-3 control-label">Descripción</label>
@@ -73,7 +73,12 @@
 							<textarea class="form-control" name="descripcion" id="descripcion" height="100px"></textarea>
 						</div>
 						</div>
-					</fieldset>
+						</fieldset>
+						<legend>Cuentas:</legend>
+						<fieldset>
+						<div class="form-group">
+						<div id="cuentas"></div>
+						</fieldset>
 
 				</form>
 	     </div>
@@ -147,125 +152,6 @@
 <!--FIN-->
 
 
-<!--modal share page -->
-	<div id="modalsharepage" class="modal fade">
-	<div class="modal-dialog">   
-	  <div class="modal-content"> 
-	     <div class="modal-header alert alert-info">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-	        ×
-	        </button>
-	        <h4>Publicar en Facebook</h4>
-	     </div>
-	     <div class="modal-body">
-
-	        	<form id="SharePageForm" method="POST"  action="" class="form-horizontal">
-	        		<fieldset>
-	        			<div class="form-group">
-	        			<!--<label id="linkvideo"  style="display:none" ></label> -->
-	        			<input type="text" id="linkvideo_p" name="linkvideo" style="display:none" />
-						<img class="col-sm-3 " src="" id="imgvideo_p" width="600px"  />
-						<div class="col-sm-8">	
-						<h4 id="titlevideo_p" class="control-label"></h4>
-						</div>
-						</div>
-						<div class="form-group" >
-						<label class="col-sm-3 control-label">Mensaje</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" name="mensaje" id="mensaje_p"/>
-						</div>
-						</div>
-						<div class="form-group" >
-						<label class="col-sm-3 control-label">Descripción</label>
-						<div class="col-sm-8">
-							<textarea class="form-control" name="descripcion" id="descripcion_p" height="100px"></textarea>
-						</div>
-						</div>
-					</fieldset>
-					<fieldset>
-					<legend>Páginas</legend>
-					<div class="form-group">
-						<div class="col-sm-11">
-							<select id="pages" name="modal_menu" multiple="multiple" class="populate placeholder" >
-							</select>
-						</div>
-					</div>
-					</fieldset>
-
-				</form>
-	     </div>
-	     <div id="resultshare_p"></div>
-	     <div class="modal-footer">
-	        <button onclick="SharePages()" type="button" class="btn btn-default" aria-label="Left Align">
-                <span class="fa fa-facebook-square txt-primary" aria-hidden="true">Publicar</span>
-	     </div>
-		</div>
-
-	</div>
-	</div>
-<!--FIN-->
-
-
-<!--modal share event -->
-	<div id="modalshareevent" class="modal fade">
-	<div class="modal-dialog">   
-	  <div class="modal-content"> 
-	     <div class="modal-header alert alert-info">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-	        ×
-	        </button>
-	        <h4>Publicar en Facebook</h4>
-	     </div>
-	     <div class="modal-body">
-
-	        	<form id="ShareEventForm" method="POST"  action="" class="form-horizontal">
-	        		<fieldset>
-	        			<div class="form-group">
-	        			<!--<label id="linkvideo"  style="display:none" ></label> -->
-	        			<input type="text" id="linkvideo_e" name="linkvideo" style="display:none" />
-						<img class="col-sm-3 " src="" id="imgvideo_e" width="600px"  />
-						<div class="col-sm-8">	
-						<h4 id="titlevideo_e" class="control-label"></h4>
-						</div>
-						</div>
-						<div class="form-group" >
-						<label class="col-sm-3 control-label">Mensaje</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" name="mensaje" id="mensaje_e"/>
-						</div>
-						</div>
-						<div class="form-group" >
-						<label class="col-sm-3 control-label">Descripción</label>
-						<div class="col-sm-8">
-							<textarea class="form-control" name="descripcion" id="descripcion_e" height="100px"></textarea>
-						</div>
-						</div>
-					</fieldset>
-					<fieldset>
-					<legend>Eventos</legend>
-					<div class="form-group">
-						<div class="col-sm-11">
-							<select id="events" name="modal_menu" multiple="multiple" class="populate placeholder" >
-							</select>
-						</div>
-					</div>
-					</fieldset>
-				</form>
-	     </div>
-	     <div id="resultshare_e"></div>
-	     <div class="modal-footer">
-	        <button onclick="ShareEvents()" type="button" class="btn btn-default" aria-label="Left Align">
-                <span class="fa fa-facebook-square txt-primary" aria-hidden="true">Publicar</span>
-	     </div>
-		</div>
-
-	</div>
-	</div>
-<!--FIN-->
-
-
-
-
 <script type="text/javascript">
 $(document).ready(function() {
 // Sortable for elements
@@ -273,7 +159,8 @@ $(document).ready(function() {
 		items: "div.col-sm-2",
 		appendTo: 'div.box-content'
 	});
-	// Create jQuery-UI tabs
+
+// Create jQuery-UI tabs
 //cargar videos
 $.ajax({
 		url: "{{URL::route('listvideos')}}",
@@ -319,6 +206,26 @@ function showModalProfile(seoname,seocategoria,title,image)
 	document.getElementById('resultshare').innerHTML='';
 	document.getElementById("linkvideo").value = link;
 	document.getElementById("imgvideo").src = image;
+
+	//--------------cargar cuentas Facebook
+		$.ajax({
+	    	
+	    	url: "{{URL::route('accounts')}}",
+	    	type: 'GET',
+	    })
+	    .done(function(data) {
+	    	if(data.success==true){
+			$('#cuentas').html(data.list);
+		}
+		else
+			{
+				alert(data.list);
+			}
+		})
+		.fail(function() {
+		console.log("error");
+	    })
+	///////////////////////////
 	$('#modalshareprofile').modal('show');
 }
 
@@ -369,83 +276,6 @@ function showModalGroup(seoname,seocategoria,title,image)
 				console.log("error");
 			}); 
 	$('#modalsharegroups').modal('show');
-}
-
-function showModalPage(seoname,seocategoria,title,image)
-{
-	LoadSelect2Script(DemoSelect2);
-
-	link = 'http://localhost/joomla/index.php/player/'+seocategoria+'/'+seoname;
-	$('#titlevideo_p').text(title);
-	document.getElementById("mensaje_p").value = "";
-	document.getElementById("descripcion_p").value=""; 
-	document.getElementById('pages').innerHTML = ''; 
-	document.getElementById('resultshare_p').innerHTML='';
-	document.getElementById("linkvideo_p").value = link;
-	document.getElementById("imgvideo_p").src = image;
-	
-	$.ajax({
-				url: "{{URL::route('listpages')}}",
-				type: 'POST',
-				data: {vaue:true},
-			})
-			.done(function(data) {
-				console.log(data.list);
-				if(data.success==true){
-					$.each(data.list ,function(id)
-												   {
-												   	$("#pages").append('<option value='+data.list[id].id+'><b>'+data.list[id].name+'</option>');
-												   		// console.log(data.list[id].StatusId+' '+data.list[id].StatusDescrip+': '+data.list[id].StatusComent);									   		
-												   });
-				}
-				else
-				{
-					alert(data.list);
-				}
-			})
-			.fail(function() {
-				console.log("error");
-			}); 
-	$('#modalsharepage').modal('show');
-}
-
-
-function showModalEvent(seoname,seocategoria,title,image)
-{
-	LoadSelect2Script(DemoSelect2);
-
-	link = 'http://localhost/joomla/index.php/player/'+seocategoria+'/'+seoname;
-	$('#titlevideo_p').text(title);
-	document.getElementById("mensaje_e").value = "";
-	document.getElementById("descripcion_e").value=""; 
-	document.getElementById('events').innerHTML = ''; 
-	document.getElementById('resultshare_e').innerHTML='';
-	document.getElementById("linkvideo_e").value = link;
-	document.getElementById("imgvideo_e").src = image;
-	
-	$.ajax({
-				url: "{{URL::route('listevents')}}",
-				type: 'POST',
-				data: {vaue:true},
-			})
-			.done(function(data) {
-				console.log(data.list);
-				if(data.success==true){
-					$.each(data.list ,function(id)
-												   {
-												   	$("#events").append('<option value='+data.list[id].id+'><b>'+data.list[id].name+'</option>');
-												   		// console.log(data.list[id].StatusId+' '+data.list[id].StatusDescrip+': '+data.list[id].StatusComent);									   		
-												   });
-				}
-				else
-				{
-					alert(data.list);
-				}
-			})
-			.fail(function() {
-				console.log("error");
-			}); 
-	$('#modalshareevent').modal('show');
 }
 
 
@@ -513,6 +343,7 @@ function ShareProfile()
 		console.log("complete");
 	}); 
 }
+
 //funcion para compartir en el perfil
 function ShareGroups()
 {
@@ -578,139 +409,6 @@ function ShareGroups()
 		console.log("complete");
 	}); 
 }
-
-//publicar fan pages
-function SharePages()
-{
-	link = document.getElementById("linkvideo_p").value;
-	mensaje = document.getElementById("mensaje_p").value;
-	descripcion = document.getElementById("descripcion_p").value; 
-	pages =  $("#pages").val();
-	
-	$.ajax({
-		url: "{{URL::route('sharepages')}}",
-		type: 'POST',
-		data: {link:link,mensaje:mensaje,descripcion:descripcion,pages:pages},
-		beforeSend: function(){
-	    			
-                    $('#resultshare_p').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		$('#resultshare_p').html('<label></label>');
-		// console.log("success");
-		if(data.success=='true'){
-
-					// alert(data.msg);
-					$('#resultshare_p').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
-				}
-		if(data.success=='falseval'){
-
-					// alert(data.msg);
-					$('#resultshare_p').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-					
-				}
-	 	if(data.success=='falsecla'){
-
-					// alert(data.msg);
-					$('#resultshare_p').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-				}
-		if(data.success=='falserollb'){
-
-					alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	}); 
-}
-
-//publicar fan pages
-function ShareEvents()
-{
-	link = document.getElementById("linkvideo_e").value;
-	mensaje = document.getElementById("mensaje_e").value;
-	descripcion = document.getElementById("descripcion_e").value; 
-	events =  $("#events").val();
-	
-	$.ajax({
-		url: "{{URL::route('shareevents')}}",
-		type: 'POST',
-		data: {link:link,mensaje:mensaje,descripcion:descripcion,events:events},
-		beforeSend: function(){
-	    			
-                    $('#resultshare_e').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		$('#resultshare_e').html('<label></label>');
-		// console.log("success");
-		if(data.success=='true'){
-
-					// alert(data.msg);
-					$('#resultshare_e').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
-				}
-		if(data.success=='falseval'){
-
-					// alert(data.msg);
-					$('#resultshare_e').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-					
-				}
-	 	if(data.success=='falsecla'){
-
-					// alert(data.msg);
-					$('#resultshare_e').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-				}
-		if(data.success=='falserollb'){
-
-					alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	}); 
-}
-
 
 </script>
 </body>

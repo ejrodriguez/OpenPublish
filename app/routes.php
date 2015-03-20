@@ -68,14 +68,18 @@ Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' =
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 
 
-
+//publicacion facebook
 Route::get('/login/fb',array('as' => 'loginfb', 'uses' => 'FacebookController@login'))->before("auth_user");
-
+//redireccion luego de obtener sesion en facebook
 Route::get('/facebook/callback',array('as' => 'callback', 'uses' => 'FacebookController@callback'))->before("auth_user");
-
-Route::get('/redsocial',array('as' => 'sharefb', 'uses' => 'VideoController@LoadVideo'))->before("auth_user");
-
+//listr videos
 Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
+//listar ventana para presentar los videos
+Route::get('/redsocial',array('as' => 'sharefb', 'uses' => 'VideoController@LoadVideo'))->before("auth_user");
+//cargar cuentas
+Route::get('/facebook/account',array('as' => 'accounts', 'uses' => 'FacebookController@Listaccounts'))->before("auth_user");
+
+//Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
 
 Route::post('/categorias/alavista',array('as' => 'categoryalavista', 'uses' => 'VideoController@CategoryAlavista'))->before("auth_user");
 
