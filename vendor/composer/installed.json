@@ -1520,18 +1520,18 @@
     },
     {
         "name": "symfony/event-dispatcher",
-        "version": "v2.6.4",
-        "version_normalized": "2.6.4.0",
+        "version": "v2.6.5",
+        "version_normalized": "2.6.5.0",
         "target-dir": "Symfony/Component/EventDispatcher",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/EventDispatcher.git",
-            "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813"
+            "reference": "70f7c8478739ad21e3deef0d977b38c77f1fb284"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/f75989f3ab2743a82fe0b03ded2598a2b1546813",
-            "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813",
+            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/70f7c8478739ad21e3deef0d977b38c77f1fb284",
+            "reference": "70f7c8478739ad21e3deef0d977b38c77f1fb284",
             "shasum": ""
         },
         "require": {
@@ -1542,13 +1542,14 @@
             "symfony/config": "~2.0,>=2.0.5",
             "symfony/dependency-injection": "~2.6",
             "symfony/expression-language": "~2.6",
+            "symfony/phpunit-bridge": "~2.7",
             "symfony/stopwatch": "~2.3"
         },
         "suggest": {
             "symfony/dependency-injection": "",
             "symfony/http-kernel": ""
         },
-        "time": "2015-02-01 16:10:57",
+        "time": "2015-03-13 17:37:22",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1898,24 +1899,27 @@
     },
     {
         "name": "symfony/filesystem",
-        "version": "v2.6.4",
-        "version_normalized": "2.6.4.0",
+        "version": "v2.6.5",
+        "version_normalized": "2.6.5.0",
         "target-dir": "Symfony/Component/Filesystem",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Filesystem.git",
-            "reference": "a1f566d1f92e142fa1593f4555d6d89e3044a9b7"
+            "reference": "fdc5f151bc2db066b51870d5bea3773d915ced0b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Filesystem/zipball/a1f566d1f92e142fa1593f4555d6d89e3044a9b7",
-            "reference": "a1f566d1f92e142fa1593f4555d6d89e3044a9b7",
+            "url": "https://api.github.com/repos/symfony/Filesystem/zipball/fdc5f151bc2db066b51870d5bea3773d915ced0b",
+            "reference": "fdc5f151bc2db066b51870d5bea3773d915ced0b",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2015-01-03 21:13:09",
+        "require-dev": {
+            "symfony/phpunit-bridge": "~2.7"
+        },
+        "time": "2015-03-12 10:28:44",
         "type": "library",
         "extra": {
             "branch-alias": {

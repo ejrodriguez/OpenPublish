@@ -155,16 +155,12 @@ class VideoController extends BaseController {
 		{
 			$antes2=null;
 		}
-		
 
 		$videoList = Youtube::searchVideos(Input::get('q'),Input::get('max'),Input::get('evento'),Input::get('restri'),Input::get('sub'),Input::get('cat'),Input::get('def'),Input::get('dim'),Input::get('dur'),Input::get('emb'),Input::get('lic'),Input::get('syn'),Input::get('tipo'),Input::get('order'),$despues2,$antes2);
 
 		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody>';
 				foreach ($videoList as $video) {
 					$emb = "<iframe type='text/html' src='http://www.youtube.com/embed/".$video->{'id'}->{'videoId'}."' width='160' height='100' frameborder='0' allowfullscreen='true' />";
-					// $encontrados=$encontrados.'<div class="col-sm-6 col-md-3"><div class="thumbnail">'.$video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'}.'<div class="caption"><h3>'.$video->{'snippet'}->{'channelTitle'}.'</h3><p>'.$video->{'snippet'}->{'localized'}->{'title'}.'</p><p>Video ID: '.$video->{'id'}.'</p><input type="checkbox" class="ajoomla"> OK</input></p></div></div></div></div>';
-					// $encontrados=$encontrados.'<div style="with=20%" ><a href="#" class="thumbnail"><p class="small">'.$video->{'snippet'}->{'localized'}->{'title'}.'</p>'.$emb.'</a></div>';
-					// $encontrados=$encontrados.'<tr><td id="video_emb">'.$emb.'</td><td id="video_id">'.$video->{'id'}->{'videoId'}.'</td><td id="video_title">'.$video->{'snippet'}->{'title'}.'</td><td id="video_desc">'.$video->{'snippet'}->{'description'}.'</td><td><input type="checkbox" class="ajoomla"> OK</input></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a></td></tr>'; 
 					$encontrados=$encontrados.'<tr><td><input class="ajoomla" type="checkbox" name="elemento1" value="'.$video->{'id'}->{'videoId'}.'"/></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span></a></td><td id="video_emb">'.$emb.'</td><td id="video_id">'.$video->{'id'}->{'videoId'}.'</td><td id="video_title">'.$video->{'snippet'}->{'title'}.'</td><td id="video_desc">'.$video->{'snippet'}->{'description'}.'</td></tr>'; 
 				}
 
@@ -228,14 +224,18 @@ class VideoController extends BaseController {
 		$encontrados='<select class="populate placeholder" name="categoriaalavista" id="categoriaalavista" ><option  value="">-- Seleccione una categoria --</option>';
 		foreach ($cats as $categoria)
 		{
-			if($categoria->parent_id != 0)
+			if($categoria->published != 0)
 			{
-				array_push($var,array('iden' => $categoria->id , 'desc' => ' -- '.$categoria->category ));
+				if($categoria->parent_id != 0)
+				{
+					array_push($var,array('iden' => $categoria->id , 'desc' => ' -- '.$categoria->category ));
+				}
+				else
+				{
+					array_push($var,array('iden' => $categoria->id , 'desc' => $categoria->category ));
+				}
 			}
-			else
-			{
-				array_push($var,array('iden' => $categoria->id , 'desc' => $categoria->category ));
-			}
+			
 
 		}
 		$encontrados=$encontrados.'</select>';
@@ -250,7 +250,9 @@ class VideoController extends BaseController {
 	public function SaveAlavista(){
 
 		DB::beginTransaction();
-
+		$mes=0;
+		$res='';
+		$vacio=0;
 
 
 						try {
@@ -260,10 +262,11 @@ class VideoController extends BaseController {
 
 
 							 			if ($value['sel']=='true') {
+							 				$vacio=$vacio+1;
 							 				$video = Youtube::getVideoInfo($value['ide']);
-
-											$count = VideoOpenpub::where('VideoId', '=', $video->{'id'})->count();
-								 			if($count == 0)
+							 				
+							 				$count = Video::where('videourl', '=', 'https://www.youtube.com/watch?v='.$video->{'id'})->count();
+								 			if($count== 0)
 								 			{
 								 				//ingresar video en market
 								 				$market = array('VideoId' => $video->{'id'},'UserId' => Auth::user()->get()->id,'VideoTitle' => $value['titulo'],'VideoUrl' => 'https://www.youtube.com/watch?v='.$value['ide'] ,'VideoImage' => $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'},'VideoDate' => date("Y-m-d H:i:s"));
@@ -322,22 +325,49 @@ class VideoController extends BaseController {
 											        'amazons3' => 0,
 											       );
 												$newVideo = Video::create($DataVideo);
-												
+
 
 												$VidCat = array ('vid' => $newVideo->id , 'catid' => $value['cat']);
 												VideoCategory::create($VidCat);
-
+												DB::commit();
+												$res='Se inserto Correctamente';
+												
 								 			}
-								 			
+								 			else
+								 			{
+								 				// DB::rollback();
+								 				$mes=1;
+								 				
+								 			}
 							 			}
+							 			else
+							 			{
+							 				if($vacio==0)
+							 				{
+							 					$mes=2;
+							 				}
+							 				else
+							 				{
+							 					$mes=1;
+							 				}
+							 				
+							 			}
+
 
 						 		}
 						 	}
-						 	DB::commit();
-						 	return Response::json(array(
-							'success' => true,
-							'list' => 'Se inserto correctamente'
-				            ));
+						 			if ($mes==1) {
+						 				$res='Se inserto Correctamente, ignorando los videos que ya se encuentran en AlavistaTV';
+						 			}
+						 			if ($mes==2) {
+						 				$res='Seleccione al menos un video';
+						 			}
+						 	
+								 	return Response::json(array(
+									'success' => true,
+									'list' => $res
+						            ));
+			 	
 							
 						} catch (ValidationException $e) {
 							DB::rollback();

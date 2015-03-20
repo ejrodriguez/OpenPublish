@@ -4,6 +4,8 @@
 <link rel="stylesheet" type="text/css" href="css/tables/dataTables.responsive.css">
 <link rel="stylesheet" type="text/css" href="css/tables/jquery.dataTables.css">
 
+<!-- <script type="text/javascript" language="javascript" src="plugins/bootstrapvalidator/bootstrapValidator.min.js"></script>
+<script type="text/javascript" language="javascript" src="plugins/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js"></script> -->
 <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>
 <script type="text/javascript" language="javascript" src="js/jsfunctions/dataTables.responsive.js"></script>
 </head>
@@ -152,7 +154,7 @@
 
 													<div class="form-group" >
 														<label class="col-sm-2 control-label">Categoria: </label>
-														<div class="col-sm-3" id="listarcategorias">
+														<div class="col-sm-4" id="listarcategorias">
 															
 														</div>
 													<!-- </div> -->
@@ -165,10 +167,13 @@
 																<input type="text" class="form-control" name="maxregion" id="maxregion" value="10" />
 															</div>
 															<div  id='uniq'></div>
+															
+														</div>	
+														<div class="form-group">
 															<div class="col-sm-2">
 																<button  data-loading-text="Loading..." id="buscar2" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 															</div>
-														</div>	
+														</div>
 														
 													<!-- </div> -->
 													</fieldset>
@@ -222,13 +227,14 @@
 									    <div class="panel-heading" role="tab" id="headingFour">
 									      <h4 class="panel-title">
 									        
-									          Busqueda Avanzada <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info3" class="" ><i class="fa fa-info-circle" ></i></a>
+									          Busqueda Avanzada <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info4" class="" ><i class="fa fa-info-circle" ></i></a>
 									        
 									      </h4>
 									    </div>
 									    </a>
 									    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
 									    <div class="panel-body">
+									    	<form id="busq_avanzada" method="" action="">
 												    <div class="form-group" >
 														
 														<label  class="col-sm-2 control-label">Buscar: </label>
@@ -391,6 +397,7 @@
 														</div> -->
 													</div>
 													<br>
+													
 													<div class="form-group" >
 										    			<label for="datetime_despuesq" class="col-sm-2 control-label">Despues de: </label>
 														<div class="col-sm-3">
@@ -404,7 +411,9 @@
 														<!-- <div class="col-sm-4">
 																<button  data-loading-text="Loading..." id="buscar4" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 														</div> -->
+														
 													</div>
+													<!-- </form> -->
 													<br>
 													<div class="form-group" >
 										    			
@@ -414,7 +423,7 @@
 																<button  data-loading-text="Loading..." id="buscar4" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 														</div>
 													</div>
-														    
+											</form>			    
 									    </div>
 									    </div>
 									</div>
@@ -501,8 +510,8 @@
 			        		<label class="col-sm-2 control-label" >Categoria: </label>
 						  	
 							<div class="col-sm-8">
-								<select class="populate placeholder" name="categoriaalavista" id="categoriaalavista">
-									<option value="">-- Seleccione una Categoria --</option>
+								<select class="populate placeholder"  name="categoriaalavista" id="categoriaalavista">
+									<option selected value="">-- Seleccione una Categoria --</option>
 									
 								</select>
 							</div>
@@ -547,6 +556,7 @@
 <script type="text/javascript">
 
 function getCat(){
+	
 
 	$.ajax({
 		url: "{{URL::route('categoryalavista')}}",
@@ -563,8 +573,8 @@ function getCat(){
 				 	$("#categoriaalavista").append('<option value='+data.list[id].iden+'><b>'+data.list[id].desc+'</option>');
 				 });
 
-					$('#wysiwig_full').html('text1');
-					$('#tituloalavista').val('text2');
+					// $('#wysiwig_full').html('text1');
+					// $('#tituloalavista').val('text2');
 			}
 			
 
@@ -669,15 +679,6 @@ var datas = {items:
 	]};
 		
 
-
-// $("#guardaralavista").click(function(e) {
-// 	/* Act on the event */
-// 	e.preventDefault();
-
- 	
-//  	console.log(getFormJson($("#categoriaalavista").val(),$("#nivelalavista").val(),$("#tituloalavista").val()));
-// });
-
 function getFormJson(a,b,c,d,e,f){
 
 	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f};
@@ -686,9 +687,36 @@ function getFormJson(a,b,c,d,e,f){
 
 		return datas;
 };
-//add object
+
+function validarFechaMenorMayor(datetime1,datetime2){
+	  var date1=datetime1.slice(0,10);
+	  var date2=datetime2.slice(0,10);
+
+      var x=new Date();
+      var y=new Date();
+
+      var fecha1 = date1.split("-");
+      var fecha2 = date2.split("-");
 
 
+
+
+      x.setFullYear(fecha1[2],fecha1[1],fecha1[0]);
+      y.setFullYear(fecha2[2],fecha2[1],fecha2[0]);
+
+ 
+      if (x <= y)
+        return false;
+      else
+        return true;
+}
+
+$('#hora').click(function(e) {
+	e.preventDefault();
+	/* Act on the event */
+	var res = validarFechaMenorMayor($('#datetime_antesq').val(),$('#datetime_despuesq').val());
+	alert(res);
+});
 
 
 $(document).ready(function() {
@@ -716,6 +744,11 @@ $(document).ready(function() {
 	});
 	// Load TimePicker plugin and callback all time and date pickers
 	LoadTimePickerScript(AllTimePickers);
+
+
+
+
+
 	// Create jQuery-UI tabs
 	$("#tabs").tabs();
 	// Sortable for elements
@@ -743,13 +776,7 @@ $(document).ready(function() {
 	// // Load selects
 	LoadSelect2Script(DemoSelect2);
 	$("#accordion .panel-heading a").css('style', 'none');
-	// Run beauty tables plugin on every table with class .beauty-table
-	// $('.beauty-table').each(function(){
-	// 	// Run keyboard navigation in table
-	// 	$(this).beautyTables();
-	// 	// Nice CSS-hover row and col for current cell
-	// 	$(this).beautyHover();
-	// });
+
 	//load select categorias para region
 	$.ajax({
 		url: "{{URL::route('categoriesvideos')}}",
@@ -822,19 +849,7 @@ function DemoSelect2(){
 	$('#nivelalavista').select2();
 	$('#estadoalavista').select2();
 };
-//informacion al seleccionar un criterio
-// $("#criterio").change(function(e) {
-// 	// alert($("#criterio").val());
-// 	if($("#criterio").val() != '')
-// 	{
-// 		var array = ['Obtenga informacion de un video', "Obtenga videos populares en un país","Buscar listas de reproducción, canales y vídeos","Buscar sólo Videos","Buscar sólo Videos en un canal determinado","Obtenga informacion de un canal","Buscar con argumentos para mostrar datos de página como página de fichas"];
-// 		$("#info_criterio").html('<span  class="label label-info"><i class="fa fa-info-circle" ></i> '+array[$("#criterio").val()]+'</span>');	
-// 	}
-// 	else{
-// 		$("#info_criterio").html('<span  class="label label-info"><i class="fa fa-info-circle" ></i></span>');	
-// 	}
-// });
-// acordion eventos
+
 $("#accordion .panel-heading").mouseover(function(e) {
 	e.preventDefault();
     $(this).css('backgroundColor','#BDBDBD');
@@ -845,29 +860,38 @@ $("#accordion .panel-heading").mouseleave(function(e) {
 });
 //tooltips de informacion
 $('#info1').mouseenter(function(e) {
-	e.preventDefault();
+	// e.preventDefault();
 	$('#info1').popover({
         title: 'Informacion',
         content: 'Obtenga informacion de un video, mediante el ID',
-        placement: 'right',
+        placement: 'top',
         animation: 'true'
     });
 });
 $('#info2').mouseenter(function(e) {
-	e.preventDefault();
+	// e.preventDefault();
 	$('#info2').popover({
         title: 'Informacion',
         content: 'Obtenga informacion videos, mediante el Codigo Region',
-        placement: 'right',
+        placement: 'top',
         animation: 'true'
     });
 });
 $('#info3').mouseenter(function(e) {
-	e.preventDefault();
+	// e.preventDefault();
 	$('#info3').popover({
         title: 'Informacion',
         content: 'Obtenga informacion de los videos mas vistos, ordenados deacuerdo a un criterio',
-        placement: 'right',
+        placement: 'top',
+        animation: 'true'
+    });
+});
+$('#info4').mouseenter(function(e) {
+	// e.preventDefault();
+	$('#info4').popover({
+        title: 'Informacion',
+        content: 'Obtenga informacion mediante una busqueda avanzada',
+        placement: 'top',
         animation: 'true'
     });
 });
@@ -930,7 +954,7 @@ $("#buscar1").click(function(e) {
 });
 //buscar por codigo de region
 $("#buscar2").click(function(e) {
-	getCat();
+	
 	/* Act on the event */
 	e.preventDefault();
 	
@@ -941,6 +965,7 @@ $("#buscar2").click(function(e) {
 		data: {cod: $('#region').val(),categ: $('#rcategoria').val(), max : $('#maxregion').val()},
 		beforeSend: function(){
 	    			// alert("message");
+	    			$("#categoriaalavista").empty();
                     $('#buscar2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
                     datas = {items: 
 					[
@@ -993,24 +1018,24 @@ $("#buscar2").click(function(e) {
 						    });
 
 						    var oTable = $('#datatable-1').dataTable();
-					// alert(oTable.fnGetData().length);
-					var di=oTable.fnGetData().length;
-					// alert('dim'+di);
-					// oTable.rows().data().length
-					if(di > 0){
+							// alert(oTable.fnGetData().length);
+							var di=oTable.fnGetData().length;
+							// alert('dim'+di);
+							// oTable.rows().data().length
+							if(di > 0){
 
-						for (var i = 0 ; i < di; i++) {
-							var aData = oTable.fnGetData( i );
-							// console.log('vale'+aData);
-							getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
-						};
+								for (var i = 0 ; i < di; i++) {
+									var aData = oTable.fnGetData( i );
+									// console.log('vale'+aData);
+									getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+								};
 
-					}
-					console.log(datas);
+							}
+							// console.log(datas);
 						    // tabla obj
 						$('#datatable-1 tbody td').click( function () {
 
-					         
+					         getCat();
 
 					         oTable = $('#datatable-1').dataTable();
 					         var aPos = oTable.fnGetPosition( this );
@@ -1054,13 +1079,14 @@ $("#buscar2").click(function(e) {
 $("#buscar3").click(function(e) {
 	/* Act on the event */
 	e.preventDefault();
-	getCat();
+	
 	$.ajax({
 		url: "{{URL::route('videosmasvistos')}}",
 		type: 'POST',
 		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 		data: {order : $('#ordenarmasv').val() , max : $('#maxmas').val()},
 		beforeSend: function(){
+					$("#categoriaalavista").empty();
 					datas = {items: 
 					[
 					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
@@ -1131,7 +1157,7 @@ $("#buscar3").click(function(e) {
 						$('#datatable-1 tbody td').click( function () {
 
 					         
-
+							getCat();
 					         oTable = $('#datatable-1').dataTable();
 					         var aPos = oTable.fnGetPosition( this );
 					 		// alert(aPos);
@@ -1168,114 +1194,244 @@ $("#buscar3").click(function(e) {
 $("#buscar4").click(function(e) {
 	/* Act on the event */
 	e.preventDefault();
-	getCat();
-	$.ajax({
-		url: "{{URL::route('busquedaavanzada')}}",
-		type: 'POST',
-		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-		data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
-		beforeSend: function(){
-	    			// alert("message");
-                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-                    datas = {items: 
-					[
-					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-					]};
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		console.log("success");
-		// $('#cargardel').html('<label></label>');
-		// console.log("success");
-		if(data.success==true){
-					// alert(data.msg);
-					$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-					// $('#listresult').html(data.resultobt);
-					$('#listresult').html(data.list);
-					$('#datatable-1').DataTable({
-						// "bPaginate": false
-						"language": {
-						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+	if($('#buscarq').val()!='')
+	{
+
+		if(($('#datetime_antesq').val()!='') && ($('#datetime_despuesq').val()!='')){
+
+			if(validarFechaMenorMayor($('#datetime_antesq').val(),$('#datetime_despuesq').val())){
+							$.ajax({
+						url: "{{URL::route('busquedaavanzada')}}",
+						type: 'POST',
+						// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+						data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
+						beforeSend: function(){
+									$("#categoriaalavista").empty();
+					    			// alert("message");
+				                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+				                    datas = {items: 
+									[
+									    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+									]};
+				                },
+				        error: function(jqXHR, exception) {
+						        if (jqXHR.status === 0) {
+						            alert('Error de conexión, verifica tu instalación.');
+						        } else if (jqXHR.status == 404) {
+						            alert('La página no ha sido encontrada. [404]');
+						        } else if (jqXHR.status == 500) {
+						            alert('Internal Server Error [500].');
+						        } else if (exception === 'parsererror') {
+						            alert('Error parse JSON.');
+						        } else if (exception === 'timeout') {
+						            alert('Exceso tiempo.');
+						        } else if (exception === 'abort') {
+						            alert('Petición ajax abortada.');
+						        } else {
+						            alert('Error desconocido: ' + jqXHR.responseText);
+						        }
+						    },
+					})
+					.done(function(data) {
+						console.log("success");
+						// $('#cargardel').html('<label></label>');
+						// console.log("success");
+						if(data.success==true){
+									// alert(data.msg);
+									$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+									// $('#listresult').html(data.resultobt);
+									$('#listresult').html(data.list);
+									$('#datatable-1').DataTable({
+										// "bPaginate": false
+										"language": {
+										"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+										}
+										});
+										//cambiar de color al pasar el puntero
+										$("#datatable-1 tr").mouseenter(function(){
+										        $(this).css('background-color','#369');
+										        $(this).css('color','white');
+										    });
+										    $("#datatable-1 tr").mouseleave(function(){
+										        $(this).css('background-color','#F4F4F4');
+										        $(this).css('color','#333');
+										    });
+										    var oTable = $('#datatable-1').dataTable();
+									// alert(oTable.fnGetData().length);
+									var di=oTable.fnGetData().length;
+									// alert('dim'+di);
+									// oTable.rows().data().length
+									if(di > 0){
+
+										for (var i = 0 ; i < di; i++) {
+											var aData = oTable.fnGetData( i );
+											// console.log('vale'+aData);
+											getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+										};
+
+									}
+									console.log(datas);
+										    // tabla obj
+										$('#datatable-1 tbody td').click( function () {
+
+									         
+											getCat();
+									         oTable = $('#datatable-1').dataTable();
+									         var aPos = oTable.fnGetPosition( this );
+									 		// alert(aPos);
+									         // // Get the data array for this row
+									         var aData = oTable.fnGetData( aPos[0] );
+									          // JSON.parse(aData);
+									         var dim= aData.length;
+									         $('#wysiwig_full').val(aData[5]);
+											 $('#tituloalavista').val(aData[4]);
+											 $('#idalavista').text(aData[3]);
+
+									         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+									 		// alert(aData);
+									         // // Update the data array and return the value
+									         // aData[ aPos[1] ] = 'clicked';
+									         // this.innerHTML = 'clicked';
+
+
+									       } );
+													
+								}
+						if(data.success=='falserollb'){
+									// alert('Internal Server Error [500].');
+								}
+					})
+					.fail(function() {
+						console.log("error");
+						$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+					})
+					.always(function() {
+						console.log("complete");
+					});		
+			}
+			else{
+				alert('La fecha "Despues de" sobrepasa a la fecha "Antes de"')
+			}
+			
+		}
+		if(($('#datetime_antesq').val()=='') || ($('#datetime_despuesq').val()=='')){
+			
+			$.ajax({
+				url: "{{URL::route('busquedaavanzada')}}",
+				type: 'POST',
+				// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+				data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
+				beforeSend: function(){
+							$("#categoriaalavista").empty();
+			    			// alert("message");
+		                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+		                    datas = {items: 
+							[
+							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+							]};
+		                },
+		        error: function(jqXHR, exception) {
+				        if (jqXHR.status === 0) {
+				            alert('Error de conexión, verifica tu instalación.');
+				        } else if (jqXHR.status == 404) {
+				            alert('La página no ha sido encontrada. [404]');
+				        } else if (jqXHR.status == 500) {
+				            alert('Internal Server Error [500].');
+				        } else if (exception === 'parsererror') {
+				            alert('Error parse JSON.');
+				        } else if (exception === 'timeout') {
+				            alert('Exceso tiempo.');
+				        } else if (exception === 'abort') {
+				            alert('Petición ajax abortada.');
+				        } else {
+				            alert('Error desconocido: ' + jqXHR.responseText);
+				        }
+				    },
+			})
+			.done(function(data) {
+				console.log("success");
+				// $('#cargardel').html('<label></label>');
+				// console.log("success");
+				if(data.success==true){
+							// alert(data.msg);
+							$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+							// $('#listresult').html(data.resultobt);
+							$('#listresult').html(data.list);
+							$('#datatable-1').DataTable({
+								// "bPaginate": false
+								"language": {
+								"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+								}
+								});
+								//cambiar de color al pasar el puntero
+								$("#datatable-1 tr").mouseenter(function(){
+								        $(this).css('background-color','#369');
+								        $(this).css('color','white');
+								    });
+								    $("#datatable-1 tr").mouseleave(function(){
+								        $(this).css('background-color','#F4F4F4');
+								        $(this).css('color','#333');
+								    });
+								    var oTable = $('#datatable-1').dataTable();
+							// alert(oTable.fnGetData().length);
+							var di=oTable.fnGetData().length;
+							// alert('dim'+di);
+							// oTable.rows().data().length
+							if(di > 0){
+
+								for (var i = 0 ; i < di; i++) {
+									var aData = oTable.fnGetData( i );
+									// console.log('vale'+aData);
+									getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+								};
+
+							}
+							console.log(datas);
+								    // tabla obj
+								$('#datatable-1 tbody td').click( function () {
+
+							         
+									getCat();
+							         oTable = $('#datatable-1').dataTable();
+							         var aPos = oTable.fnGetPosition( this );
+							 		// alert(aPos);
+							         // // Get the data array for this row
+							         var aData = oTable.fnGetData( aPos[0] );
+							          // JSON.parse(aData);
+							         var dim= aData.length;
+							         $('#wysiwig_full').val(aData[5]);
+									 $('#tituloalavista').val(aData[4]);
+									 $('#idalavista').text(aData[3]);
+
+							         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+							 		// alert(aData);
+							         // // Update the data array and return the value
+							         // aData[ aPos[1] ] = 'clicked';
+							         // this.innerHTML = 'clicked';
+
+
+							       } );
+											
 						}
-						});
-						//cambiar de color al pasar el puntero
-						$("#datatable-1 tr").mouseenter(function(){
-						        $(this).css('background-color','#369');
-						        $(this).css('color','white');
-						    });
-						    $("#datatable-1 tr").mouseleave(function(){
-						        $(this).css('background-color','#F4F4F4');
-						        $(this).css('color','#333');
-						    });
-						    var oTable = $('#datatable-1').dataTable();
-					// alert(oTable.fnGetData().length);
-					var di=oTable.fnGetData().length;
-					// alert('dim'+di);
-					// oTable.rows().data().length
-					if(di > 0){
+				if(data.success=='falserollb'){
+							// alert('Internal Server Error [500].');
+						}
+			})
+			.fail(function() {
+				console.log("error");
+				$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+			})
+			.always(function() {
+				console.log("complete");
+			});
+		}
 
-						for (var i = 0 ; i < di; i++) {
-							var aData = oTable.fnGetData( i );
-							// console.log('vale'+aData);
-							getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
-						};
-
-					}
-					console.log(datas);
-						    // tabla obj
-						$('#datatable-1 tbody td').click( function () {
-
-					         
-
-					         oTable = $('#datatable-1').dataTable();
-					         var aPos = oTable.fnGetPosition( this );
-					 		// alert(aPos);
-					         // // Get the data array for this row
-					         var aData = oTable.fnGetData( aPos[0] );
-					          // JSON.parse(aData);
-					         var dim= aData.length;
-					         $('#wysiwig_full').val(aData[5]);
-							 $('#tituloalavista').val(aData[4]);
-							 $('#idalavista').text(aData[3]);
-
-					         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-					 		// alert(aData);
-					         // // Update the data array and return the value
-					         // aData[ aPos[1] ] = 'clicked';
-					         // this.innerHTML = 'clicked';
-
-
-					       } );
-									
-				}
-		if(data.success=='falserollb'){
-					// alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-		$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-	})
-	.always(function() {
-		console.log("complete");
-	});
+				
+	}
+	else{
+		alert('Ingrese un valor de busqueda');
+	}
+	
 });
 
 
@@ -1286,8 +1442,18 @@ $('#modaldataedit').on('hidden.bs.modal', function (){
   // alert('Modal is successfully shown!');
   	$('#mtituloalavista').val("");
  	$('#descripcionalavista').val("");
- 	$('#idalavista').text("");  
+ 	$('#idalavista').text(""); 
+ 	$("#categoriaalavista").empty();
+ 	
 });
+$("#callmodal").click(function(e) {
+	/* Act on the event */
+	// e.preventDefault();
+
+ 	$("#categoriaalavista").empty();
+
+});
+
 
 
 $('#guardaralavista').click(function(et) {
@@ -1305,7 +1471,7 @@ $('#guardaralavista').click(function(et) {
 		 	datas.items[n].descr=$('#wysiwig_full').val();
 		 	datas.items[n].cat=$('#categoriaalavista').val();
 		 }
-		 console.log(datas.items[n].ide+' '+datas.items[n].titulo+': '+datas.items[n].descr+': '+datas.items[n].emb+': '+datas.items[n].cat);
+		 // console.log(datas.items[n].ide+' '+datas.items[n].titulo+' '+datas.items[n].descr+' '+datas.items[n].emb+' '+datas.items[n].cat);
 
 	});
 	alert('Informacion Agregada');

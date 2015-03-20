@@ -2072,6 +2072,23 @@ function DemoFormValidator(){
 			
 		}
 	});
+	$('#busq_avanzada').bootstrapValidator({
+		message: 'This value is not valid',
+		fields: {
+			
+			despuesq: {
+                validators: {
+                    date: {
+                        format: 'yy-mm-dd H:m',
+                        message: 'El valor de la fecha no es valido'
+                    }
+                }
+            },
+			
+		}
+	});
+
+
 
 	$('#DataPersonalForm').bootstrapValidator({
 		message: 'This value is not valid',
