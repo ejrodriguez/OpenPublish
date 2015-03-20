@@ -246,7 +246,7 @@ class VideoController extends BaseController {
 		DB::beginTransaction();
 		$mes=0;
 		$res='';
-		$vacio=0;
+		
 
 
 						try {
@@ -256,18 +256,18 @@ class VideoController extends BaseController {
 
 
 							 			if ($value['sel']=='true') {
-							 				$vacio=$vacio+1;
-							 				$video = Youtube::getVideoInfo($value['ide']);
 							 				
-							 				$count = Video::where('videourl', '=', 'https://www.youtube.com/watch?v='.$video->{'id'})->count();
+							 				// $video = Youtube::getVideoInfo($value['ide']);
+							 				
+							 				$count = Video::where('videourl', '=', 'https://www.youtube.com/watch?v='.$value['ide'])->count();
 								 			if($count== 0)
 								 			{
 								 				//ingresar video en market
-								 				$market = array('VideoId' => $video->{'id'},'UserId' => Auth::user()->get()->id,'VideoTitle' => $value['titulo'],'VideoUrl' => 'https://www.youtube.com/watch?v='.$value['ide'] ,'VideoImage' => $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'},'VideoDate' => date("Y-m-d H:i:s"));
+								 				$market = array('VideoId' => $value['ide'],'UserId' => Auth::user()->get()->id,'VideoTitle' => $value['titulo'],'VideoUrl' => 'https://www.youtube.com/watch?v='.$value['ide'] ,'VideoImage' => 'http://img.youtube.com/vi/'.$value['ide'].'/mqdefault.jpg','VideoDate' => date("Y-m-d H:i:s"));
 								 				VideoOpenpub::create($market);
 
-									 				$thum= $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'};
-													$thumh= $video->{'snippet'}->{'thumbnails'}->{'high'}->{'url'};
+									 				$thum= 'http://img.youtube.com/vi/'.$value['ide'].'/mqdefault.jpg';
+													$thumh= 'https://i.ytimg.com/vi/'.$value['ide'].'/maxresdefault.jpg';
 													date_default_timezone_set('America/Guayaquil');
 													$seo = str_replace(" ", "-",$value['titulo']);
 									 				$DataVideo = array(
@@ -334,18 +334,7 @@ class VideoController extends BaseController {
 								 				
 								 			}
 							 			}
-							 			else
-							 			{
-							 				if($vacio==0)
-							 				{
-							 					$mes=2;
-							 				}
-							 				else
-							 				{
-							 					$mes=1;
-							 				}
-							 				
-							 			}
+							 			
 
 
 						 		}

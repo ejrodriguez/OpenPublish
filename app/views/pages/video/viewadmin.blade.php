@@ -654,10 +654,16 @@ $('#enviaralavista').click(function(event) {
 		 $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
 		console.log("success22");
 		if(data.success==true){
-			alert((data.list));
+			if(data.list!=''){
+				alert((data.list));
+			}
+			else{
+				alert('Seleccione al menos un video');
+			}
+			
 		}
 		if(!data.success){
-			console.log((data.list));
+			alert((data.list));
 		}
 		
 	})
