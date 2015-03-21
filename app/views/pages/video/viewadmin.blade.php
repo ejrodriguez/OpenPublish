@@ -714,7 +714,7 @@ $('#enviaralavista').click(function(event) {
 		}
 		if(!data.success){
 			$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-minus-square-o'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
-			alert((data.list));
+			// alert((data.list));
 			$('#modalmessage').modal({
 					show: true
 				});
@@ -1401,7 +1401,11 @@ $("#buscar4").click(function(e) {
 							});		
 					}
 					else{
-						alert('La fecha "Despues de" sobrepasa a la fecha "Antes de"')
+						$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa  fa-calendar'></i></button><legend class='col-sm-12 '>"+"La fecha 'Despues de' sobrepasa a la fecha 'Antes de'"+"</legend></center>");
+						$('#modalmessage').modal({
+								show: true
+							});
+
 					}
 					
 				}

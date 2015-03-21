@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Account' => $baseDir . '/app/models/Account.php',
     'Alaouy\\Youtube\\Facades\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Facades/Youtube.php',
     'Alaouy\\Youtube\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Youtube.php',
     'Alaouy\\Youtube\\YoutubeServiceProvider' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/YoutubeServiceProvider.php',
