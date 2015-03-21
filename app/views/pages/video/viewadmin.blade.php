@@ -166,14 +166,14 @@
 															<div class="col-sm-1">
 																<input type="text" class="form-control" name="maxregion" id="maxregion" value="10" />
 															</div>
-															<div  id='uniq'></div>
 															
-														</div>	
-														<div class="form-group">
-															<div class="col-sm-2">
+															<div class="col-sm-3">
 																<button  data-loading-text="Loading..." id="buscar2" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 															</div>
-														</div>
+													</div>	
+													<div class="form-group" >
+														<div class="col-sm-12"  id="uniq2"></div>
+													</div>
 														
 													<!-- </div> -->
 													</fieldset>
@@ -216,6 +216,9 @@
 														<div class="col-sm-2">
 																<button  data-loading-text="Loading..." id="buscar3" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 														</div>
+													</div>
+													<div class="form-group" >
+														<div class="col-sm-12"  id="uniq3"></div>
 													</div>
 									    					
 														    
@@ -423,6 +426,10 @@
 																<button  data-loading-text="Loading..." id="buscar4" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
 														</div>
 													</div>
+													<div class="form-group" >
+														<div class="col-sm-12"  id="uniq4"></div>
+														<div class="col-sm-12"  id="uniq41"></div>
+													</div>
 											</form>			    
 									    </div>
 									    </div>
@@ -511,33 +518,26 @@
 						  	
 							<div class="col-sm-8">
 								<select class="populate placeholder"  name="categoriaalavista" id="categoriaalavista">
-									<option selected value="">-- Seleccione una Categoria --</option>
-									
+									<option value="">-- Seleccione una Categoria --</option>
+
 								</select>
 							</div>
-						  	<!-- <div class="col-sm-4">
-								<select class="populate placeholder" name="nivelalavista" id="nivelalavista" >
-								<option  selected value="">-- Seleccione un Nivel --</option>
-								<option  value="niv1">-- n1 --</option>
-								<option  value="niv2">-- n2 --</option>
-								</select>
-							</div> -->
 							
 						</div>
 						<div class="form-group" >
 							<label class="col-sm-2 control-label" >Id Video: </label>
 							<label id="idalavista" class="col-sm-2 control-label" > </label>
 							
-						  	<!-- <div class="col-sm-4">
-								<select class="populate placeholder" name="estadoalavista" id="estadoalavista" >
-								<option  selectedvalue="">-- Seleccione un Estado --</option>
-								</select>
-							</div> -->
 						</div>
+						<div class="form-group" >
+							<div class="col-sm-12"  id="uniqedit"></div>
+						</div>
+						
 					</form>
 
+
 		     </div>
-		     <div id="uniqedit"></div>
+		     
 		     <div class="modal-footer">
 		        <!-- <a href="#" class="btn btn-primary">Guardar</a> -->
 		        <button id="guardaralavista" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button>
@@ -552,9 +552,45 @@
 		</div>
 	</div>
 
+	<!--modal share perfil -->
+	<div id="modalmessage" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="largeModal ">
+	<div class="modal-dialog modal-lg">   
+	  <div class="modal-content"> 
+	     <div class="modal-header alert alert-info">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	        ×
+	        </button>
+	        <h4>Informacion</h4>
+	     </div>
+	     <div class="modal-body">
+
+	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
+	        		<fieldset>	        		
+	        			<div id='modalnotice' class="form-group">      			
+							
+						</div>
+						
+					</fieldset>
+
+				</form>
+	     </div>
+	     <div id="resultshare"></div>
+	     <div class="modal-footer">
+	        <a id="cerraralavista" href="#" data-dismiss="modal" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-arrows-alt"></i></span>Cerrar</a>
+	     </div>
+		</div>
+
+	</div>
+	</div>
+<!--FIN-->
 
 <script type="text/javascript">
-
+function MakeSelect2(){
+	$('select').select2();
+	$('.dataTables_filter').each(function(){
+		$(this).find('label input[type=text]').attr('placeholder', 'Buscar ...');
+	});
+}
 function getCat(){
 	
 
@@ -570,11 +606,16 @@ function getCat(){
 				// $('#dcatalavista').html(data.list);
 				 // console.log(data.list);
 				 $.each(data.list, function(id) {
-				 	$("#categoriaalavista").append('<option value='+data.list[id].iden+'><b>'+data.list[id].desc+'</option>');
+				 	$("#categoriaalavista").append('<option value='+data.list[id].iden+'><b>'+data.list[id].desc+'</b></option>');
 				 });
 
-					// $('#wysiwig_full').html('text1');
-					// $('#tituloalavista').val('text2');
+				 function SelectCat(){
+
+						$('#categoriaalavista').select2();
+					};
+
+					LoadSelect2Script(SelectCat);
+
 			}
 			
 
@@ -655,15 +696,28 @@ $('#enviaralavista').click(function(event) {
 		console.log("success22");
 		if(data.success==true){
 			if(data.list!=''){
-				alert((data.list));
+				$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-archive'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
+				
+				$('#modalmessage').modal({
+					show: true
+				});
 			}
 			else{
-				alert('Seleccione al menos un video');
+				$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-check-square-o'></i></button><legend class='col-sm-12 '>"+"Seleccione al Menos un Video"+"</legend></center>");
+				$('#modalmessage').modal({
+					show: true
+				});
+				
+				
 			}
 			
 		}
 		if(!data.success){
+			$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-minus-square-o'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
 			alert((data.list));
+			$('#modalmessage').modal({
+					show: true
+				});
 		}
 		
 	})
@@ -731,7 +785,7 @@ $(document).ready(function() {
 
 
 
-
+	getCat();
 
 	//area de texto
 	// TinyMCEStart('#wysiwig_full', 'extreme');
@@ -851,7 +905,7 @@ function DemoSelect2(){
 	$('#synq').select2();
 	$('#tipoq').select2();
 	$('#orderq').select2();
-	$('#categoriaalavista').select2();
+	// $('#categoriaalavista').select2();
 	$('#nivelalavista').select2();
 	$('#estadoalavista').select2();
 };
@@ -958,379 +1012,34 @@ $("#buscar1").click(function(e) {
 		console.log("complete");
 	});
 });
+
+
+//valores maximos de busqueda
+function Maximo(max)
+{
+	if(max>0 && max<51){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
 //buscar por codigo de region
 $("#buscar2").click(function(e) {
-	
+	$('#uniq2').html("");
 	/* Act on the event */
 	e.preventDefault();
-	
-	$.ajax({
-		url: "{{URL::route('getpopularvideos')}}",
-		type: 'POST',
-		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-		data: {cod: $('#region').val(),categ: $('#rcategoria').val(), max : $('#maxregion').val()},
-		beforeSend: function(){
-	    			// alert("message");
-	    			$("#categoriaalavista").empty();
-                    $('#buscar2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-                    datas = {items: 
-					[
-					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-					]};
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		console.log("success");
-		// $('#cargardel').html('<label></label>');
-		// console.log("success");
-		if(data.success=='true'){
-					$('#uniq').html('<label></label>');
-					// alert(data.msg);
-					$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
-					$('#listresult').html(data.resultobt);
-					$('#datatable-1').DataTable({
-						// "bPaginate": false
-						"language": {
-						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
-						}
-						});
-									
-						
-						//cambiar de color al pasar el puntero
-						$("#datatable-1 tr").mouseenter(function(){
-						        $(this).css('background-color','#369');
-						        $(this).css('color','white');
-						    });
-						    $("#datatable-1 tr").mouseleave(function(){
-						        $(this).css('background-color','#F4F4F4');
-						        $(this).css('color','#333');
-						    });
-
-						    var oTable = $('#datatable-1').dataTable();
-							// alert(oTable.fnGetData().length);
-							var di=oTable.fnGetData().length;
-							// alert('dim'+di);
-							// oTable.rows().data().length
-							if(di > 0){
-
-								for (var i = 0 ; i < di; i++) {
-									var aData = oTable.fnGetData( i );
-									// console.log('vale'+aData);
-									getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
-								};
-
-							}
-							// console.log(datas);
-						    // tabla obj
-						$('#datatable-1 tbody td').click( function () {
-
-					         getCat();
-
-					         oTable = $('#datatable-1').dataTable();
-					         var aPos = oTable.fnGetPosition( this );
-					 		// alert(aPos);
-					         // // Get the data array for this row
-					         var aData = oTable.fnGetData( aPos[0] );
-					          // JSON.parse(aData);
-					         var dim= aData.length;
-					         $('#wysiwig_full').val(aData[5]);
-							 $('#tituloalavista').val(aData[4]);
-							 $('#idalavista').text(aData[3]);
-
-					         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-					 		// alert(aData);
-					         // // Update the data array and return the value
-					         // aData[ aPos[1] ] = 'clicked';
-					         // this.innerHTML = 'clicked';
-
-
-					       } );
-
-
-					// });
-				}
-		if(data.success=='false'){
-					$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
-					$('#uniq').html('<label></label>');
-					$('#uniq').append('<legend id="uniq" class="alert alert-danger">'+data.resultobt+'</legend>');
-					console.log(data.resultobt);
-					// alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-		$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
-	})
-	.always(function() {
-		console.log("complete");
-	});
-});
-$("#buscar3").click(function(e) {
-	/* Act on the event */
-	e.preventDefault();
-	
-	$.ajax({
-		url: "{{URL::route('videosmasvistos')}}",
-		type: 'POST',
-		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-		data: {order : $('#ordenarmasv').val() , max : $('#maxmas').val()},
-		beforeSend: function(){
-					$("#categoriaalavista").empty();
-					datas = {items: 
-					[
-					    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-					]};
-	    			// alert("message");
-                    $('#buscar3').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		console.log("success");
-		// $('#cargardel').html('<label></label>');
-		// console.log("success");
-		if(data.success==true){
-					// alert(data.msg);
-					$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
-					// $('#listresult').html(data.resultobt);
-					$('#listresult').html(data.list);
-					$('#datatable-1').DataTable({
-						// "bPaginate": false
-						"language": {
-						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
-						}
-						});
-						//cambiar de color al pasar el puntero
-						$("#datatable-1 tr").mouseenter(function(){
-						        $(this).css('background-color','#369');
-						        $(this).css('color','white');
-						    });
-						    $("#datatable-1 tr").mouseleave(function(){
-						        $(this).css('background-color','#F4F4F4');
-						        $(this).css('color','#333');
-						    });
-
-					
-					var oTable = $('#datatable-1').dataTable();
-					// alert(oTable.fnGetData().length);
-					var di=oTable.fnGetData().length;
-					// alert('dim'+di);
-					// oTable.rows().data().length
-					if(di > 0){
-
-						for (var i = 0 ; i < di; i++) {
-							var aData = oTable.fnGetData( i );
-							// console.log('vale'+aData);
-							getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
-						};
-
-					}
-					console.log(datas);
-						    // tabla obj
-						$('#datatable-1 tbody td').click( function () {
-
-					         
-							getCat();
-					         oTable = $('#datatable-1').dataTable();
-					         var aPos = oTable.fnGetPosition( this );
-					 		// alert(aPos);
-					         // // Get the data array for this row
-					         var aData = oTable.fnGetData( aPos[0] );
-					          // JSON.parse(aData);
-					         var dim= aData.length;
-					         $('#wysiwig_full').val(aData[5]);
-							 $('#tituloalavista').val(aData[4]);
-							 $('#idalavista').text(aData[3]);
-
-					         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-					 		// alert(aData);
-					         // // Update the data array and return the value
-					         // aData[ aPos[1] ] = 'clicked';
-					         // this.innerHTML = 'clicked';
-
-
-					       } );
-									
-				}
-		if(data.success=='falserollb'){
-					// alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-		$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
-	})
-	.always(function() {
-		console.log("complete");
-	});
-});
-$("#buscar4").click(function(e) {
-	/* Act on the event */
-	e.preventDefault();
-	if($('#buscarq').val()!='')
+	if(Maximo($("#maxregion").val()))
 	{
-
-		if(($('#datetime_antesq').val()!='') && ($('#datetime_despuesq').val()!='')){
-
-			if(validarFechaMenorMayor($('#datetime_antesq').val(),$('#datetime_despuesq').val())){
-							$.ajax({
-						url: "{{URL::route('busquedaavanzada')}}",
-						type: 'POST',
-						// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-						data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
-						beforeSend: function(){
-									$("#categoriaalavista").empty();
-					    			// alert("message");
-				                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-				                    datas = {items: 
-									[
-									    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-									]};
-				                },
-				        error: function(jqXHR, exception) {
-						        if (jqXHR.status === 0) {
-						            alert('Error de conexión, verifica tu instalación.');
-						        } else if (jqXHR.status == 404) {
-						            alert('La página no ha sido encontrada. [404]');
-						        } else if (jqXHR.status == 500) {
-						            alert('Internal Server Error [500].');
-						        } else if (exception === 'parsererror') {
-						            alert('Error parse JSON.');
-						        } else if (exception === 'timeout') {
-						            alert('Exceso tiempo.');
-						        } else if (exception === 'abort') {
-						            alert('Petición ajax abortada.');
-						        } else {
-						            alert('Error desconocido: ' + jqXHR.responseText);
-						        }
-						    },
-					})
-					.done(function(data) {
-						console.log("success");
-						// $('#cargardel').html('<label></label>');
-						// console.log("success");
-						if(data.success==true){
-									// alert(data.msg);
-									$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-									// $('#listresult').html(data.resultobt);
-									$('#listresult').html(data.list);
-									$('#datatable-1').DataTable({
-										// "bPaginate": false
-										"language": {
-										"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
-										}
-										});
-										//cambiar de color al pasar el puntero
-										$("#datatable-1 tr").mouseenter(function(){
-										        $(this).css('background-color','#369');
-										        $(this).css('color','white');
-										    });
-										    $("#datatable-1 tr").mouseleave(function(){
-										        $(this).css('background-color','#F4F4F4');
-										        $(this).css('color','#333');
-										    });
-										    var oTable = $('#datatable-1').dataTable();
-									// alert(oTable.fnGetData().length);
-									var di=oTable.fnGetData().length;
-									// alert('dim'+di);
-									// oTable.rows().data().length
-									if(di > 0){
-
-										for (var i = 0 ; i < di; i++) {
-											var aData = oTable.fnGetData( i );
-											// console.log('vale'+aData);
-											getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
-										};
-
-									}
-									console.log(datas);
-										    // tabla obj
-										$('#datatable-1 tbody td').click( function () {
-
-									         
-											getCat();
-									         oTable = $('#datatable-1').dataTable();
-									         var aPos = oTable.fnGetPosition( this );
-									 		// alert(aPos);
-									         // // Get the data array for this row
-									         var aData = oTable.fnGetData( aPos[0] );
-									          // JSON.parse(aData);
-									         var dim= aData.length;
-									         $('#wysiwig_full').val(aData[5]);
-											 $('#tituloalavista').val(aData[4]);
-											 $('#idalavista').text(aData[3]);
-
-									         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-									 		// alert(aData);
-									         // // Update the data array and return the value
-									         // aData[ aPos[1] ] = 'clicked';
-									         // this.innerHTML = 'clicked';
-
-
-									       } );
-													
-								}
-						if(data.success=='falserollb'){
-									// alert('Internal Server Error [500].');
-								}
-					})
-					.fail(function() {
-						console.log("error");
-						$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-					})
-					.always(function() {
-						console.log("complete");
-					});		
-			}
-			else{
-				alert('La fecha "Despues de" sobrepasa a la fecha "Antes de"')
-			}
-			
-		}
-		if(($('#datetime_antesq').val()=='') || ($('#datetime_despuesq').val()=='')){
-			
-			$.ajax({
-				url: "{{URL::route('busquedaavanzada')}}",
+		$.ajax({
+				url: "{{URL::route('getpopularvideos')}}",
 				type: 'POST',
 				// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-				data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
+				data: {cod: $('#region').val(),categ: $('#rcategoria').val(), max : $('#maxregion').val()},
 				beforeSend: function(){
-							$("#categoriaalavista").empty();
 			    			// alert("message");
-		                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+			    			// $("#categoriaalavista").empty();
+		                    $('#buscar2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
 		                    datas = {items: 
 							[
 							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
@@ -1358,17 +1067,19 @@ $("#buscar4").click(function(e) {
 				console.log("success");
 				// $('#cargardel').html('<label></label>');
 				// console.log("success");
-				if(data.success==true){
+				if(data.success=='true'){
+							$('#uniq').html('<label></label>');
 							// alert(data.msg);
-							$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-							// $('#listresult').html(data.resultobt);
-							$('#listresult').html(data.list);
+							$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
+							$('#listresult').html(data.resultobt);
 							$('#datatable-1').DataTable({
 								// "bPaginate": false
 								"language": {
 								"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
 								}
 								});
+											
+								
 								//cambiar de color al pasar el puntero
 								$("#datatable-1 tr").mouseenter(function(){
 								        $(this).css('background-color','#369');
@@ -1378,26 +1089,27 @@ $("#buscar4").click(function(e) {
 								        $(this).css('background-color','#F4F4F4');
 								        $(this).css('color','#333');
 								    });
+
 								    var oTable = $('#datatable-1').dataTable();
-							// alert(oTable.fnGetData().length);
-							var di=oTable.fnGetData().length;
-							// alert('dim'+di);
-							// oTable.rows().data().length
-							if(di > 0){
+									// alert(oTable.fnGetData().length);
+									var di=oTable.fnGetData().length;
+									// alert('dim'+di);
+									// oTable.rows().data().length
+									if(di > 0){
 
-								for (var i = 0 ; i < di; i++) {
-									var aData = oTable.fnGetData( i );
-									// console.log('vale'+aData);
-									getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
-								};
+										for (var i = 0 ; i < di; i++) {
+											var aData = oTable.fnGetData( i );
+											// console.log('vale'+aData);
+											getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+										};
 
-							}
-							console.log(datas);
+									}
+									// console.log(datas);
 								    // tabla obj
 								$('#datatable-1 tbody td').click( function () {
 
-							         
-									getCat();
+							         // getCat();
+
 							         oTable = $('#datatable-1').dataTable();
 							         var aPos = oTable.fnGetPosition( this );
 							 		// alert(aPos);
@@ -1417,26 +1129,404 @@ $("#buscar4").click(function(e) {
 
 
 							       } );
-											
+
+
+							// });
 						}
-				if(data.success=='falserollb'){
+				if(data.success=='false'){
+							$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
+							$('#uniq').html('<label></label>');
+							$('#uniq').append('<legend id="uniq" class="alert alert-danger">'+data.resultobt+'</legend>');
+							console.log(data.resultobt);
 							// alert('Internal Server Error [500].');
 						}
 			})
 			.fail(function() {
 				console.log("error");
-				$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+				$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
 			})
 			.always(function() {
 				console.log("complete");
 			});
-		}
-
-				
 	}
 	else{
-		alert('Ingrese un valor de busqueda');
+		
+		$('#uniq2').html("<center><label class='col-sm-12 bg-danger'>El valor max debe estar entre 1 y 50</label></center>");
 	}
+	
+	
+});
+$("#buscar3").click(function(e) {
+	/* Act on the event */
+	$('#uniq3').html("");
+	e.preventDefault();
+	if(Maximo($("#maxmas").val())){
+		$.ajax({
+			url: "{{URL::route('videosmasvistos')}}",
+			type: 'POST',
+			// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+			data: {order : $('#ordenarmasv').val() , max : $('#maxmas').val()},
+			beforeSend: function(){
+						// $("#categoriaalavista").empty();
+						datas = {items: 
+						[
+						    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+						]};
+		    			// alert("message");
+	                    $('#buscar3').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+	                },
+	        error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			            alert('Internal Server Error [500].');
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+		})
+		.done(function(data) {
+			console.log("success");
+			// $('#cargardel').html('<label></label>');
+			// console.log("success");
+			if(data.success==true){
+						// alert(data.msg);
+						$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
+						// $('#listresult').html(data.resultobt);
+						$('#listresult').html(data.list);
+						$('#datatable-1').DataTable({
+							// "bPaginate": false
+							"language": {
+							"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+							}
+							});
+							//cambiar de color al pasar el puntero
+							$("#datatable-1 tr").mouseenter(function(){
+							        $(this).css('background-color','#369');
+							        $(this).css('color','white');
+							    });
+							    $("#datatable-1 tr").mouseleave(function(){
+							        $(this).css('background-color','#F4F4F4');
+							        $(this).css('color','#333');
+							    });
+
+						
+						var oTable = $('#datatable-1').dataTable();
+						// alert(oTable.fnGetData().length);
+						var di=oTable.fnGetData().length;
+						// alert('dim'+di);
+						// oTable.rows().data().length
+						if(di > 0){
+
+							for (var i = 0 ; i < di; i++) {
+								var aData = oTable.fnGetData( i );
+								// console.log('vale'+aData);
+								getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+							};
+
+						}
+						console.log(datas);
+							    // tabla obj
+							$('#datatable-1 tbody td').click( function () {
+
+						         
+								// getCat();
+						         oTable = $('#datatable-1').dataTable();
+						         var aPos = oTable.fnGetPosition( this );
+						 		// alert(aPos);
+						         // // Get the data array for this row
+						         var aData = oTable.fnGetData( aPos[0] );
+						          // JSON.parse(aData);
+						         var dim= aData.length;
+						         $('#wysiwig_full').val(aData[5]);
+								 $('#tituloalavista').val(aData[4]);
+								 $('#idalavista').text(aData[3]);
+
+						         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+						 		// alert(aData);
+						         // // Update the data array and return the value
+						         // aData[ aPos[1] ] = 'clicked';
+						         // this.innerHTML = 'clicked';
+
+
+						       } );
+										
+					}
+			if(data.success=='falserollb'){
+						// alert('Internal Server Error [500].');
+					}
+		})
+		.fail(function() {
+			console.log("error");
+			$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
+		})
+		.always(function() {
+			console.log("complete");
+		});
+	}
+	else{
+		$('#uniq3').html("<center><label class='col-sm-12 bg-danger'>El valor max debe estar entre 1 y 50</label></center>");
+	}
+	
+});
+$("#buscar4").click(function(e) {
+	/* Act on the event */
+	$('#uniq4').html("");
+	$('#uniq41').html("");
+	e.preventDefault();
+	if(Maximo($("#maxq").val()))
+	{
+			if($('#buscarq').val()!='')
+			{
+
+				if(($('#datetime_antesq').val()!='') && ($('#datetime_despuesq').val()!=''))
+				{
+
+					if(validarFechaMenorMayor($('#datetime_antesq').val(),$('#datetime_despuesq').val())){
+									$.ajax({
+								url: "{{URL::route('busquedaavanzada')}}",
+								type: 'POST',
+								// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+								data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
+								beforeSend: function(){
+											// $("#categoriaalavista").empty();
+							    			// alert("message");
+						                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+						                    datas = {items: 
+											[
+											    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+											]};
+						                },
+						        error: function(jqXHR, exception) {
+								        if (jqXHR.status === 0) {
+								            alert('Error de conexión, verifica tu instalación.');
+								        } else if (jqXHR.status == 404) {
+								            alert('La página no ha sido encontrada. [404]');
+								        } else if (jqXHR.status == 500) {
+								            alert('Internal Server Error [500].');
+								        } else if (exception === 'parsererror') {
+								            alert('Error parse JSON.');
+								        } else if (exception === 'timeout') {
+								            alert('Exceso tiempo.');
+								        } else if (exception === 'abort') {
+								            alert('Petición ajax abortada.');
+								        } else {
+								            alert('Error desconocido: ' + jqXHR.responseText);
+								        }
+								    },
+							})
+							.done(function(data) {
+								console.log("success");
+								// $('#cargardel').html('<label></label>');
+								// console.log("success");
+								if(data.success==true){
+											// alert(data.msg);
+											$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+											// $('#listresult').html(data.resultobt);
+											$('#listresult').html(data.list);
+											$('#datatable-1').DataTable({
+												// "bPaginate": false
+												"language": {
+												"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+												}
+												});
+												//cambiar de color al pasar el puntero
+												$("#datatable-1 tr").mouseenter(function(){
+												        $(this).css('background-color','#369');
+												        $(this).css('color','white');
+												    });
+												    $("#datatable-1 tr").mouseleave(function(){
+												        $(this).css('background-color','#F4F4F4');
+												        $(this).css('color','#333');
+												    });
+												    var oTable = $('#datatable-1').dataTable();
+											// alert(oTable.fnGetData().length);
+											var di=oTable.fnGetData().length;
+											// alert('dim'+di);
+											// oTable.rows().data().length
+											if(di > 0){
+
+												for (var i = 0 ; i < di; i++) {
+													var aData = oTable.fnGetData( i );
+													// console.log('vale'+aData);
+													getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+												};
+
+											}
+											console.log(datas);
+												    // tabla obj
+												$('#datatable-1 tbody td').click( function () {
+
+											         
+													// getCat();
+											         oTable = $('#datatable-1').dataTable();
+											         var aPos = oTable.fnGetPosition( this );
+											 		// alert(aPos);
+											         // // Get the data array for this row
+											         var aData = oTable.fnGetData( aPos[0] );
+											          // JSON.parse(aData);
+											         var dim= aData.length;
+											         $('#wysiwig_full').val(aData[5]);
+													 $('#tituloalavista').val(aData[4]);
+													 $('#idalavista').text(aData[3]);
+
+											         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+											 		// alert(aData);
+											         // // Update the data array and return the value
+											         // aData[ aPos[1] ] = 'clicked';
+											         // this.innerHTML = 'clicked';
+
+
+											       } );
+															
+										}
+								if(data.success=='falserollb'){
+											// alert('Internal Server Error [500].');
+										}
+							})
+							.fail(function() {
+								console.log("error");
+								$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+							})
+							.always(function() {
+								console.log("complete");
+							});		
+					}
+					else{
+						alert('La fecha "Despues de" sobrepasa a la fecha "Antes de"')
+					}
+					
+				}
+				if(($('#datetime_antesq').val()=='') || ($('#datetime_despuesq').val()=='')){
+					
+					$.ajax({
+						url: "{{URL::route('busquedaavanzada')}}",
+								type: 'POST',
+								// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+								data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
+								beforeSend: function(){
+											// $("#categoriaalavista").empty();
+							    			// alert("message");
+						                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+						                    datas = {items: 
+											[
+											    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+											]};
+						                },
+						        error: function(jqXHR, exception) {
+								        if (jqXHR.status === 0) {
+								            alert('Error de conexión, verifica tu instalación.');
+								        } else if (jqXHR.status == 404) {
+								            alert('La página no ha sido encontrada. [404]');
+								        } else if (jqXHR.status == 500) {
+								            alert('Internal Server Error [500].');
+								        } else if (exception === 'parsererror') {
+								            alert('Error parse JSON.');
+								        } else if (exception === 'timeout') {
+								            alert('Exceso tiempo.');
+								        } else if (exception === 'abort') {
+								            alert('Petición ajax abortada.');
+								        } else {
+								            alert('Error desconocido: ' + jqXHR.responseText);
+								        }
+								    },
+							})
+							.done(function(data) {
+								console.log("success");
+								// $('#cargardel').html('<label></label>');
+								// console.log("success");
+								if(data.success==true){
+											// alert(data.msg);
+											$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+											// $('#listresult').html(data.resultobt);
+											$('#listresult').html(data.list);
+											$('#datatable-1').DataTable({
+												// "bPaginate": false
+												"language": {
+												"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
+												}
+												});
+												//cambiar de color al pasar el puntero
+												$("#datatable-1 tr").mouseenter(function(){
+												        $(this).css('background-color','#369');
+												        $(this).css('color','white');
+												    });
+												    $("#datatable-1 tr").mouseleave(function(){
+												        $(this).css('background-color','#F4F4F4');
+												        $(this).css('color','#333');
+												    });
+												    var oTable = $('#datatable-1').dataTable();
+											// alert(oTable.fnGetData().length);
+											var di=oTable.fnGetData().length;
+											// alert('dim'+di);
+											// oTable.rows().data().length
+											if(di > 0){
+
+												for (var i = 0 ; i < di; i++) {
+													var aData = oTable.fnGetData( i );
+													// console.log('vale'+aData);
+													getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+												};
+
+											}
+											console.log(datas);
+												    // tabla obj
+												$('#datatable-1 tbody td').click( function () {
+
+											         
+													// getCat();
+											         oTable = $('#datatable-1').dataTable();
+											         var aPos = oTable.fnGetPosition( this );
+											 		// alert(aPos);
+											         // // Get the data array for this row
+											         var aData = oTable.fnGetData( aPos[0] );
+											          // JSON.parse(aData);
+											         var dim= aData.length;
+											         $('#wysiwig_full').val(aData[5]);
+													 $('#tituloalavista').val(aData[4]);
+													 $('#idalavista').text(aData[3]);
+
+											         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
+											 		// alert(aData);
+											         // // Update the data array and return the value
+											         // aData[ aPos[1] ] = 'clicked';
+											         // this.innerHTML = 'clicked';
+
+
+											       } );
+															
+										}
+								if(data.success=='falserollb'){
+											// alert('Internal Server Error [500].');
+										}
+							})
+							.fail(function() {
+								console.log("error");
+								$('#buscar4').html('<span><i class="bg-info"></i></span> Buscar');
+							})
+							.always(function() {
+								console.log("complete");
+							});
+						}
+
+								
+					}
+					else{
+						$('#uniq4').html("<center><label class='col-sm-12 bg-danger'>Ingrese un valor a buscar</label></center>");
+					}
+			}
+	else{
+		$('#uniq41').html("<center><label class='col-sm-12 bg-danger'>El valor max debe estar entre 1 y 50</label></center>");
+	}
+	
 	
 });
 
@@ -1449,41 +1539,41 @@ $('#modaldataedit').on('hidden.bs.modal', function (){
   	$('#mtituloalavista').val("");
  	$('#descripcionalavista').val("");
  	$('#idalavista').text(""); 
- 	$("#categoriaalavista").empty();
+ 	// $("#categoriaalavista").empty();
+ 	$('#uniqedit').html("");
  	
-});
-$("#callmodal").click(function(e) {
-	/* Act on the event */
-	// e.preventDefault();
-
- 	$("#categoriaalavista").empty();
-
 });
 
 
 
 $('#guardaralavista').click(function(et) {
 	/* Act on the event */
+	$('#uniqedit').html("");
 	et.preventDefault();
-	console.log(datas.items[0].ide);
-	// JSON.parse(datas);
-	// console.log(datas);
-	$.each(datas.items, function(n) {
-		 /* iterate through array or object */
-		 if(datas.items[n].ide ==$('#idalavista').text()){
-		 	// datas.items.push(item);
-		 	datas.items[n].ide=$('#idalavista').text();
-		 	datas.items[n].titulo=$('#tituloalavista').val();
-		 	datas.items[n].descr=$('#wysiwig_full').val();
-		 	datas.items[n].cat=$('#categoriaalavista').val();
-		 }
-		 // console.log(datas.items[n].ide+' '+datas.items[n].titulo+' '+datas.items[n].descr+' '+datas.items[n].emb+' '+datas.items[n].cat);
+	if($('#categoriaalavista').val() != ""){
+		$.each(datas.items, function(n) {
+			$('#uniqedit').html("<img src='img/devoops_getdata.gif'  alt='preloader'/>");
+			 /* iterate through array or object */
+			 if(datas.items[n].ide ==$('#idalavista').text()){
+			 	// datas.items.push(item);
+			 	datas.items[n].ide=$('#idalavista').text();
+			 	datas.items[n].titulo=$('#tituloalavista').val();
+			 	datas.items[n].descr=$('#wysiwig_full').val();
+			 	datas.items[n].cat=$('#categoriaalavista').val();
+			 }
+			 // console.log(datas.items[n].ide+' '+datas.items[n].titulo+' '+datas.items[n].descr+' '+datas.items[n].emb+' '+datas.items[n].cat);
+			 console.log(datas.items[n].cat);
 
-	});
-	alert('Informacion Agregada');
+		});
+		$('#uniqedit').html("<center><label class='col-sm-12 bg-info'>Informacion Agregada</label></center>");
 
-	
-	// console.log(datas);
+	}
+	else{
+		$('#uniqedit').html("<center><label class='col-sm-12 bg-danger'>Seleccione una Categoria</label></center>");
+
+	}
+		
+
 });
 
 
