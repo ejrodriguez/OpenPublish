@@ -39,6 +39,49 @@
 	</div>
 
 
+
+	<!--delete -->
+	<div id="modaldatadel" class="modal fade">
+	<div class="modal-dialog">   
+	  <div class="modal-content"> 
+	     <div class="modal-header alert alert-danger">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	        ×
+	        </button>
+	        <h3>¿Esta seguro que desea eliminar la cuenta?</h3>
+	     </div>
+	     <div class="modal-body">
+
+	        	<form id="DelDataPersonalForm" method="POST"  action="" class="form-horizontal">
+	        		<fieldset>
+		        		<div class="list-group">
+						  <a href="#" class="list-group-item active">
+						    <h4 class="list-group-item-heading">Datos de la cuenta</h4>
+						  </a>
+						  <a class="list-group-item">Id: <label id="ide"></label></a>
+						  <a  class="list-group-item">Id Cuenta: <label id="account"></label></a>
+						  <a  class="list-group-item">Nombre: <label id="name"></label></a>
+						  <a  class="list-group-item">Fecha de Creación: <label id="create"></label></a>
+						  <a  class="list-group-item">Ultima Actualización: <label id="update"></label></a>
+						</div>
+					</fieldset>
+
+				</form>
+
+	     </div>
+	     <div id="uniqdel"></div>
+	     <div class="modal-footer">
+	        <!-- <a href="#" class="btn btn-primary">Guardar</a> -->
+	        <button id="erase" onclick="DeleteAccount()" type="submit" class="btn btn-danger btn-label-left btn-lg"><span><i class="fa fa-trash-o"></i></span> Si</button>
+	        <a id="close" href="#" data-dismiss="modal" class="btn btn-info btn-label-left btn-lg"><span><i class="fa fa-arrows-alt"></i></span>No</a>
+	        <div id='cargardel'></div>
+	     </div>
+		</div>
+
+	</div>
+
+
+	</div>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -140,6 +183,70 @@ function Actualizar(id,token)
 function NewAccount()
 {
 	 location.href="{{URL::route('loginfb')}}";
+}
+
+function ShowDelet(id,account,name,token,update,create)
+{
+ 	$('#ide').text(id);
+ 	$('#account').text(account); 
+ 	$('#name').text(name);
+ 	$('#token').text(token);
+ 	$('#update').text(update);
+ 	$('#create').text(create);
+	$('#modaldatadel').modal('show'); 
+}
+
+function DeleteAccount()
+{
+	$.ajax({
+		url: "{{URL::route('accountdel')}}",
+		type: $('#DelDataPersonalForm').attr('method'),
+		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+		data: {id: $('#ide').text()},
+		beforeSend: function(){
+	    			
+                    $('#cargardel').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+                },
+        error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            alert('Internal Server Error [500].');
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+	})
+	.done(function(data) {
+		console.log("success");
+		$('#cargardel').html('<label></label>');
+		// console.log("success");
+		if(data.success=='true'){
+
+					// alert(data.msg);
+					$('#uniqdel').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+					
+				}
+		if(data.success=='falserollb'){
+
+					alert('Internal Server Error [500].');
+				}
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+
 }
 
 </script>

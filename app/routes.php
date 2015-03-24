@@ -88,7 +88,8 @@ Route::get('/facebook/administrar',array('as' => 'AdmFb', 'uses' => 'FacebookCon
 Route::post('/facebook/accounts',array('as' => 'listaccount', 'uses' => 'FacebookController@ListAccount'))->before("auth_user");
 //actualizar token
 Route::post('/facebook/gettoken',array('as' => 'gettoken', 'uses' => 'FacebookController@GetToken'))->before("auth_user");
-
+//eliminar cuenta
+Route::post('/facebook/account/delete',array('as' => 'accountdel', 'uses' => 'FacebookController@destroy'))->before("auth_user");
 
 
 //rutear a errores

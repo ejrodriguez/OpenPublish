@@ -38,8 +38,6 @@ class FacebookController extends \BaseController {
 			}
 			else
 			{
-				//echo $user_fb->getProperty('name');
-				//var_dump($user_fb);
 				$account = Account::where('id_account','=',$user_fb->getProperty('id'))->get();
 				
 				if(count($account)==0)
@@ -52,13 +50,8 @@ class FacebookController extends \BaseController {
 					$account->save();
 				}
 				return Redirect::to('welcome');	
-				//var_dump($account);
-			
-				//$user = $user->id;
-				// var_dump($account);
 			}
 		}	
-				//return Redirect::to('/')->with('message',"Error token");
 			
 	} 
 
@@ -94,7 +87,7 @@ class FacebookController extends \BaseController {
 				else
 				{
 					return Response::json(array(
-			                    'success'         =>     'error',
+			                    'success'         =>     'false',
 			                    'msg'         =>     'ID de cuentas no obtenidas'
 			                    ));
 				}
@@ -188,6 +181,7 @@ class FacebookController extends \BaseController {
 							 <button onclick="Share('.$contador.')" type="button" class="btn btn-default" aria-label="Left Align">
                				 <span class="fa fa-share-square " aria-hidden="true">Publicar</span>
 						</div>
+						<div id="resultshare'.$contador.'">'.$contador.'</div>
 						</div>
 						</div>';
 					}			
@@ -204,21 +198,28 @@ class FacebookController extends \BaseController {
 		return View::make('pages.admfacebook');
 	}
 
-//listar cuentas
-
+//listar cuentas para la administración
 	public function ListAccount(){
 		$Accounts = Account::all();
 
-		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Id</th><th>Id Facebook</th><th>Nombre</th><th>Actualización</th><th>Actualizar</th></tr></thead><tbody>';
+		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Id</th><th>Id Facebook</th><th>Nombre</th><th>Actualización</th><th>Actualizar</th><th>Eliminar</th></tr></thead><tbody>';
 				foreach ($Accounts as $account) {
 					$token = "'".$account->access_token_fb."'";
+					$name = "'".$account->name."'";
+					$create = "'".$account->created_at."'";
+					$update = "'".$account->updated_at."'";
 					$encontrados=$encontrados.'<tr><td id="id">'.$account->id.'</td><td id="id_account">'.$account->id_account.'</td><td id="id_name">'.$account->name.'</td><td id="id_fecha">'.$account->updated_at.'</td>
 					<td>
 					<button id="'.$account->id.'" onclick="Actualizar('.$account->id.','.$token.')" type="button" class="btn btn-default" aria-label="Left Align">
 	                <span class="fa  fa-download " aria-hidden="true">Obtener</span>
-	                </td></tr>';
+	                </td>
+					<td>
+					<span onclick="ShowDelet('.$account->id.','.$account->id_account.','.$name.','.$token.','.$update.','.$create.')" class="dtr-data"><a id="callmodaldel" data-toggle="modal" href="#modaldatadel" class="btn btn-danger btn-large">
+					<span class="fa fa-trash-o" aria-hidden="true"></span> Eliminar</a></span>
+					</td>
+	                </tr>';
 				}
-		$encontrados=$encontrados.'</tbody><tfoot><tr><th>Id</th><th>Id Facebook</th><th>Nombre</th><th>Actualización</th><th>Actualizar</th></tr></tfoot></table>
+		$encontrados=$encontrados.'</tbody><tfoot><tr><th>Id</th><th>Id Facebook</th><th>Nombre</th><th>Actualización</th><th>Actualizar</th><th>Eliminar</th></tr></tfoot></table>
 									<br>
 								   	<fieldset>
 								   	<h4 id="result"></h4>
@@ -267,4 +268,32 @@ class FacebookController extends \BaseController {
 						
 			}
 		}
+
+	public function destroy()
+	{
+		if (Request::ajax())
+		{
+			DB::beginTransaction();
+			try {
+
+				$UserDel = Account::find(Input::get('id'));
+				$UserDel->delete();
+			} 
+				catch (Exception $e) {
+				DB::rollback();
+				return Response::json(array(
+			                    'success'         =>     'falserollb',
+			                    'list'         =>      $e->getErrors()
+			                    ));
+			}
+
+			DB::commit();
+
+			return Response::json(array(
+                    'success'         =>     'true',
+                    'msg'         =>     'Se ha eliminado correctamente'
+                    ));
+		}
+	}
+
 	}

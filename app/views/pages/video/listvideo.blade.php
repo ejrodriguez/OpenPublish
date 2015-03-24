@@ -82,7 +82,6 @@
 
 				</form>
 	     </div>
-	     <div id="resultshare"></div>
 	     <div class="modal-footer">
 	        <button onclick="closemodal()" type="button" class="btn btn-default" aria-label="Left Align">
                 <span class="fa fa-times txt-danger" aria-hidden="true">Cerrar</span>
@@ -187,7 +186,6 @@ function showModal(seoname,seocategoria,title,image,descripcion)
 	$('#titlevideo').text(title);
 	document.getElementById("mensaje").value = "";
 	document.getElementById("descripcion").value=descripcion;
-	document.getElementById('resultshare').innerHTML='';
 	document.getElementById("linkvideo").value = link;
 	document.getElementById("imgvideo").src = image;
 	$('#modalshareprofile').modal('show');
@@ -232,7 +230,7 @@ function Share(identificador)
 		data: {link:link,mensaje:mensaje,descripcion:descripcion,ids:ids,idcuenta:idcuenta},
 		beforeSend: function(){
 	    			
-                    $('#resultshare').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+                    $('#resultshare'+identificador).html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
                 },
         error: function(jqXHR, exception) {
 		        if (jqXHR.status === 0) {
@@ -253,23 +251,17 @@ function Share(identificador)
 		    },
 	})
 	.done(function(data) {
-		$('#resultshare').html('<label></label>');
+		$('#resultshare'+identificador).html('<label></label>');
 		// console.log("success");
 		if(data.success=='true'){
 
 					// alert(data.msg);
-					$('#resultshare').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+					$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
 				}
-		if(data.success=='falseval'){
+		if(data.success=='false'){
 
 					// alert(data.msg);
-					$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-					
-				}
-	 	if(data.success=='falsecla'){
-
-					// alert(data.msg);
-					$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
 				}
 		if(data.success=='falserollb'){
 

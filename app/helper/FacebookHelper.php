@@ -35,10 +35,10 @@ class FacebookHelper
 		
 		} catch(FacebookRequestException $ex) {
 		  // When Facebook returns an error
-			return $ex->getMessage();
+			echo $ex->getMessage();
 		} catch(\Exception $ex) {			
 		  // When validation fails or other local issues
-			return $ex->getMessage();
+			echo $ex->getMessage();
 		}
 		
 		return $this->session;
@@ -50,13 +50,6 @@ class FacebookHelper
 		$session = new FacebookSession($token);
 		return $session;
 	}
-
-	//obtener token normal. 
-	//public function getToken()
-	//{
-	//	$session = Session::get('session');
-	//	return $session->getToken(); 
-	//}
 
 	//hacer cambio de token de corta duración a larga duración.
 	public function getTokenLong($session)
@@ -87,12 +80,13 @@ class FacebookHelper
 		try {
 			$this->request = new FacebookRequest($this->session, 'GET', '/me');
 			$response = $this->request->execute();
-		return  $response->getGraphObject();
+		
+			return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		} catch (\Exception $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		}
 	}
 
@@ -104,9 +98,9 @@ public function getGraphGroups($session)
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		} catch (\Exception $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		}
 	}
 
@@ -118,9 +112,9 @@ public function getGraphEvents($session)
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		} catch (\Exception $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		}
 	}
 
@@ -133,9 +127,9 @@ public function getGraphPages($session)
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		} catch (\Exception $ex) {
-  			return $ex->getMessage();
+  			echo $ex->getMessage();
 		}
 	}
 
