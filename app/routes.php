@@ -63,7 +63,9 @@ Route::post('/video/youtube/masvistos',array('as' => 'videosmasvistos', 'uses' =
 Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' => 'VideoController@searchVideos'))->before("auth_user");
 
 
+Route::post('/categorias/alavista',array('as' => 'categoryalavista', 'uses' => 'VideoController@CategoryAlavista'))->before("auth_user");
 
+Route::post('/categorias/alavista/guardar',array('as' => 'savealavista', 'uses' => 'VideoController@SaveAlavista'))->before("auth_user");
 //ejemplo con base joomla
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 
@@ -78,26 +80,17 @@ Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'Vi
 Route::get('/redsocial',array('as' => 'sharefb', 'uses' => 'VideoController@LoadVideo'))->before("auth_user");
 //cargar cuentas
 Route::get('/facebook/account',array('as' => 'accounts', 'uses' => 'FacebookController@Listaccounts'))->before("auth_user");
-
 //Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
+Route::post('/facebook/share',array('as' => 'share', 'uses' => 'FacebookController@share'))->before("auth_user");
+//listar cuentas de facebok,crear vista
+Route::get('/facebook/administrar',array('as' => 'AdmFb', 'uses' => 'FacebookController@AdmFacebook'))->before("auth_user");
+//listar cuentas para administrar
+Route::post('/facebook/accounts',array('as' => 'listaccount', 'uses' => 'FacebookController@ListAccount'))->before("auth_user");
+//actualizar token
+Route::post('/facebook/gettoken',array('as' => 'gettoken', 'uses' => 'FacebookController@GetToken'))->before("auth_user");
 
-Route::post('/categorias/alavista',array('as' => 'categoryalavista', 'uses' => 'VideoController@CategoryAlavista'))->before("auth_user");
 
-Route::post('/categorias/alavista/guardar',array('as' => 'savealavista', 'uses' => 'VideoController@SaveAlavista'))->before("auth_user");
 
-Route::post('facebook/share/profile',array('as' => 'shareprofile', 'uses' => 'FacebookController@shareProfile'))->before("auth_user");
-
-Route::post('/facebook/groups',array('as' => 'listgroups', 'uses' => 'FacebookController@listgroups'))->before("auth_user");
-
-Route::post('facebook/share/groups',array('as' => 'sharegroups', 'uses' => 'FacebookController@shareGroups'))->before("auth_user");
-
-Route::post('/facebook/pages',array('as' => 'listpages', 'uses' => 'FacebookController@listpages'))->before("auth_user");
-
-Route::post('facebook/share/pages',array('as' => 'sharepages', 'uses' => 'FacebookController@sharePages'))->before("auth_user");
-
-Route::post('/facebook/events',array('as' => 'listevents', 'uses' => 'FacebookController@listevents'))->before("auth_user");
-
-Route::post('facebook/share/events',array('as' => 'shareevents', 'uses' => 'FacebookController@shareEvents'))->before("auth_user");
 //rutear a errores
 App::missing(function($exception)
 {

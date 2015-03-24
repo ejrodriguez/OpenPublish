@@ -133,6 +133,27 @@
 
 	    })
 	});
+//listar cuentas facebook 
+$(document).on('click', '#AdmFb',function (e) {
+	e.preventDefault();
+	
+	$.ajax({
+	    	
+	    	url: "{{URL::route('AdmFb')}}",
+	    	type: 'GET',
+	    	beforeSend: function(){
+	    			
+                    $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
+                },
+	    })
+	    .done(function() {
+	    	$("#jscontent").load('{{URL::route('AdmFb')}}');
+
+	    })
+	    .fail(function() {
+
+	    })
+	});
 
 	
 if (window.location.hash == '#_=_')
@@ -143,6 +164,7 @@ if (window.location.hash == '#_=_')
 		history.replaceState(null, null, cleanHref); } else { // Well, you're on an old browser, we can get rid of the _=_ but not the #.
 		window.location.hash = ''; 
 	} 
+	alert("Acción efectuada, observe las cuentas registradas para observar los cambios");
 }
 		
   </script>

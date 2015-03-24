@@ -84,66 +84,8 @@
 	     </div>
 	     <div id="resultshare"></div>
 	     <div class="modal-footer">
-	        <button onclick="ShareProfile()" type="button" class="btn btn-default" aria-label="Left Align">
-                <span class="fa fa-facebook-square txt-primary" aria-hidden="true">Publicar</span>
-	     </div>
-		</div>
-
-	</div>
-	</div>
-<!--FIN-->
-
-<!--modal share groups -->
-	<div id="modalsharegroups" class="modal fade">
-	<div class="modal-dialog">   
-	  <div class="modal-content"> 
-	     <div class="modal-header alert alert-info">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-	        ×
-	        </button>
-	        <h4>Publicar en Facebook</h4>
-	     </div>
-	     <div class="modal-body">
-
-	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
-	        		<fieldset>
-	        			<div class="form-group">
-	        			<!--<label id="linkvideo"  style="display:none" ></label> -->
-	        			<input type="text" id="linkvideo_g" name="linkvideo" style="display:none" />
-						<img class="col-sm-3 " src="" id="imgvideo_g" width="600px"  />
-						<div class="col-sm-8">	
-						<h4 id="titlevideo_g" class="control-label"></h4>
-						</div>
-						</div>
-						<div class="form-group" >
-						<label class="col-sm-3 control-label">Mensaje</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" name="mensaje" id="mensaje_g"/>
-						</div>
-						</div>
-						<div class="form-group" >
-						<label class="col-sm-3 control-label">Descripción</label>
-						<div class="col-sm-8">
-							<textarea class="form-control" name="descripcion" id="descripcion_g" height="100px"></textarea>
-						</div>
-						</div>
-					</fieldset>
-					<fieldset>
-					<legend>Grupos</legend>
-					<div class="form-group">
-						<div class="col-sm-11">
-							<select id="groups" name="modal_menu" multiple="multiple" class="populate placeholder" >
-							</select>
-						</div>
-					</div>
-					</fieldset>
-
-				</form>
-	     </div>
-	     <div id="resultshare_g"></div>
-	     <div class="modal-footer">
-	        <button onclick="ShareGroups()" type="button" class="btn btn-default" aria-label="Left Align">
-                <span class="fa fa-facebook-square txt-primary" aria-hidden="true">Publicar</span>
+	        <button onclick="closemodal()" type="button" class="btn btn-default" aria-label="Left Align">
+                <span class="fa fa-times txt-danger" aria-hidden="true">Cerrar</span>
 	     </div>
 		</div>
 
@@ -194,29 +136,36 @@ $.ajax({
 		console.log("error");
 
 	});
-});
-//funcion para publicar perfil
-function showModalProfile(seoname,seocategoria,title,image)
-{
-
-	link = 'http://localhost/joomla/index.php/player/'+seocategoria+'/'+seoname;
-	$('#titlevideo').text(title);
-	document.getElementById("mensaje").value = "";
-	document.getElementById("descripcion").value="";
-	document.getElementById('resultshare').innerHTML='';
-	document.getElementById("linkvideo").value = link;
-	document.getElementById("imgvideo").src = image;
-
 	//--------------cargar cuentas Facebook
 		$.ajax({
 	    	
 	    	url: "{{URL::route('accounts')}}",
 	    	type: 'GET',
+		    beforeSend: function(){
+	                    $('#cuentas').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+
 	    })
 	    .done(function(data) {
-	    	if(data.success==true){
-			$('#cuentas').html(data.list);
-		}
+	    	if(data.success== true)
+	    	{
+				$('#cuentas').html(data.list);
+				<?php $accounts = Account::get()->count();
+				echo 'cuentas ='.$accounts.';';?>
+				function SelectCat()
+				{
+					for (var i = 1; i <= cuentas; i++) 
+					{
+						$('#groups'+i).select2();
+						$('#groups'+i).select2({placeholder: "Seleccione sus grupos"});
+						$('#pages'+i).select2();
+						$('#pages'+i).select2({placeholder: "Seleccione sus páginas"});
+						$('#events'+i).select2();
+						$('#events'+i).select2({placeholder: "Seleccione sus eventos"});
+					};
+				}			
+				LoadSelect2Script(SelectCat);
+			}
 		else
 			{
 				alert(data.list);
@@ -224,72 +173,63 @@ function showModalProfile(seoname,seocategoria,title,image)
 		})
 		.fail(function() {
 		console.log("error");
+		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
+		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Facebook, Seleccione nuevamente la opcion del menu Redes Sociales, Facebook para obtener las cuentas de facebook.</p>');
 	    })
 	///////////////////////////
+
+});	
+//funcion para publicar perfil
+function showModal(seoname,seocategoria,title,image,descripcion)
+{
+	
+	link = 'http://localhost/joomla/index.php/player/'+seocategoria+'/'+seoname;
+	$('#titlevideo').text(title);
+	document.getElementById("mensaje").value = "";
+	document.getElementById("descripcion").value=descripcion;
+	document.getElementById('resultshare').innerHTML='';
+	document.getElementById("linkvideo").value = link;
+	document.getElementById("imgvideo").src = image;
 	$('#modalshareprofile').modal('show');
 }
 
-function DemoSelect2(){
-	//$('#sestado').select2();
-	$('#srol').select2();
-	$("#groups").empty();
-	$("#pages").empty();
-	$("#events").empty();
-	$('#groups').select2({placeholder: "Seleccione los grupos"});
-	$('#pages').select2({placeholder: "Seleccione  las paginas"});
-	$('#events').select2({placeholder: "Seleccione  los eventos"});
+function closemodal(){
+	$('#modalshareprofile').modal('hide');
 }
-//funcion para publicar en grupo
-function showModalGroup(seoname,seocategoria,title,image)
-{
-	LoadSelect2Script(DemoSelect2);
-
-	link = 'http://localhost/joomla/index.php/player/'+seocategoria+'/'+seoname;
-	$('#titlevideo_g').text(title);
-	document.getElementById("mensaje_g").value = "";
-	document.getElementById("descripcion_g").value=""; 
-	document.getElementById('groups').innerHTML = ''; 
-	document.getElementById('resultshare_g').innerHTML='';
-	document.getElementById("linkvideo_g").value = link;
-	document.getElementById("imgvideo_g").src = image;
-	
-	$.ajax({
-				url: "{{URL::route('listgroups')}}",
-				type: 'POST',
-				data: {vaue:true},
-			})
-			.done(function(data) {
-				console.log(data.list);
-				if(data.success==true){
-					$.each(data.list ,function(id)
-												   {
-												   	$("#groups").append('<option value='+data.list[id].id+'><b>'+data.list[id].name+'</option>');
-												   		// console.log(data.list[id].StatusId+' '+data.list[id].StatusDescrip+': '+data.list[id].StatusComent);									   		
-												   });
-				}
-				else
-				{
-					alert(data.list);
-				}
-			})
-			.fail(function() {
-				console.log("error");
-			}); 
-	$('#modalsharegroups').modal('show');
-}
-
-
-//funcion para compartir en el perfil
-function ShareProfile()
+//funcion para compartir
+function Share(identificador)
 {
 	link = document.getElementById("linkvideo").value;
 	mensaje = document.getElementById("mensaje").value;
 	descripcion = document.getElementById("descripcion").value; 
+	cuenta = document.getElementById(identificador).value;  
+	idcuenta = document.getElementById('idcuenta'+identificador).value;  
+	grupos = $('#groups'+identificador).val();
+	paginas = $('#pages'+identificador).val();
+	eventos = $('#events'+identificador).val();
+	//lista de id de las cuentas donde se publicara. 
+	var ids = [cuenta];
+	if (grupos != null){
+		for (var i = 0; i <  grupos.length ; i++) {
+		 	ids.push(grupos[i]);
+		 };
+	}
+
+	if (paginas != null){
+		for (var i = 0; i <  paginas.length ; i++) {
+		 	ids.push(paginas[i]);
+		 };
+	}
 	
+	if (eventos != null){
+		for (var i = 0; i <  eventos.length ; i++) {
+		 	ids.push(eventos[i]);
+		 };
+	}
 	$.ajax({
-		url: "{{URL::route('shareprofile')}}",
+		url: "{{URL::route('share')}}",
 		type: 'POST',
-		data: {link:link,mensaje:mensaje,descripcion:descripcion},
+		data: {link:link,mensaje:mensaje,descripcion:descripcion,ids:ids,idcuenta:idcuenta},
 		beforeSend: function(){
 	    			
                     $('#resultshare').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
@@ -330,72 +270,6 @@ function ShareProfile()
 
 					// alert(data.msg);
 					$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-				}
-		if(data.success=='falserollb'){
-
-					alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	}); 
-}
-
-//funcion para compartir en el perfil
-function ShareGroups()
-{
-	link = document.getElementById("linkvideo_g").value;
-	mensaje = document.getElementById("mensaje_g").value;
-	descripcion = document.getElementById("descripcion_g").value; 
-	groups =  $("#groups").val();
-	
-	$.ajax({
-		url: "{{URL::route('sharegroups')}}",
-		type: 'POST',
-		data: {link:link,mensaje:mensaje,descripcion:descripcion,groups:groups},
-		beforeSend: function(){
-	    			
-                    $('#resultshare_g').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		$('#resultshare_g').html('<label></label>');
-		// console.log("success");
-		if(data.success=='true'){
-
-					// alert(data.msg);
-					$('#resultshare_g').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
-				}
-		if(data.success=='falseval'){
-
-					// alert(data.msg);
-					$('#resultshare_g').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-					
-				}
-	 	if(data.success=='falsecla'){
-
-					// alert(data.msg);
-					$('#resultshare_g').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
 				}
 		if(data.success=='falserollb'){
 

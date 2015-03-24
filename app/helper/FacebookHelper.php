@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
@@ -36,25 +35,52 @@ class FacebookHelper
 		
 		} catch(FacebookRequestException $ex) {
 		  // When Facebook returns an error
-			echo $ex->getMessage();
+			return $ex->getMessage();
 		} catch(\Exception $ex) {			
 		  // When validation fails or other local issues
-			echo $ex->getMessage();
+			return $ex->getMessage();
 		}
 		
 		return $this->session;
 	}
 
+	//generar session desde token.
 	public function generateSessionFromToken($token)
 	{
-		$this->session = new FacebookSession($token);
-		return $this->session;
+		$session = new FacebookSession($token);
+		return $session;
 	}
 
-	public function getToken()
+	//obtener token normal. 
+	//public function getToken()
+	//{
+	//	$session = Session::get('session');
+	//	return $session->getToken(); 
+	//}
+
+	//hacer cambio de token de corta duración a larga duración.
+	public function getTokenLong($session)
 	{
-		return $this->session->getToken(); 
+		if($session) {
+  		try {
+    			$access_token_response = (new FacebookRequest(
+      			$session, 'GET', '/oauth/access_token', array(
+		        'grant_type' => 'fb_exchange_token',
+		        'client_id' => Config::get('facebook.app_id'),
+		        'client_secret'=> Config::get('facebook.app_secret'),
+		        'fb_exchange_token'=> $session->getToken())
+    			))->execute()->getGraphObject();
+
+    			return $access_token_response->getProperty('access_token');
+
+  			}   catch(FacebookRequestException $e) {
+   		 		return  "Exception occured, code: " . $e->getCode();
+  			}   
+		}
+		else
+			return "no a iniciado sesion";
 	}
+
 
 	public function getGraph()
 	{
@@ -64,90 +90,62 @@ class FacebookHelper
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		} catch (\Exception $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		}
 	}
 
-public function getGraphGroups()
+public function getGraphGroups($session)
 	{
-		$session = Session::get('session');
 		try {
 			$request = new FacebookRequest($session, 'GET','/me/groups');
 			$response = $request->execute();
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		} catch (\Exception $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		}
 	}
 
-public function getGraphEvents()
+public function getGraphEvents($session)
 	{
-		$session = Session::get('session');
 		try {
 			$this->request = new FacebookRequest($session, 'GET','/me/events');
 			$response = $this->request->execute();
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		} catch (\Exception $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		}
 	}
 
 
-public function getGraphPages()
+public function getGraphPages($session)
 	{
-		$session = Session::get('session');
 		try {
 			$this->request = new FacebookRequest($session, 'GET','/me/accounts');
 			$response = $this->request->execute();
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		} catch (\Exception $ex) {
-  			echo $ex->getMessage();
+  			return $ex->getMessage();
 		}
 	}
 
-	public function postProfile($link,$message,$description)
+	//pubilicar en facebook. 
+	public function postaccount($id,$link,$message,$description,$session)
 	{
-		$session = Session::get('session');
 		if($session) {
   		try {
     			$response = (new FacebookRequest(
-      			$session, 'POST', '/me/feed', array(
-		        'link' => $link,
-		        'message' => $message,
-		        'description'=> $description)
-    			))->execute()->getGraphObject();
-
-    			return   "Posted with id: " . $response->getProperty('id');
-
-  			}   catch(FacebookRequestException $e) {
-   		 		return  "Exception occured, code: " . $e->getCode();
-  			}   
-		}
-		else
-			{
-				Session::forget('session');
-				return "no a iniciado sesion";
-			}
-	}
-
-	public function postGroups($group_id, $link,$message,$description)
-	{
-		$session = Session::get('session');
-		if($session) {
-  		try {
-    			$response = (new FacebookRequest(
-      			$session, 'POST', '/'.$group_id.'/feed', array(
+      			$session, 'POST', '/'.$id.'/feed', array(
 		        'link' => $link,
 		        'message' => $message,
 		        'description'=> $description)
@@ -160,61 +158,8 @@ public function getGraphPages()
   			}   
 		}
 		else
-		{
-			Session::forget('session');
-			return  "no a iniciado sesion";
-		}
+			return "no a iniciado sesion";
 	}
-
-	public function postPages($page_id, $link,$message,$description)
-		{
-			$session = Session::get('session');
-			if($session) {
-	  		try {
-	    			$response = (new FacebookRequest(
-	      			$session, 'POST', '/'.$page_id.'/feed', array(
-			        'link' => $link,
-			        'message' => $message,
-			        'description'=> $description)
-	    			))->execute()->getGraphObject();
- 	
-	    			return  "Posted with id: " . $response->getProperty('id');
-
-	  			}   catch(FacebookRequestException $e) {
-	   		 		return  "Exception occured, code: " . $e->getCode();
-	  			}   
-			}
-			else
-			{
-				Session::forget('session');
-				return  "no a iniciado sesion";
-			}
-		}
-
-	public function postEvents($event_id, $link,$message,$description)
-			{
-				$session = Session::get('session');
-				if($session) {
-		  		try {
-		    			$response = (new FacebookRequest(
-		      			$session, 'POST', '/'.$event_id.'/feed', array(
-				        'link' => $link,
-				        'message' => $message,
-				        'description'=> $description)
-		    			))->execute()->getGraphObject();
-	 	
-		    			return  "Posted with id: " . $response->getProperty('id');
-
-		  			}   catch(FacebookRequestException $e) {
-		   		 		return  "Exception occured, code: " . $e->getCode();
-		  			}   
-				}
-				else
-				{
-					Session::forget('session');
-					return  "no a iniciado sesion";
-				}
-			}
 
 }
 ?>
