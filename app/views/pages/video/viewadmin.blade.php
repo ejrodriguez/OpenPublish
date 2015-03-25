@@ -3,11 +3,12 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/tables/dataTables.responsive.css">
 <link rel="stylesheet" type="text/css" href="css/tables/jquery.dataTables.css">
-
+<link rel="stylesheet" type="text/css" href="css/bootstrap-switch.css">
 <!-- <script type="text/javascript" language="javascript" src="plugins/bootstrapvalidator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" language="javascript" src="plugins/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js"></script> -->
 <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>
 <script type="text/javascript" language="javascript" src="js/jsfunctions/dataTables.responsive.js"></script>
+<script type="text/javascript" language="javascript" src="js/jsfunctions/bootstrap-switch.js"></script>
 </head>
 <body>
 <br>
@@ -49,7 +50,7 @@
 								  YouTube
 								</div>
 								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-									<div  class="panel panel-default">
+									<!-- <div  class="panel panel-default">
 										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
 										    <div  class="panel-heading" role="tab" id="headingOne">
 										      <h4 class="panel-title">
@@ -61,7 +62,7 @@
 										</a>
 									    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 									      <div class="panel-body">
-									        <!-- <label id="info_criterio" class="col-sm-12 text-center"><span  class="label label-info "><i class="fa fa-info-circle" ></i> Obtener datos de un video mediante su Id </span></label> -->
+									        
 											<form id="DelDataPersonalForm" method="POST"  action="" class="form-horizontal">
 								        		<fieldset>
 								        		<div class="form-group" >
@@ -99,13 +100,12 @@
 
 									      </div>
 									    </div>
-									</div>
+									</div> -->
 									<div class="panel panel-default">
 										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 									    <div class="panel-heading" role="tab" id="headingTwo">
 									      <h4 class="panel-title">
 									        	Videos Populares en un pais 	<a tabindex="0" data-toggle="popover" data-trigger="focus" id="info2" class="" ><i class="fa fa-info-circle" ></i></a>
-									        	
 									      </h4>
 									    </div>
 									    </a>
@@ -454,7 +454,7 @@
 	</div>
 </div>
 
-<!-- <a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a> -->
+<!-- <a id="hora"  class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Muestra</a> -->
 <div class="col-xs-12 col-sm-12">
 		<div class="box">
 			<div class="box-header">
@@ -485,7 +485,28 @@
 
 		</div>
 	</div>
-	<center><button id="enviaralavista" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button></center>
+	<div id="mostrar" class="form-group" >
+							
+							<label class="col-sm-2 control-label" id="catall">Seleccionar: </label>
+							<div class="col-sm-2">
+								<input type="checkbox" data-label-text="Todos" id="checkall" name="checkall" data-on-color="success" data-off-color="warning" data-size="small" data-on-text="Si" data-off-text="No">
+								
+							</div>
+							<!-- <div class="col-sm-2 label-toggle-switch make-switch">
+						        <input type="checkbox"  checked />
+						    </div> -->
+			        		<label class="col-sm-2 control-label" id="catall">Categoria Todos: </label>
+						  	<div class="col-sm-4">
+								<select class="populate placeholder"  name="categoryall" id="categoryall">
+									<option value="">-- Seleccione una Categoria --</option>
+
+								</select>
+							</div>
+							<button id="enviaralavista" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button>
+							
+							
+	</div>
+	<!-- <center><button id="enviaralavista" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button></center> -->
 	<!--edit -->
 
 	<div id="modaldataedit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="largeModal">
@@ -515,16 +536,17 @@
 						</div>
 						<div class="form-group" >
 			        		<label class="col-sm-2 control-label" >Categoria: </label>
-						  	
-							<div class="col-sm-8">
+						  	<div class="col-sm-8">
 								<select class="populate placeholder"  name="categoriaalavista" id="categoriaalavista">
-									<option value="">-- Seleccione una Categoria --</option>
+									<option value="21">-- Seleccione una Categoria --</option>
 
 								</select>
 							</div>
 							
+							
 						</div>
 						<div class="form-group" >
+
 							<label class="col-sm-2 control-label" >Id Video: </label>
 							<label id="idalavista" class="col-sm-2 control-label" > </label>
 							
@@ -609,13 +631,6 @@ function getCat(){
 				 	$("#categoriaalavista").append('<option value='+data.list[id].iden+'><b>'+data.list[id].desc+'</b></option>');
 				 });
 
-				 function SelectCat(){
-
-						$('#categoriaalavista').select2();
-					};
-
-					LoadSelect2Script(SelectCat);
-
 			}
 			
 
@@ -629,7 +644,32 @@ function getCat(){
 };
 
 
+function AllCat(){
+	
 
+	$.ajax({
+		url: "{{URL::route('categoryalavista')}}",
+		type: 'POST',
+		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+		// data: {param1: 'value1'},
+		})
+		.done(function(data) {
+			console.log("success");
+			if(data.success){
+				 $.each(data.list, function(id) {
+				 	$("#categoryall").append('<option value='+data.list[id].iden+'><b>'+data.list[id].desc+'</b></option>');
+				 });
+
+			}
+			
+		})
+		.fail(function(data) {
+			console.log("error");
+		})
+		.always(function(data) {
+			console.log("complete");
+		});
+};
 
 
 
@@ -645,21 +685,32 @@ $('#enviaralavista').click(function(event) {
 			
 			});
 
-	$("input:checkbox:checked").each(   
-	    function() {
-	    	var a=$(this).val();
-	        // alert("El checkbox con valor " + a + " está seleccionado");
-	        $.each(datas.items, function(n) {
-				 /* iterate through array or object */
-				 if(datas.items[n].ide ==a){
-				 	// datas.items.push(item);
-				 	datas.items[n].sel=true;
-				 }
-				 
-				 // console.log(datas.items[n].ide+' '+datas.items[n].sel);
-			});
-	    }
-	);
+
+		var table = $('#datatable-1').DataTable();
+		var info = table.page.info();
+		var a =info.page;
+
+	  	var oTable = $('#datatable-1').dataTable();
+	  	oTable.fnPageChange( 0);
+	  	for (var i = 0; i <= info.pages; i++) {
+	  		$("input:checkbox:checked").each(function() {
+	  				var b=$(this).val();
+	  				$.each(datas.items, function(n) {
+	  					if(datas.items[n].ide ==b)
+				    	{
+						 	// datas.items.push(item);
+						 	datas.items[n].sel=true;
+						}
+	  				});  	
+			    });
+			oTable.fnPageChange( i );
+
+
+	  	}
+	  	oTable.fnPageChange( a );
+
+
+
 
 
 	console.log(datas);
@@ -771,20 +822,20 @@ function validarFechaMenorMayor(datetime1,datetime2){
         return true;
 }
 
-$('#hora').click(function(e) {
-	e.preventDefault();
-	/* Act on the event */
-	var res = validarFechaMenorMayor($('#datetime_antesq').val(),$('#datetime_despuesq').val());
-	alert(res);
-});
+// $('#hora').click(function(e) {
+// 	e.preventDefault();
+// 	$("#mostrar").show();
+// 	/* Act on the event */
+	
+// });
 
 
 $(document).ready(function() {
 
+	AllCat();
+
+	$("#mostrar").hide();
 	
-
-
-
 	getCat();
 
 	//area de texto
@@ -905,9 +956,10 @@ function DemoSelect2(){
 	$('#synq').select2();
 	$('#tipoq').select2();
 	$('#orderq').select2();
-	// $('#categoriaalavista').select2();
+	$('#categoriaalavista').select2();
 	$('#nivelalavista').select2();
 	$('#estadoalavista').select2();
+	$('#categoryall').select2();
 };
 
 $("#accordion .panel-heading").mouseover(function(e) {
@@ -1068,15 +1120,33 @@ $("#buscar2").click(function(e) {
 				// $('#cargardel').html('<label></label>');
 				// console.log("success");
 				if(data.success=='true'){
+							$("#mostrar").show();
+							$("#enviaralavista").show();
+
+
 							$('#uniq').html('<label></label>');
 							// alert(data.msg);
 							$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
 							$('#listresult').html(data.resultobt);
 							$('#datatable-1').DataTable({
-								// "bPaginate": false
+								
+								"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
 								"language": {
-								"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
-								}
+												"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+												"paginate": {
+				 						       				 	"next": "Siguiente",
+				 						       				 	"previous": "Anterior",
+
+				          									},
+				          						"search": "Buscar:",
+				          						"infoEmpty": "No hay registros que mostrar",
+				          						"infoFiltered": " - filtrados en _MAX_ registros en total",
+				          						"emptyTable": "No hay registros en la tabla",
+				          						"lengthMenu": "Ver _MENU_ registros",
+				          						"loadingRecords": "Espere un momento - cargando...",
+				          						"zeroRecords": "No hay registros coincidentes encontrados",
+											},
+								
 								});
 											
 								
@@ -1100,11 +1170,11 @@ $("#buscar2").click(function(e) {
 										for (var i = 0 ; i < di; i++) {
 											var aData = oTable.fnGetData( i );
 											// console.log('vale'+aData);
-											getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+											getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
 										};
 
 									}
-									// console.log(datas);
+									console.log(datas);
 								    // tabla obj
 								$('#datatable-1 tbody td').click( function () {
 
@@ -1198,16 +1268,34 @@ $("#buscar3").click(function(e) {
 			// $('#cargardel').html('<label></label>');
 			// console.log("success");
 			if(data.success==true){
+						$("#enviaralavista").show();
+						$("#mostrar").show();
+
 						// alert(data.msg);
 						$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
 						// $('#listresult').html(data.resultobt);
 						$('#listresult').html(data.list);
 						$('#datatable-1').DataTable({
-							// "bPaginate": false
+							
+							"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
 							"language": {
-							"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
-							}
+											"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+											"paginate": {
+			 						       				 	"next": "Siguiente",
+			 						       				 	"previous": "Anterior",
+
+			          									},
+			          						"search": "Buscar:",
+			          						"infoEmpty": "No hay registros que mostrar",
+			          						"infoFiltered": " - filtrados en _MAX_ registros en total",
+			          						"emptyTable": "No hay registros en la tabla",
+			          						"lengthMenu": "Ver _MENU_ registros",
+			          						"loadingRecords": "Espere un momento - cargando...",
+			          						"zeroRecords": "No hay registros coincidentes encontrados",
+										},
+							
 							});
+
 							//cambiar de color al pasar el puntero
 							$("#datatable-1 tr").mouseenter(function(){
 							        $(this).css('background-color','#369');
@@ -1229,7 +1317,7 @@ $("#buscar3").click(function(e) {
 							for (var i = 0 ; i < di; i++) {
 								var aData = oTable.fnGetData( i );
 								// console.log('vale'+aData);
-								getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+								getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
 							};
 
 						}
@@ -1328,16 +1416,33 @@ $("#buscar4").click(function(e) {
 								// $('#cargardel').html('<label></label>');
 								// console.log("success");
 								if(data.success==true){
+											$("#mostrar").show();
+											$("#enviaralavista").show();
+
 											// alert(data.msg);
 											$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
 											// $('#listresult').html(data.resultobt);
 											$('#listresult').html(data.list);
 											$('#datatable-1').DataTable({
-												// "bPaginate": false
-												"language": {
-												"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
-												}
-												});
+								
+													"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+													"language": {
+																	"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+																	"paginate": {
+									 						       				 	"next": "Siguiente",
+									 						       				 	"previous": "Anterior",
+
+									          									},
+									          						"search": "Buscar:",
+									          						"infoEmpty": "No hay registros que mostrar",
+									          						"infoFiltered": " - filtrados en _MAX_ registros en total",
+									          						"emptyTable": "No hay registros en la tabla",
+									          						"lengthMenu": "Ver _MENU_ registros",
+									          						"loadingRecords": "Espere un momento - cargando...",
+									          						"zeroRecords": "No hay registros coincidentes encontrados",
+																},
+													
+													});
 												//cambiar de color al pasar el puntero
 												$("#datatable-1 tr").mouseenter(function(){
 												        $(this).css('background-color','#369');
@@ -1357,7 +1462,7 @@ $("#buscar4").click(function(e) {
 												for (var i = 0 ; i < di; i++) {
 													var aData = oTable.fnGetData( i );
 													// console.log('vale'+aData);
-													getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+													getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
 												};
 
 											}
@@ -1448,16 +1553,33 @@ $("#buscar4").click(function(e) {
 								// $('#cargardel').html('<label></label>');
 								// console.log("success");
 								if(data.success==true){
+											$("#mostrar").show();
+											$("#enviaralavista").show();
+
 											// alert(data.msg);
 											$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
 											// $('#listresult').html(data.resultobt);
 											$('#listresult').html(data.list);
 											$('#datatable-1').DataTable({
-												// "bPaginate": false
-												"language": {
-												"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)"
-												}
-												});
+								
+													"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+													"language": {
+																	"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+																	"paginate": {
+									 						       				 	"next": "Siguiente",
+									 						       				 	"previous": "Anterior",
+
+									          									},
+									          						"search": "Buscar:",
+									          						"infoEmpty": "No hay registros que mostrar",
+									          						"infoFiltered": " - filtrados en _MAX_ registros en total",
+									          						"emptyTable": "No hay registros en la tabla",
+									          						"lengthMenu": "Ver _MENU_ registros",
+									          						"loadingRecords": "Espere un momento - cargando...",
+									          						"zeroRecords": "No hay registros coincidentes encontrados",
+																},
+													
+													});
 												//cambiar de color al pasar el puntero
 												$("#datatable-1 tr").mouseenter(function(){
 												        $(this).css('background-color','#369');
@@ -1477,7 +1599,7 @@ $("#buscar4").click(function(e) {
 												for (var i = 0 ; i < di; i++) {
 													var aData = oTable.fnGetData( i );
 													// console.log('vale'+aData);
-													getFormJson(aData[3],aData[4],aData[5],aData[2],'','')
+													getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
 												};
 
 											}
@@ -1564,11 +1686,11 @@ $('#guardaralavista').click(function(et) {
 			 	datas.items[n].titulo=$('#tituloalavista').val();
 			 	datas.items[n].descr=$('#wysiwig_full').val();
 			 	datas.items[n].cat=$('#categoriaalavista').val();
+			 	 // console.log(datas.items[n].ide+' '+datas.items[n].cat);
 			 }
-			 // console.log(datas.items[n].ide+' '+datas.items[n].titulo+' '+datas.items[n].descr+' '+datas.items[n].emb+' '+datas.items[n].cat);
-			 console.log(datas.items[n].cat);
-
+			
 		});
+		// console.log(datas);
 		$('#uniqedit').html("<center><label class='col-sm-12 bg-info'>Informacion Agregada</label></center>");
 
 	}
@@ -1580,6 +1702,71 @@ $('#guardaralavista').click(function(et) {
 
 });
 
+
+
+$('#categoryall').change(function(e) {
+	/* Act on the event */
+	e.preventDefault();
+	$.each(datas.items, function(n) {
+		 /* iterate through array or object */
+		 	// datas.items.push(item);
+		 	datas.items[n].cat=$('#categoryall').val();
+	});
+	console.log(datas);
+});
+
+
+
+$("[name='checkall']").bootstrapSwitch();
+
+$('input[name="checkall"]').on('switchChange.bootstrapSwitch', function(event, state) {
+  // console.log(this); // DOM element
+  // console.log(event); // jQuery event
+  console.log(state); // true | false
+  if (state==true)
+  {
+  	var table = $('#datatable-1').DataTable();
+	var info = table.page.info();
+	var a =info.page;
+  	var oTable = $('#datatable-1').dataTable();
+  	oTable.fnPageChange( 0);
+	for (var i = 0; i <= info.pages; i++) {
+
+		$("input:checkbox").each( function(){
+			var b=$(this).val();
+		   	$("#"+b).prop("checked", "checked");
+		});
+
+		oTable.fnPageChange( i );
+
+	};
+	oTable.fnPageChange( a );
+
+  }
+  else
+  {
+  		var table = $('#datatable-1').DataTable();
+		var info = table.page.info();
+		var a =info.page;
+
+	  	var oTable = $('#datatable-1').dataTable();
+	  	oTable.fnPageChange( 0);
+	  	for (var i = 0; i <= info.pages; i++) {
+	  		$("input:checkbox").each(function() {
+			    	var b=$(this).val();
+			    	$("#"+b).prop("checked", "");
+			    	
+			    });
+			oTable.fnPageChange( i );
+
+
+	  	}
+	  	oTable.fnPageChange( a );
+  					
+  }		
+  
+  	
+});
 
 
 </script>

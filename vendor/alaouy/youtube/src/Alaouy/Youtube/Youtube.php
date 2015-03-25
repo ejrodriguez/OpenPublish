@@ -70,7 +70,7 @@ class Youtube {
 		$API_URL = $this->getApi('search.list');
 		$params = array(
 			'part' => 'id,snippet',
-			'fields' => 'items(id(videoId),snippet(title,description))',
+			'fields' => 'items(id,snippet(title,description,thumbnails(default(url))))',
 			'type' => 'video',
 			'order' => $order,
 			'hl' => 'es',
@@ -94,8 +94,8 @@ class Youtube {
 		
 		$params = array(
 			'chart' => 'mostPopular',
-			'part' => 'id,snippet,player',
-			'fields' => 'items(id,snippet(title,description),player(embedHtml))',
+			'part' => 'id,snippet',
+			'fields' => 'items(id,snippet(title,description,thumbnails(default(url))))',
 			'maxResults' => $maxResults
 		);
 		if (!empty($regionCode)) {
@@ -165,24 +165,10 @@ class Youtube {
 			'q' => $q,
 			'type' => 'video',
 			'part' => 'id,snippet',
-			'fields' => 'items(id(videoId),snippet(title,description))',
+			'fields' => 'items(id,snippet(title,description,thumbnails(default(url))))',
 			'maxResults' => $maxResults,
 			'hl' => 'es',
-			// 'videoEmbeddable' => 'true',
-			// 'relatedToVideoId' => 'samme4GwPxg', relacion al id
-			// 'channelType' => 'show', con type channel
-			// 'eventType' => 'live',
-			// 'publishedAfter' => '2012-01-01T00:00:00Z',
-			// 'publishedBefore' => '2012-05-01T00:00:00Z',
-			// 'safeSearch' => 'strict',
-			// 'videoCaption' => 'closedCaption',
-			// 'videoCategoryId' => '10',
-			// 'videoDefinition' => 'high',
-			// 'videoDimension' => '3d',
-			// 'videoDuration' => 'long',
-			// 'videoLicense' => 'youtube',
-			// 'videoSyndicated' => 'true',
-			// 'videoType' => 'episode',
+
 		);
 		if (!empty($eventType)) {
 			$params['eventType'] = $eventType;

@@ -272,8 +272,25 @@ $(document).ready(function() {
 	// Load Datatables and run plugin on tables 
 	// LoadDataTablesScripts(AllTables);
 	$('#datatable-1').DataTable({
-			
-	});
+								
+		"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+		"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+						"paginate": {
+					       				 	"next": "Siguiente",
+					       				 	"previous": "Anterior",
+
+  									},
+  						"search": "Buscar:",
+  						"infoEmpty": "No hay registros que mostrar",
+  						"infoFiltered": " - filtrados en _MAX_ registros en total",
+  						"emptyTable": "No hay registros en la tabla",
+  						"lengthMenu": "Ver _MENU_ registros",
+  						"loadingRecords": "Espere un momento - cargando...",
+  						"zeroRecords": "No hay registros coincidentes encontrados",
+					},
+		
+		});
 	// Add Drag-n-Drop feature
 	WinMove();
 
