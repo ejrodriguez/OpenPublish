@@ -538,7 +538,7 @@
 			        		<label class="col-sm-2 control-label" >Categoria: </label>
 						  	<div class="col-sm-8">
 								<select class="populate placeholder"  name="categoriaalavista" id="categoriaalavista">
-									<option value="21">-- Seleccione una Categoria --</option>
+									<option value="22">-- Seleccione una Categoria --</option>
 
 								</select>
 							</div>
@@ -1170,7 +1170,7 @@ $("#buscar2").click(function(e) {
 										for (var i = 0 ; i < di; i++) {
 											var aData = oTable.fnGetData( i );
 											// console.log('vale'+aData);
-											getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
+											getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
 										};
 
 									}
@@ -1317,7 +1317,7 @@ $("#buscar3").click(function(e) {
 							for (var i = 0 ; i < di; i++) {
 								var aData = oTable.fnGetData( i );
 								// console.log('vale'+aData);
-								getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
+								getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
 							};
 
 						}
@@ -1462,7 +1462,7 @@ $("#buscar4").click(function(e) {
 												for (var i = 0 ; i < di; i++) {
 													var aData = oTable.fnGetData( i );
 													// console.log('vale'+aData);
-													getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
+													getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
 												};
 
 											}
@@ -1599,7 +1599,7 @@ $("#buscar4").click(function(e) {
 												for (var i = 0 ; i < di; i++) {
 													var aData = oTable.fnGetData( i );
 													// console.log('vale'+aData);
-													getFormJson(aData[3],aData[4],aData[5],aData[2],'21','')
+													getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
 												};
 
 											}
