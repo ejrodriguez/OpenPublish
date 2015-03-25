@@ -181,7 +181,7 @@ class FacebookController extends \BaseController {
 							 <button onclick="Share('.$contador.')" type="button" class="btn btn-default" aria-label="Left Align">
                				 <span class="fa fa-share-square " aria-hidden="true">Publicar</span>
 						</div>
-						<div id="resultshare'.$contador.'">'.$contador.'</div>
+						<div id="resultshare'.$contador.'"></div>
 						</div>
 						</div>';
 					}			
