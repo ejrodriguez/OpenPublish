@@ -156,7 +156,6 @@ $(document).on('click', '#AdmFb',function (e) {
 	});
 
 //listar cuentas de twitter
-//listar cuentas facebook 
 $(document).on('click', '#AdmTw',function (e) {
 	e.preventDefault();
 	

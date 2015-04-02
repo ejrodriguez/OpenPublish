@@ -127,59 +127,6 @@ $.ajax({
 
 });	
 
-// actualizar token
-function Actualizar(id,token)
-{
-	$.ajax({
-		url: "{{URL::route('gettoken')}}",
-		type: 'POST',
-		data: {id:id,token:token},
-		beforeSend: function(){
-	    			
-                    $('#result').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		//$('#resultshare').html('<label></label>');
-		// console.log("success");
-		if(data.success=='true'){
-
-					// alert(data.msg);
-					$('#result').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
-				}
-		if(data.success=='false'){
-
-					// alert(data.msg);
-					$('#result').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-					
-				}
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	});
-
-}
-
 function NewAccount()
 {
 	 location.href="{{URL::route('logintw')}}";
@@ -248,6 +195,61 @@ function DeleteAccount()
 	});
 
 }
+
+
+//funcion para actualizar token
+function Actualizar(id,token)
+{
+	$.ajax({
+		url: "{{URL::route('gettoken')}}",
+		type: 'POST',
+		data: {id:id,token:token},
+		beforeSend: function(){
+	    			
+                    $('#result').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+                },
+        error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            alert('Internal Server Error [500].');
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+	})
+	.done(function(data) {
+		//$('#resultshare').html('<label></label>');
+		// console.log("success");
+		if(data.success=='true'){
+
+					// alert(data.msg);
+					$('#result').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+				}
+		if(data.success=='false'){
+
+					// alert(data.msg);
+					$('#result').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					
+				}
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+
+}
+
 
 </script>
 </body>
