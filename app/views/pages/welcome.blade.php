@@ -155,6 +155,29 @@ $(document).on('click', '#AdmFb',function (e) {
 	    })
 	});
 
+//listar cuentas de twitter
+//listar cuentas facebook 
+$(document).on('click', '#AdmTw',function (e) {
+	e.preventDefault();
+	
+	$.ajax({
+	    	
+	    	url: "{{URL::route('AdmTw')}}",
+	    	type: 'GET',
+	    	beforeSend: function(){
+	    			
+                    $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
+                },
+	    })
+	    .done(function() {
+	    	$("#jscontent").load('{{URL::route('AdmTw')}}');
+
+	    })
+	    .fail(function() {
+
+	    })
+	});
+
 	
 if (window.location.hash == '#_=_')
 { // Check if the browser supports history.replaceState.

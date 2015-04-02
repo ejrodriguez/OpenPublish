@@ -127,7 +127,7 @@ $.ajax({
 
 });	
 
-//funcion para publicar perfil
+//funcion para actualizar token
 function Actualizar(id,token)
 {
 	$.ajax({

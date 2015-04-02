@@ -8,6 +8,12 @@ use Facebook\GraphUser;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
 
+/*
+| Class twitter. 
+| Function.
+| Author: Edison Rodriguez.
+| Email: rodriguezjedison@hotmail.es
+*/
 class FacebookHelper
 {
 	private $helper;

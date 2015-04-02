@@ -182,28 +182,31 @@ class VideoController extends BaseController {
 
 	public function ListVideo(){
 		$videos = Video::all();
-
 		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Video</th><th>Titulo</th><th>Descripcion</th><th>Publicar</th></tr></thead><tbody>';
 				foreach ($videos as $video) {
-					$title = "'".$video->title."'";
-					$imagen = "'".$video->thumburl."'";
-					$seo = "'".$video->seotitle."'";
-					$descripcion = "'".$video->description."'";
-					$idvideo = $video->id;
 					
-					$idcategory = VideoCategory::where('vid', '=',$idvideo)->get(array('catid'));
-					foreach ($idcategory as $cat) {
-						$idcategory = $cat->catid;
+					if ($video->published == 1)
+					{
+						$title = "'".$video->title."'";
+						$imagen = "'".$video->thumburl."'";
+						$seo = "'".$video->seotitle."'";
+						$descripcion = "'".$video->description."'";
+						$idvideo = $video->id;
+						
+						$idcategory = VideoCategory::where('vid', '=',$idvideo)->get(array('catid'));
+						foreach ($idcategory as $cat) {
+							$idcategory = $cat->catid;
+						}
+						$namecategory =Category::where('id','=',$idcategory)->get(array('seo_category'));
+						foreach ($namecategory as $namec) {
+							$namecategory = "'".$namec->seo_category."'";
+						}
+						$encontrados=$encontrados.'<tr><td id="video_emb"><img src="'.$video->thumburl.'" width="160" height="100"/></td><td id="video_title">'.$video->title.'</td><td id="video_desc">'.$video->description.'</td>
+						<td>
+						<button onclick="showModal('.$seo.','.$namecategory.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+		                <span class="fa fa-group" aria-hidden="true">Cuentas</span>
+		                </td></tr>';
 					}
-					$namecategory =Category::where('id','=',$idcategory)->get(array('seo_category'));
-					foreach ($namecategory as $namec) {
-						$namecategory = "'".$namec->seo_category."'";
-					}
-					$encontrados=$encontrados.'<tr><td id="video_emb"><img src="'.$video->thumburl.'" width="160" height="100"/></td><td id="video_title">'.$video->title.'</td><td id="video_desc">'.$video->description.'</td>
-					<td>
-					<button onclick="showModal('.$seo.','.$namecategory.','.$title.','.$imagen.','.$descripcion.')" type="button" class="btn btn-default" aria-label="Left Align">
-	                <span class="fa fa-group" aria-hidden="true">Cuentas</span>
-	                </td></tr>';
 				}
 		$encontrados=$encontrados.'</tbody><tfoot><tr><th>Video</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th></tr></tfoot></table>';
 		return Response::json(array(

@@ -119,6 +119,7 @@ class FacebookController extends \BaseController {
 			//obtener grupos.
 			$groups = $this->fb->getGraphGroups($session);
 			$groups = $groups->getProperty('data');
+
 			if($groups != NULL)
 				{
 					$groups = $groups->asArray();
@@ -151,6 +152,13 @@ class FacebookController extends \BaseController {
 				//}
 			//------------------------
 			$contador +=1;
+			$allg = "'".'groups'.$contador."'";
+			$checkg = "'".'checkg'.$contador."'"; 
+			$allp = "'".'pages'.$contador."'";
+			$checkp = "'".'checkp'.$contador."'"; 
+			$alle = "'".'events'.$contador."'";
+			$checke = "'".'checke'.$contador."'"; 
+			
 			$encontrados= $encontrados.'
 						<div  class="panel panel-default">
 						<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$contador.'" aria-expanded="false" aria-controls="collapse'.$contador.'">
@@ -169,14 +177,20 @@ class FacebookController extends \BaseController {
 						    <select id="groups'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
 							'.$grp.'						
 							</select>
+							<p>Seleccionar todos:
+							<input id="checkg'.$contador.'" onclick="checkTodos('.$allg.','.$checkg.')" name="checkAll" type="checkbox" /></p>
 						    <h5>Páginas</h5>
 						    <select id="pages'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
 							'.$pgs.'						
 							</select>
+							<p>Seleccionar todos:
+							<input id="checkp'.$contador.'" onclick="checkTodos('.$allp.','.$checkp.')" name="checkAll" type="checkbox" /></p>
 						    <h5>Eventos</h5>
 						    <select id="events'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
 							'.$evts.'						
 							</select>
+							<p>Seleccionar todos:
+							<input id="checke'.$contador.'" onclick="checkTodos('.$alle.','.$checke.')" name="checkAll" type="checkbox" /></p>
 							<br><br>
 							 <button onclick="Share('.$contador.')" type="button" class="btn btn-default" aria-label="Left Align">
                				 <span class="fa fa-share-square " aria-hidden="true">Publicar</span>
@@ -296,4 +310,4 @@ class FacebookController extends \BaseController {
 		}
 	}
 
-	}
+}

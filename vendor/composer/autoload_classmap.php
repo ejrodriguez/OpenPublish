@@ -6,6 +6,17 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Abraham\\TwitterOAuth\\Config' => $vendorDir . '/abraham/twitteroauth/src/Config.php',
+    'Abraham\\TwitterOAuth\\Consumer' => $vendorDir . '/abraham/twitteroauth/src/Consumer.php',
+    'Abraham\\TwitterOAuth\\HmacSha1' => $vendorDir . '/abraham/twitteroauth/src/HmacSha1.php',
+    'Abraham\\TwitterOAuth\\Request' => $vendorDir . '/abraham/twitteroauth/src/Request.php',
+    'Abraham\\TwitterOAuth\\Response' => $vendorDir . '/abraham/twitteroauth/src/Response.php',
+    'Abraham\\TwitterOAuth\\SignatureMethod' => $vendorDir . '/abraham/twitteroauth/src/SignatureMethod.php',
+    'Abraham\\TwitterOAuth\\Token' => $vendorDir . '/abraham/twitteroauth/src/Token.php',
+    'Abraham\\TwitterOAuth\\TwitterOAuth' => $vendorDir . '/abraham/twitteroauth/src/TwitterOAuth.php',
+    'Abraham\\TwitterOAuth\\TwitterOAuthException' => $vendorDir . '/abraham/twitteroauth/src/TwitterOAuthException.php',
+    'Abraham\\TwitterOAuth\\Util' => $vendorDir . '/abraham/twitteroauth/src/Util.php',
+    'Abraham\\TwitterOAuth\\Util\\JsonDecoder' => $vendorDir . '/abraham/twitteroauth/src/Util/JsonDecoder.php',
     'Account' => $baseDir . '/app/models/Account.php',
     'Alaouy\\Youtube\\Facades\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Facades/Youtube.php',
     'Alaouy\\Youtube\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Youtube.php',
@@ -57,6 +68,7 @@ return array(
     'Facebook\\FacebookOtherException' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/FacebookOtherException.php',
     'Facebook\\FacebookPageTabHelper' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/FacebookPageTabHelper.php',
     'Facebook\\FacebookPermissionException' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/FacebookPermissionException.php',
+    'Facebook\\FacebookPermissions' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/FacebookPermissions.php',
     'Facebook\\FacebookRedirectLoginHelper' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/FacebookRedirectLoginHelper.php',
     'Facebook\\FacebookRequest' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/FacebookRequest.php',
     'Facebook\\FacebookRequestException' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/FacebookRequestException.php',

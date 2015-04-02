@@ -179,13 +179,13 @@ $.ajax({
 
 });	
 //funcion para publicar perfil
-function showModal(seoname,seocategoria,title,image,descripcion)
+function showModal(seoname,seocategoria,title,image)
 {
 	
-	link = 'http://localhost/joomla/index.php/player/'+seocategoria+'/'+seoname;
+	link = 'http://alavista.tv/index.php/es/player/'+seocategoria+'/'+seoname;
 	$('#titlevideo').text(title);
 	document.getElementById("mensaje").value = "";
-	document.getElementById("descripcion").value=descripcion;
+	document.getElementById("descripcion").value="";
 	document.getElementById("linkvideo").value = link;
 	document.getElementById("imgvideo").src = image;
 	$('#modalshareprofile').modal('show');
@@ -273,8 +273,30 @@ function Share(identificador)
 	})
 	.always(function() {
 		console.log("complete");
-	}); 
+	}); 	
 }
+
+//funcion agregar todos los elementos de un select
+	function checkTodos(id,idcheck) {
+
+        if($("#"+idcheck).is(':checked')) {  
+            elem=document.getElementById(id).options;
+			for(i=0;i<elem.length;i++)
+				{
+					elem[i].selected=true; 
+					//$("#"+id).find("option:contains("+i+")").prop('selected',true).parent().focus();
+					$("#"+id).change();
+				}
+        } else {   
+            elem=document.getElementById(id).options;
+			for(i=0;i<elem.length;i++)
+			{
+				elem[i].selected=false; 
+				//$("#"+id).find("option:contains("+i+")").prop('selected',false).parent().focus();
+				$("#"+id).change();
+			}
+        }  
+   }
 
 </script>
 </body>

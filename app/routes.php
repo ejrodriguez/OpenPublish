@@ -70,7 +70,7 @@ Route::post('/categorias/alavista/guardar',array('as' => 'savealavista', 'uses' 
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 
 
-//publicacion facebook
+//---- FACEBOOK--------------
 Route::get('/login/fb',array('as' => 'loginfb', 'uses' => 'FacebookController@login'))->before("auth_user");
 //redireccion luego de obtener sesion en facebook
 Route::get('/facebook/callback',array('as' => 'callback', 'uses' => 'FacebookController@callback'))->before("auth_user");
@@ -91,7 +91,17 @@ Route::post('/facebook/gettoken',array('as' => 'gettoken', 'uses' => 'FacebookCo
 //eliminar cuenta
 Route::post('/facebook/account/delete',array('as' => 'accountdel', 'uses' => 'FacebookController@destroy'))->before("auth_user");
 
-
+// ---- Twitter ----------
+//listar cuentas de facebok,crear vista
+Route::get('/twitter/administrar',array('as' => 'AdmTw', 'uses' => 'TwitterController@AdmTwitter'))->before("auth_user");
+//listar cuentas para administrar
+Route::post('/twitter/accounts',array('as' => 'listaccounttw', 'uses' => 'TwitterController@ListAccount'))->before("auth_user");
+//login twitter
+Route::get('/login/tw',array('as' => 'logintw', 'uses' => 'TwitterController@login'))->before("auth_user");
+//redireccion luego de obtener sesion en facebook
+Route::get('/twitter/callback',array('as' => 'callbacktw', 'uses' => 'TwitterController@callback'))->before("auth_user");
+//eliminar cuenta
+Route::post('/twitter/account/delete',array('as' => 'accountdeltw', 'uses' => 'TwitterController@destroy'))->before("auth_user");
 //rutear a errores
 App::missing(function($exception)
 {
