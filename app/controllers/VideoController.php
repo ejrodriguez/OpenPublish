@@ -59,6 +59,11 @@ class VideoController extends BaseController {
 			'list' => $encontrados	
             )); 
 	}
+//listar videos para publicar en tw. 
+	public function LoadVideoTw(){
+
+		return View::make('pages.video.listvideotw');
+	}
 
 
 	public function CategoryAlavista(){

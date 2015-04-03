@@ -224,7 +224,7 @@ function VerError(data){
 	    })
 	});
 
-//listar videos
+//listar videos para facebook
 	$(document).on('click', '#sharefb',function (e) {
 	e.preventDefault();
 	
@@ -257,6 +257,27 @@ function VerError(data){
 	    })
 	    .done(function() {
 	    	$("#jscontent").load('{{URL::route('sharefb')}}');
+
+	    })
+	    .fail(function() {
+
+	    })
+	});
+//listar videos para twitter
+	$(document).on('click', '#sharetw',function (e) {
+	e.preventDefault();
+	
+	$.ajax({
+	    	
+	    	url: "{{URL::route('sharetw')}}",
+	    	type: 'GET',
+	    	beforeSend: function(){
+	    			
+                    $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
+                },
+	    })
+	    .done(function() {
+	    	$("#jscontent").load('{{URL::route('sharetw')}}');
 
 	    })
 	    .fail(function() {

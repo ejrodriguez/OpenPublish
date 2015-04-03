@@ -47,7 +47,7 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 	        ×
 	        </button>
-	        <h4>Publicar en Facebook</h4>
+	        <h4>Publicar en Twitter</h4>
 	     </div>
 	     <div class="modal-body">
 
@@ -60,18 +60,16 @@
 								<div class="col-sm-8">	
 								<h4 id="titlevideo" class="control-label"></h4>
 								</div>
-						</div>
+						</div>	
 						<div class="form-group" >
-						<label class="col-sm-3 control-label">Mensaje</label>
-							<div class="col-sm-8">
-								<input type="text" class="form-control" name="mensaje" id="mensaje"/>
-							</div>
-						</div>
-						<div class="form-group" >
-						<label class="col-sm-3 control-label">Descripción</label>
-						<div class="col-sm-8">
-							<textarea class="form-control" name="descripcion" id="descripcion" height="100%"></textarea>
-						</div>
+						</fieldset>
+						<div>
+						<fieldset>
+						<legend>Cuentas:</legend>
+
+							<textarea class="form-control" name="descripcion" id="descripcion"></textarea>
+						
+						<fieldset>
 						</div>
 						</fieldset>
 						<legend>Cuentas:</legend>
@@ -135,6 +133,7 @@ $.ajax({
 		console.log("error");
 
 	});
+	/*
 	//--------------cargar cuentas Facebook
 		$.ajax({
 	    	
@@ -175,7 +174,7 @@ $.ajax({
 		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
 		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Facebook, Seleccione nuevamente la opcion del menu Redes Sociales, Facebook para obtener las cuentas de facebook.</p>');
 	    })
-	///////////////////////////
+	/////////////////////////// */
 
 });	
 //funcion para publicar perfil
@@ -184,7 +183,6 @@ function showModal(seoname,seocategoria,title,image)
 	
 	link = 'http://alavista.tv/index.php/es/player/'+seocategoria+'/'+seoname;
 	$('#titlevideo').text(title);
-	document.getElementById("mensaje").value = "";
 	document.getElementById("descripcion").value="";
 	document.getElementById("linkvideo").value = link;
 	document.getElementById("imgvideo").src = image;

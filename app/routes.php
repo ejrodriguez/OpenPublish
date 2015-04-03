@@ -104,6 +104,11 @@ Route::get('/login/tw',array('as' => 'logintw', 'uses' => 'TwitterController@log
 Route::get('/twitter/callback',array('as' => 'callbacktw', 'uses' => 'TwitterController@callback'))->before("auth_user");
 //eliminar cuenta
 Route::post('/twitter/account/delete',array('as' => 'accountdeltw', 'uses' => 'TwitterController@destroy'))->before("auth_user");
+//listar videos
+//Route::post('/twitter/alavista/list',array('as' => 'listvideostw', 'uses' => 'VideoController@ListVideoTw'))->before("auth_user");
+//listar ventana para presentar los videos
+Route::get('/twitter',array('as' => 'sharetw', 'uses' => 'VideoController@LoadVideoTw'))->before("auth_user");
+
 //rutear a errores
 App::missing(function($exception)
 {
