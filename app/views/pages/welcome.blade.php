@@ -43,11 +43,68 @@
 
 @section('content')
 <div id='jscontent'></div>
+<!--modal errores -->
+	<div id="modalerrores" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="largeModal ">
+	<div class="modal-dialog modal-lg">   
+	  <div class="modal-content"> 
+	     <div class="modal-header alert alert-danger">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	        ×
+	        </button>
+	        <h4>Informacion</h4>
+	     </div>
+	     <div class="modal-body">
+
+	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
+	        		<fieldset>	        		
+	        			<div id='modalerror' class="form-group">      			
+							
+						</div>
+						
+					</fieldset>
+
+				</form>
+	     </div>
+	     <div id="resultshare"></div>
+	     <div class="modal-footer">
+	        <a id="cerraralavista" href="#" data-dismiss="modal" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-arrows-alt"></i></span>Cerrar</a>
+	     </div>
+		</div>
+
+	</div>
+	</div>
+<!--FIN-->
 @stop
 
 
 @section('jsfunctions')
   <script>
+
+function VerError(data){
+	if('Invalid argument supplied for foreach()'==data.error.message)
+	{
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>No se han encontrados datos en la Busqueda Realizada </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else if('Curl Error : Failed to connect to www.googleapis.com port 443: Host unreachable'==data.error.message){
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: No se pudo conectar con www.googleapis.com puerto 443: host inalcanzable</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else if('Curl Error : Could not resolve host: www.googleapis.com'==data.error.message){
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: No se pudo resolver el host: www.googleapis.com</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else if('Error 400 Bad Request : videoChartNotFound'==data.error.message){
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: La categoria solicitada no se encuentra habilitada en el pais seleccionado </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else{
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: "+data.error.message+"</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+
+	}
+
+	$('#modalerrores').modal({
+								show: true
+							});
+}
+
+  
 
 	$(document).on('click', '#createuser',function (e) {
 	e.preventDefault();
@@ -59,6 +116,24 @@
 	    			
                     $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
                 },
+            error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	    })
 	    .done(function() {
 	    	$("#jscontent").load('{{URL::route('createuser')}}');
@@ -81,6 +156,25 @@
 	    			
                     $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
                 },
+            error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		           	// alert(jqXHR.responseText);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	    })
 	    .done(function() {
 	    	$("#jscontent").load('{{URL::route('edituser')}}');
@@ -102,6 +196,24 @@
 	    			
                     $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
                 },
+            error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	    })
 	    .done(function() {
 	    	$("#jscontent").load('{{URL::route('downloadxml')}}');
@@ -124,6 +236,24 @@
 	    			
                     $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
                 },
+            error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	    })
 	    .done(function() {
 	    	$("#jscontent").load('{{URL::route('sharefb')}}');
@@ -145,6 +275,24 @@ $(document).on('click', '#AdmFb',function (e) {
 	    			
                     $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
                 },
+            error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	    })
 	    .done(function() {
 	    	$("#jscontent").load('{{URL::route('AdmFb')}}');
@@ -167,6 +315,24 @@ $(document).on('click', '#AdmTw',function (e) {
 	    			
                     $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
                 },
+             error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	    })
 	    .done(function() {
 	    	$("#jscontent").load('{{URL::route('AdmTw')}}');

@@ -18,6 +18,7 @@ return array(
     'Abraham\\TwitterOAuth\\Util' => $vendorDir . '/abraham/twitteroauth/src/Util.php',
     'Abraham\\TwitterOAuth\\Util\\JsonDecoder' => $vendorDir . '/abraham/twitteroauth/src/Util/JsonDecoder.php',
     'Account' => $baseDir . '/app/models/Account.php',
+    'Accounttw' => $baseDir . '/app/models/Accounttw.php',
     'Alaouy\\Youtube\\Facades\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Facades/Youtube.php',
     'Alaouy\\Youtube\\Youtube' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/Youtube.php',
     'Alaouy\\Youtube\\YoutubeServiceProvider' => $vendorDir . '/alaouy/youtube/src/Alaouy/Youtube/YoutubeServiceProvider.php',
@@ -1649,6 +1650,7 @@ return array(
     'System_SSH_Agent' => $vendorDir . '/phpseclib/phpseclib/phpseclib/System/SSH/Agent.php',
     'System_SSH_Agent_Identity' => $vendorDir . '/phpseclib/phpseclib/phpseclib/System/SSH/Agent.php',
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
+    'TwitterController' => $baseDir . '/app/controllers/TwitterController.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserController' => $baseDir . '/app/controllers/UserController.php',
     'Video' => $baseDir . '/app/models/Video.php',
@@ -1702,4 +1704,5 @@ return array(
     'Whoops\\Run' => $vendorDir . '/filp/whoops/src/Whoops/Run.php',
     'Whoops\\Util\\Misc' => $vendorDir . '/filp/whoops/src/Whoops/Util/Misc.php',
     'Whoops\\Util\\TemplateHelper' => $vendorDir . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+    'YouTubeController' => $baseDir . '/app/controllers/YouTubeController.php',
 );

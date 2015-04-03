@@ -7,6 +7,7 @@
 <!-- <script type="text/javascript" language="javascript" src="plugins/bootstrapvalidator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" language="javascript" src="plugins/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js"></script> -->
 <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.min.js"></script>
 <script type="text/javascript" language="javascript" src="js/jsfunctions/dataTables.responsive.js"></script>
 <script type="text/javascript" language="javascript" src="js/jsfunctions/bootstrap-switch.js"></script>
 </head>
@@ -157,11 +158,6 @@
 														<div class="col-sm-4" id="listarcategorias">
 															
 														</div>
-													<!-- </div> -->
-
-													<!-- <div class="form-group" > -->
-														
-														<!-- <div class="form-group" > -->
 															<label  class="col-sm-2 control-label">Max Result: </label>
 															<div class="col-sm-1">
 																<input type="text" class="form-control" name="maxregion" id="maxregion" value="10" />
@@ -174,8 +170,6 @@
 													<div class="form-group" >
 														<div class="col-sm-12"  id="uniq2"></div>
 													</div>
-														
-													<!-- </div> -->
 													</fieldset>
 																								
 												</form>
@@ -498,7 +492,7 @@
 			        		<label class="col-sm-2 control-label" id="catall">Categoria Todos: </label>
 						  	<div class="col-sm-4">
 								<select class="populate placeholder"  name="categoryall" id="categoryall">
-									<option value="">-- Seleccione una Categoria --</option>
+									<option value="22">-- Default --</option>
 
 								</select>
 							</div>
@@ -522,12 +516,12 @@
 
 		        	<form id="EditDataVideoForm" method="POST"  action="{{URL::route('useredit')}}" class="form-horizontal">
 		        		<div class="form-group">
-							<label class="col-sm-2 control-label" for="form-styles">Titulo:</label>
+							<label class="col-sm-2 control-label text-left text-primary" for="form-styles">Titulo:</label>
 							<div class="col-sm-8">
 									<input type="text" class="form-control" placeholder="Titulo" data-toggle="tooltip" data-placement="bottom" title="Titulo del video" id="tituloalavista">
 							</div>
 						</div>
-						<label class=" control-label" for="form-styles">Descripcion:</label>
+						<label class=" control-label text-left text-primary" for="form-styles">Descripcion:</label>
 						<div class="form-group">
 							
 							<div class="col-sm-12">
@@ -535,20 +529,35 @@
 							</div>
 						</div>
 						<div class="form-group" >
-			        		<label class="col-sm-2 control-label" >Categoria: </label>
+			        		<label class="col-sm-2 control-label text-left text-primary" >Tags: </label>
 						  	<div class="col-sm-8">
-								<select class="populate placeholder"  name="categoriaalavista" id="categoriaalavista">
-									<option value="22">-- Seleccione una Categoria --</option>
+								<input type="text" class="form-control" placeholder="Tags, separar con ','" data-toggle="tooltip" data-placement="bottom" title="Separar con ','" id="tagalavista">
+							</div>												
+						</div>
+						<div class="form-group" >
+			        		<label class="col-sm-2 control-label text-left text-primary" >UrlTags: </label>
+						  	<div class="col-sm-8">
+								<input type="text" class="form-control" placeholder="UrlTags, separar con ','" data-toggle="tooltip" data-placement="bottom" title="Separar con ','" id="urltagalavista">
+							</div>												
+						</div>
+						<div class="form-group" >
+			        		<label class="col-sm-2 control-label text-left text-primary" >Categoria: </label>
+			        		<label id="cateidit" class="col-sm-2 control-label text-success" ><i class="fa fa-check-square-o"></i></label><label class="control-label text-success" ><i class="fa fa-check-square-o"></i></label>				
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label text-left text-primary" >Editar : </label>
+							<div class="col-sm-8">
+								<select   name="categoriaalavista" id="categoriaalavista">
+									<!-- <option value="">-- Default --</option> -->
 
 								</select>
 							</div>
-							
-							
 						</div>
 						<div class="form-group" >
 
-							<label class="col-sm-2 control-label" >Id Video: </label>
-							<label id="idalavista" class="col-sm-2 control-label" > </label>
+							<label class="col-sm-2 control-label text-left text-primary" >Id Video: </label>
+							<label id="idalavista" class="col-sm-2 control-label text-success" > </label>
 							
 						</div>
 						<div class="form-group" >
@@ -574,7 +583,7 @@
 		</div>
 	</div>
 
-	<!--modal share perfil -->
+	<!--modal informacion -->
 	<div id="modalmessage" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="largeModal ">
 	<div class="modal-dialog modal-lg">   
 	  <div class="modal-content"> 
@@ -605,28 +614,93 @@
 	</div>
 	</div>
 <!--FIN-->
+<!--modal errores -->
+	<div id="modalerrores" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="largeModal ">
+	<div class="modal-dialog modal-lg">   
+	  <div class="modal-content"> 
+	     <div class="modal-header alert alert-danger">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	        ×
+	        </button>
+	        <h4>Informacion</h4>
+	     </div>
+	     <div class="modal-body">
+
+	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
+	        		<fieldset>	        		
+	        			<div id='modalerror' class="form-group">      			
+							
+						</div>
+						
+					</fieldset>
+
+				</form>
+	     </div>
+	     <div id="resultshare"></div>
+	     <div class="modal-footer">
+	        <a id="cerraralavista" href="#" data-dismiss="modal" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-arrows-alt"></i></span>Cerrar</a>
+	     </div>
+		</div>
+
+	</div>
+	</div>
+<!--FIN-->
 
 <script type="text/javascript">
-function MakeSelect2(){
-	$('select').select2();
-	$('.dataTables_filter').each(function(){
-		$(this).find('label input[type=text]').attr('placeholder', 'Buscar ...');
-	});
+
+function VerError(data){
+	if('Invalid argument supplied for foreach()'==data.error.message)
+	{
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>No se han encontrados datos en la Busqueda Realizada </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else if('Curl Error : Failed to connect to www.googleapis.com port 443: Host unreachable'==data.error.message){
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: No se pudo conectar con www.googleapis.com puerto 443: host inalcanzable</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else if('Curl Error : Could not resolve host: www.googleapis.com'==data.error.message){
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: No se pudo resolver el host: www.googleapis.com</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else if('Error 400 Bad Request : videoChartNotFound'==data.error.message){
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: La categoria solicitada no se encuentra habilitada en el pais seleccionado </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	else{
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: "+data.error.message+"</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+
+	}
+
+	$('#modalerrores').modal({
+								show: true
+							});
 }
+
 function getCat(){
 	
 
 	$.ajax({
 		url: "{{URL::route('categoryalavista')}}",
 		type: 'POST',
-		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-		// data: {param1: 'value1'},
+		error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+
 		})
 		.done(function(data) {
 			console.log("success");
 			if(data.success){
-				// $('#dcatalavista').html(data.list);
-				 // console.log(data.list);
 				 $.each(data.list, function(id) {
 				 	$("#categoriaalavista").append('<option value='+data.list[id].iden+'><b>'+data.list[id].desc+'</b></option>');
 				 });
@@ -644,14 +718,32 @@ function getCat(){
 };
 
 
+
 function AllCat(){
 	
 
 	$.ajax({
 		url: "{{URL::route('categoryalavista')}}",
 		type: 'POST',
-		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-		// data: {param1: 'value1'},
+		error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+
 		})
 		.done(function(data) {
 			console.log("success");
@@ -730,7 +822,8 @@ $('#enviaralavista').click(function(event) {
 		        } else if (jqXHR.status == 404) {
 		            alert('La página no ha sido encontrada. [404]');
 		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
 		        } else if (exception === 'parsererror') {
 		            alert('Error parse JSON.');
 		        } else if (exception === 'timeout') {
@@ -786,13 +879,13 @@ $('#enviaralavista').click(function(event) {
 //add object
 var datas = {items: 
 	[
-	    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+	    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat", sel:"sel", tag:"tag" , url:"url"},
 	]};
 		
 
-function getFormJson(a,b,c,d,e,f){
+function getFormJson(a,b,c,d,e,f,g,h){
 
-	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f};
+	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f, tag:g, turl:h};
 		
 		datas.items.push(item);
 
@@ -822,12 +915,7 @@ function validarFechaMenorMayor(datetime1,datetime2){
         return true;
 }
 
-// $('#hora').click(function(e) {
-// 	e.preventDefault();
-// 	$("#mostrar").show();
-// 	/* Act on the event */
-	
-// });
+
 
 
 $(document).ready(function() {
@@ -892,6 +980,25 @@ $(document).ready(function() {
 	$.ajax({
 		url: "{{URL::route('categoriesvideos')}}",
 		type: 'POST',
+		error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		            VerError(msg);
+				    // alert("No se pueden listar categorias en Mas Vistos, Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	})
 	.done(function(data) {
 		if(data.success==true){
@@ -918,6 +1025,25 @@ $(document).ready(function() {
 	$.ajax({
 		url: "{{URL::route('categoriesvideos')}}",
 		type: 'POST',
+		error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		            VerError(msg);
+				    // alert("No se puede listar categorias en Busqueda Avanzada, Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
 	})
 	.done(function(data) {
 		if(data.success==true){
@@ -1028,7 +1154,8 @@ $("#buscar1").click(function(e) {
 		        } else if (jqXHR.status == 404) {
 		            alert('La página no ha sido encontrada. [404]');
 		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+				    VerError(msg);
 		        } else if (exception === 'parsererror') {
 		            alert('Error parse JSON.');
 		        } else if (exception === 'timeout') {
@@ -1089,13 +1216,15 @@ $("#buscar2").click(function(e) {
 				// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 				data: {cod: $('#region').val(),categ: $('#rcategoria').val(), max : $('#maxregion').val()},
 				beforeSend: function(){
-			    			// alert("message");
-			    			// $("#categoriaalavista").empty();
+
 		                    $('#buscar2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
 		                    datas = {items: 
 							[
 							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
 							]};
+							// $("#categoriaalavista > option[value="+ datas.items[n].cat+"]").attr('selected',false).parent().focus();
+						 	// $('#categoriaalavista option').remove();
+						 	// $("#categoriaalavista").prop('selectedIndex', 0);
 		                },
 		        error: function(jqXHR, exception) {
 				        if (jqXHR.status === 0) {
@@ -1103,7 +1232,9 @@ $("#buscar2").click(function(e) {
 				        } else if (jqXHR.status == 404) {
 				            alert('La página no ha sido encontrada. [404]');
 				        } else if (jqXHR.status == 500) {
-				            alert('Internal Server Error [500].');
+				        	var msg=jQuery.parseJSON(jqXHR.responseText);
+				        	 VerError(msg);
+				            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
 				        } else if (exception === 'parsererror') {
 				            alert('Error parse JSON.');
 				        } else if (exception === 'timeout') {
@@ -1117,8 +1248,7 @@ $("#buscar2").click(function(e) {
 			})
 			.done(function(data) {
 				console.log("success");
-				// $('#cargardel').html('<label></label>');
-				// console.log("success");
+
 				if(data.success=='true'){
 							$("#mostrar").show();
 							$("#enviaralavista").show();
@@ -1151,57 +1281,122 @@ $("#buscar2").click(function(e) {
 											
 								
 								//cambiar de color al pasar el puntero
-								$("#datatable-1 tr").mouseenter(function(){
-								        $(this).css('background-color','#369');
-								        $(this).css('color','white');
-								    });
-								    $("#datatable-1 tr").mouseleave(function(){
-								        $(this).css('background-color','#F4F4F4');
-								        $(this).css('color','#333');
-								    });
+
+								    var sel = $('#datatable-1').DataTable();
+ 
+								    $('#datatable-1 tbody').on( 'click', 'tr', function () {
+								        if ( $(this).hasClass('selected') ) {
+								            $(this).removeClass('selected');
+								        }
+								        else {
+								            sel.$('tr.selected').removeClass('selected');
+								            $(this).addClass('selected');
+								        }
+								    } );
+
 
 								    var oTable = $('#datatable-1').dataTable();
 									// alert(oTable.fnGetData().length);
 									var di=oTable.fnGetData().length;
-									// alert('dim'+di);
-									// oTable.rows().data().length
 									if(di > 0){
 
 										for (var i = 0 ; i < di; i++) {
 											var aData = oTable.fnGetData( i );
-											// console.log('vale'+aData);
-											getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
+											
+											$.ajax({
+												url: "{{URL::route('tagsalavista')}}",
+												type: 'POST',
+												data: {cad: aData[4]},
+												async: false,
+												error: function(jqXHR, exception) {
+											        if (jqXHR.status === 0) {
+											            alert('Error de conexión, verifica tu instalación.');
+											        } else if (jqXHR.status == 404) {
+											            alert('La página no ha sido encontrada. [404]');
+											        } else if (jqXHR.status == 500) {
+											        	var msg=jQuery.parseJSON(jqXHR.responseText);
+											        	 VerError(msg);
+											            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+											        } else if (exception === 'parsererror') {
+											            alert('Error parse JSON.');
+											        } else if (exception === 'timeout') {
+											            alert('Exceso tiempo.');
+											        } else if (exception === 'abort') {
+											            alert('Petición ajax abortada.');
+											        } else {
+											            alert('Error desconocido: ' + jqXHR.responseText);
+											        }
+											    },
+											})
+											.done(function(data) {
+												console.log("success");
+												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+											})
+											.fail(function(data) {
+												console.log("error");
+												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+											})
+
 										};
 
 									}
 									console.log(datas);
-								    // tabla obj
-								$('#datatable-1 tbody td').click( function () {
-
-							         // getCat();
-
-							         oTable = $('#datatable-1').dataTable();
-							         var aPos = oTable.fnGetPosition( this );
-							 		// alert(aPos);
-							         // // Get the data array for this row
-							         var aData = oTable.fnGetData( aPos[0] );
-							          // JSON.parse(aData);
-							         var dim= aData.length;
-							         $('#wysiwig_full').val(aData[5]);
-									 $('#tituloalavista').val(aData[4]);
-									 $('#idalavista').text(aData[3]);
-
-							         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-							 		// alert(aData);
-							         // // Update the data array and return the value
-							         // aData[ aPos[1] ] = 'clicked';
-							         // this.innerHTML = 'clicked';
 
 
-							       } );
+
+									var table = $('#datatable-1').DataTable();
+									$('#datatable-1 tbody').on( 'click', 'tr', function () {
+									  var rowData = table.row( this ).data();
+									  // ... do something with `rowData`
+									  console.log(rowData[3]);
+									  $('#idalavista').text(rowData[3]);
+
+									 
+									  var seleo;
+									  $.each(datas.items, function(n) {
+											 /* iterate through array or object */
+											 if(datas.items[n].ide ==$('#idalavista').text()){
+											 	// datas.items.push(item);
+											 	$('#tituloalavista').val(datas.items[n].titulo);
+											 	$('#wysiwig_full').val(datas.items[n].descr);
+
+											 	$("#categoriaalavista option").each(function(){
+											 		if($(this).attr('value')==datas.items[n].cat){
+											 			$('#cateidit').text($(this).text());
+											 			seleo=$(this).text();
+											 		}
+												});
+											 	
+											 	$('#tagalavista').val(datas.items[n].tag);
+											 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
+												$("#categoriaalavista").change();
+											 }
+										});
+
+									} );
+
+									$("#categoriaalavista").change(function(event) {
+										/* Act on the event */
+										$.each(datas.items, function(n) {
+											 /* iterate through array or object */
+											 if(datas.items[n].ide ==$('#idalavista').text()){
+											 	// datas.items.push(item);
+											 	datas.items[n].cat=$("#categoriaalavista").val();
+											 	$("#categoriaalavista option").each(function(){
+											 		if($(this).attr('value')==datas.items[n].cat){
+											 			$('#cateidit').text($(this).text());
+											 		}
+												});
+
+											 }
+										});
+										console.log(datas);
+									});
+
+									
 
 
-							// });
+
 						}
 				if(data.success=='false'){
 							$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
@@ -1251,7 +1446,8 @@ $("#buscar3").click(function(e) {
 			        } else if (jqXHR.status == 404) {
 			            alert('La página no ha sido encontrada. [404]');
 			        } else if (jqXHR.status == 500) {
-			            alert('Internal Server Error [500].');
+			            var msg=jQuery.parseJSON(jqXHR.responseText);
+					    VerError(msg);
 			        } else if (exception === 'parsererror') {
 			            alert('Error parse JSON.');
 			        } else if (exception === 'timeout') {
@@ -1265,8 +1461,6 @@ $("#buscar3").click(function(e) {
 		})
 		.done(function(data) {
 			console.log("success");
-			// $('#cargardel').html('<label></label>');
-			// console.log("success");
 			if(data.success==true){
 						$("#enviaralavista").show();
 						$("#mostrar").show();
@@ -1297,55 +1491,116 @@ $("#buscar3").click(function(e) {
 							});
 
 							//cambiar de color al pasar el puntero
-							$("#datatable-1 tr").mouseenter(function(){
-							        $(this).css('background-color','#369');
-							        $(this).css('color','white');
-							    });
-							    $("#datatable-1 tr").mouseleave(function(){
-							        $(this).css('background-color','#F4F4F4');
-							        $(this).css('color','#333');
-							    });
+							 var sel = $('#datatable-1').DataTable();
+ 
+								    $('#datatable-1 tbody').on( 'click', 'tr', function () {
+								        if ( $(this).hasClass('selected') ) {
+								            $(this).removeClass('selected');
+								        }
+								        else {
+								            sel.$('tr.selected').removeClass('selected');
+								            $(this).addClass('selected');
+								        }
+								    } );
 
 						
 						var oTable = $('#datatable-1').dataTable();
 						// alert(oTable.fnGetData().length);
 						var di=oTable.fnGetData().length;
-						// alert('dim'+di);
-						// oTable.rows().data().length
 						if(di > 0){
 
 							for (var i = 0 ; i < di; i++) {
 								var aData = oTable.fnGetData( i );
-								// console.log('vale'+aData);
-								getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
+								
+								$.ajax({
+									url: "{{URL::route('tagsalavista')}}",
+									type: 'POST',
+									data: {cad: aData[4]},
+									async: false,
+									error: function(jqXHR, exception) {
+								        if (jqXHR.status === 0) {
+								            alert('Error de conexión, verifica tu instalación.');
+								        } else if (jqXHR.status == 404) {
+								            alert('La página no ha sido encontrada. [404]');
+								        } else if (jqXHR.status == 500) {
+								        	var msg=jQuery.parseJSON(jqXHR.responseText);
+								        	 VerError(msg);
+								            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+								        } else if (exception === 'parsererror') {
+								            alert('Error parse JSON.');
+								        } else if (exception === 'timeout') {
+								            alert('Exceso tiempo.');
+								        } else if (exception === 'abort') {
+								            alert('Petición ajax abortada.');
+								        } else {
+								            alert('Error desconocido: ' + jqXHR.responseText);
+								        }
+								    },
+								})
+								.done(function(data) {
+									console.log("success");
+									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+								})
+								.fail(function(data) {
+									console.log("error");
+									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+								})
+
 							};
 
 						}
 						console.log(datas);
 							    // tabla obj
-							$('#datatable-1 tbody td').click( function () {
+						var table = $('#datatable-1').DataTable();
+						$('#datatable-1 tbody').on( 'click', 'tr', function () {
+						  var rowData = table.row( this ).data();
+						  // ... do something with `rowData`
+						  console.log(rowData[3]);
+						  $('#idalavista').text(rowData[3]);
 
-						         
-								// getCat();
-						         oTable = $('#datatable-1').dataTable();
-						         var aPos = oTable.fnGetPosition( this );
-						 		// alert(aPos);
-						         // // Get the data array for this row
-						         var aData = oTable.fnGetData( aPos[0] );
-						          // JSON.parse(aData);
-						         var dim= aData.length;
-						         $('#wysiwig_full').val(aData[5]);
-								 $('#tituloalavista').val(aData[4]);
-								 $('#idalavista').text(aData[3]);
+						 
 
-						         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-						 		// alert(aData);
-						         // // Update the data array and return the value
-						         // aData[ aPos[1] ] = 'clicked';
-						         // this.innerHTML = 'clicked';
+						  var seleo;
+						  $.each(datas.items, function(n) {
+								 /* iterate through array or object */
+								 if(datas.items[n].ide ==$('#idalavista').text()){
+								 	// datas.items.push(item);
+								 	$('#tituloalavista').val(datas.items[n].titulo);
+								 	$('#wysiwig_full').val(datas.items[n].descr);
 
+								 	$("#categoriaalavista option").each(function(){
+								 		if($(this).attr('value')==datas.items[n].cat){
+								 			$('#cateidit').text($(this).text());
+								 			seleo=$(this).text();
+								 		}
+									});
+								 	
+								 	$('#tagalavista').val(datas.items[n].tag);
+								 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
+									$("#categoriaalavista").change();
+								 }
+							});
 
-						       } );
+						} );
+
+						$("#categoriaalavista").change(function(event) {
+							/* Act on the event */
+							$.each(datas.items, function(n) {
+								 /* iterate through array or object */
+								 if(datas.items[n].ide ==$('#idalavista').text()){
+								 	// datas.items.push(item);
+								 	datas.items[n].cat=$("#categoriaalavista").val();
+								 	$("#categoriaalavista option").each(function(){
+								 		if($(this).attr('value')==datas.items[n].cat){
+								 			$('#cateidit').text($(this).text());
+								 		}
+									});
+
+								 }
+							});
+							console.log(datas);
+						});
+
 										
 					}
 			if(data.success=='falserollb'){
@@ -1385,8 +1640,6 @@ $("#buscar4").click(function(e) {
 								// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 								data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
 								beforeSend: function(){
-											// $("#categoriaalavista").empty();
-							    			// alert("message");
 						                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
 						                    datas = {items: 
 											[
@@ -1399,7 +1652,8 @@ $("#buscar4").click(function(e) {
 								        } else if (jqXHR.status == 404) {
 								            alert('La página no ha sido encontrada. [404]');
 								        } else if (jqXHR.status == 500) {
-								            alert('Internal Server Error [500].');
+								            var msg=jQuery.parseJSON(jqXHR.responseText);
+										    VerError(msg);
 								        } else if (exception === 'parsererror') {
 								            alert('Error parse JSON.');
 								        } else if (exception === 'timeout') {
@@ -1413,8 +1667,6 @@ $("#buscar4").click(function(e) {
 							})
 							.done(function(data) {
 								console.log("success");
-								// $('#cargardel').html('<label></label>');
-								// console.log("success");
 								if(data.success==true){
 											$("#mostrar").show();
 											$("#enviaralavista").show();
@@ -1444,53 +1696,115 @@ $("#buscar4").click(function(e) {
 													
 													});
 												//cambiar de color al pasar el puntero
-												$("#datatable-1 tr").mouseenter(function(){
-												        $(this).css('background-color','#369');
-												        $(this).css('color','white');
-												    });
-												    $("#datatable-1 tr").mouseleave(function(){
-												        $(this).css('background-color','#F4F4F4');
-												        $(this).css('color','#333');
-												    });
+												 var sel = $('#datatable-1').DataTable();
+ 
+											    $('#datatable-1 tbody').on( 'click', 'tr', function () {
+											        if ( $(this).hasClass('selected') ) {
+											            $(this).removeClass('selected');
+											        }
+											        else {
+											            sel.$('tr.selected').removeClass('selected');
+											            $(this).addClass('selected');
+											        }
+											    } );
+
+
+
 												    var oTable = $('#datatable-1').dataTable();
 											// alert(oTable.fnGetData().length);
 											var di=oTable.fnGetData().length;
-											// alert('dim'+di);
-											// oTable.rows().data().length
 											if(di > 0){
 
 												for (var i = 0 ; i < di; i++) {
 													var aData = oTable.fnGetData( i );
-													// console.log('vale'+aData);
-													getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
+													
+													$.ajax({
+														url: "{{URL::route('tagsalavista')}}",
+														type: 'POST',
+														data: {cad: aData[4]},
+														async: false,
+														error: function(jqXHR, exception) {
+													        if (jqXHR.status === 0) {
+													            alert('Error de conexión, verifica tu instalación.');
+													        } else if (jqXHR.status == 404) {
+													            alert('La página no ha sido encontrada. [404]');
+													        } else if (jqXHR.status == 500) {
+													        	var msg=jQuery.parseJSON(jqXHR.responseText);
+													        	 VerError(msg);
+													            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+													        } else if (exception === 'parsererror') {
+													            alert('Error parse JSON.');
+													        } else if (exception === 'timeout') {
+													            alert('Exceso tiempo.');
+													        } else if (exception === 'abort') {
+													            alert('Petición ajax abortada.');
+													        } else {
+													            alert('Error desconocido: ' + jqXHR.responseText);
+													        }
+													    },
+													})
+													.done(function(data) {
+														console.log("success");
+														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+													})
+													.fail(function(data) {
+														console.log("error");
+														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+													})
+
 												};
 
 											}
 											console.log(datas);
-												    // tabla obj
-												$('#datatable-1 tbody td').click( function () {
+											var table = $('#datatable-1').DataTable();
+											$('#datatable-1 tbody').on( 'click', 'tr', function () {
+											  var rowData = table.row( this ).data();
+											  // ... do something with `rowData`
+											  console.log(rowData[3]);
+											  $('#idalavista').text(rowData[3]);
 
-											         
-													// getCat();
-											         oTable = $('#datatable-1').dataTable();
-											         var aPos = oTable.fnGetPosition( this );
-											 		// alert(aPos);
-											         // // Get the data array for this row
-											         var aData = oTable.fnGetData( aPos[0] );
-											          // JSON.parse(aData);
-											         var dim= aData.length;
-											         $('#wysiwig_full').val(aData[5]);
-													 $('#tituloalavista').val(aData[4]);
-													 $('#idalavista').text(aData[3]);
+											 
 
-											         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-											 		// alert(aData);
-											         // // Update the data array and return the value
-											         // aData[ aPos[1] ] = 'clicked';
-											         // this.innerHTML = 'clicked';
+											  var seleo;
+											  $.each(datas.items, function(n) {
+													 /* iterate through array or object */
+													 if(datas.items[n].ide ==$('#idalavista').text()){
+													 	// datas.items.push(item);
+													 	$('#tituloalavista').val(datas.items[n].titulo);
+													 	$('#wysiwig_full').val(datas.items[n].descr);
 
+													 	$("#categoriaalavista option").each(function(){
+													 		if($(this).attr('value')==datas.items[n].cat){
+													 			$('#cateidit').text($(this).text());
+													 			seleo=$(this).text();
+													 		}
+														});
+													 	
+													 	$('#tagalavista').val(datas.items[n].tag);
+													 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
+														$("#categoriaalavista").change();
+													 }
+												});
 
-											       } );
+											} );
+
+											$("#categoriaalavista").change(function(event) {
+												/* Act on the event */
+												$.each(datas.items, function(n) {
+													 /* iterate through array or object */
+													 if(datas.items[n].ide ==$('#idalavista').text()){
+													 	// datas.items.push(item);
+													 	datas.items[n].cat=$("#categoriaalavista").val();
+													 	$("#categoriaalavista option").each(function(){
+													 		if($(this).attr('value')==datas.items[n].cat){
+													 			$('#cateidit').text($(this).text());
+													 		}
+														});
+
+													 }
+												});
+												console.log(datas);
+											});
 															
 										}
 								if(data.success=='falserollb'){
@@ -1522,8 +1836,6 @@ $("#buscar4").click(function(e) {
 								// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 								data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
 								beforeSend: function(){
-											// $("#categoriaalavista").empty();
-							    			// alert("message");
 						                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
 						                    datas = {items: 
 											[
@@ -1536,7 +1848,8 @@ $("#buscar4").click(function(e) {
 								        } else if (jqXHR.status == 404) {
 								            alert('La página no ha sido encontrada. [404]');
 								        } else if (jqXHR.status == 500) {
-								            alert('Internal Server Error [500].');
+								            var msg=jQuery.parseJSON(jqXHR.responseText);
+										    VerError(msg);
 								        } else if (exception === 'parsererror') {
 								            alert('Error parse JSON.');
 								        } else if (exception === 'timeout') {
@@ -1550,8 +1863,6 @@ $("#buscar4").click(function(e) {
 							})
 							.done(function(data) {
 								console.log("success");
-								// $('#cargardel').html('<label></label>');
-								// console.log("success");
 								if(data.success==true){
 											$("#mostrar").show();
 											$("#enviaralavista").show();
@@ -1581,14 +1892,18 @@ $("#buscar4").click(function(e) {
 													
 													});
 												//cambiar de color al pasar el puntero
-												$("#datatable-1 tr").mouseenter(function(){
-												        $(this).css('background-color','#369');
-												        $(this).css('color','white');
-												    });
-												    $("#datatable-1 tr").mouseleave(function(){
-												        $(this).css('background-color','#F4F4F4');
-												        $(this).css('color','#333');
-												    });
+												 var sel = $('#datatable-1').DataTable();
+ 
+												    $('#datatable-1 tbody').on( 'click', 'tr', function () {
+												        if ( $(this).hasClass('selected') ) {
+												            $(this).removeClass('selected');
+												        }
+												        else {
+												            sel.$('tr.selected').removeClass('selected');
+												            $(this).addClass('selected');
+												        }
+												    } );
+
 												    var oTable = $('#datatable-1').dataTable();
 											// alert(oTable.fnGetData().length);
 											var di=oTable.fnGetData().length;
@@ -1597,37 +1912,95 @@ $("#buscar4").click(function(e) {
 											if(di > 0){
 
 												for (var i = 0 ; i < di; i++) {
-													var aData = oTable.fnGetData( i );
-													// console.log('vale'+aData);
-													getFormJson(aData[3],aData[4],aData[5],aData[2],'22','')
-												};
+											var aData = oTable.fnGetData( i );
+											
+											$.ajax({
+													url: "{{URL::route('tagsalavista')}}",
+													type: 'POST',
+													data: {cad: aData[4]},
+													async: false,
+													error: function(jqXHR, exception) {
+												        if (jqXHR.status === 0) {
+												            alert('Error de conexión, verifica tu instalación.');
+												        } else if (jqXHR.status == 404) {
+												            alert('La página no ha sido encontrada. [404]');
+												        } else if (jqXHR.status == 500) {
+												        	var msg=jQuery.parseJSON(jqXHR.responseText);
+												        	 VerError(msg);
+												            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+												        } else if (exception === 'parsererror') {
+												            alert('Error parse JSON.');
+												        } else if (exception === 'timeout') {
+												            alert('Exceso tiempo.');
+												        } else if (exception === 'abort') {
+												            alert('Petición ajax abortada.');
+												        } else {
+												            alert('Error desconocido: ' + jqXHR.responseText);
+												        }
+												    },
+												})
+												.done(function(data) {
+													console.log("success");
+													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+												})
+												.fail(function(data) {
+													console.log("error");
+													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+												})
+
+											};
 
 											}
 											console.log(datas);
-												    // tabla obj
-												$('#datatable-1 tbody td').click( function () {
+											var table = $('#datatable-1').DataTable();
+											$('#datatable-1 tbody').on( 'click', 'tr', function () {
+											  var rowData = table.row( this ).data();
+											  // ... do something with `rowData`
+											  console.log(rowData[3]);
+											  $('#idalavista').text(rowData[3]);
 
-											         
-													// getCat();
-											         oTable = $('#datatable-1').dataTable();
-											         var aPos = oTable.fnGetPosition( this );
-											 		// alert(aPos);
-											         // // Get the data array for this row
-											         var aData = oTable.fnGetData( aPos[0] );
-											          // JSON.parse(aData);
-											         var dim= aData.length;
-											         $('#wysiwig_full').val(aData[5]);
-													 $('#tituloalavista').val(aData[4]);
-													 $('#idalavista').text(aData[3]);
+											 
 
-											         console.log(aData[3]+' '+aData[4]+' '+aData[5]);
-											 		// alert(aData);
-											         // // Update the data array and return the value
-											         // aData[ aPos[1] ] = 'clicked';
-											         // this.innerHTML = 'clicked';
+											  var seleo;
+											  $.each(datas.items, function(n) {
+													 /* iterate through array or object */
+													 if(datas.items[n].ide ==$('#idalavista').text()){
+													 	// datas.items.push(item);
+													 	$('#tituloalavista').val(datas.items[n].titulo);
+													 	$('#wysiwig_full').val(datas.items[n].descr);
 
+													 	$("#categoriaalavista option").each(function(){
+													 		if($(this).attr('value')==datas.items[n].cat){
+													 			$('#cateidit').text($(this).text());
+													 			seleo=$(this).text();
+													 		}
+														});
+													 	
+													 	$('#tagalavista').val(datas.items[n].tag);
+													 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
+														$("#categoriaalavista").change();
+													 }
+												});
 
-											       } );
+											} );
+
+											$("#categoriaalavista").change(function(event) {
+												/* Act on the event */
+												$.each(datas.items, function(n) {
+													 /* iterate through array or object */
+													 if(datas.items[n].ide ==$('#idalavista').text()){
+													 	// datas.items.push(item);
+													 	datas.items[n].cat=$("#categoriaalavista").val();
+													 	$("#categoriaalavista option").each(function(){
+													 		if($(this).attr('value')==datas.items[n].cat){
+													 			$('#cateidit').text($(this).text());
+													 		}
+														});
+
+													 }
+												});
+												console.log(datas);
+											});
 															
 										}
 								if(data.success=='falserollb'){
@@ -1665,6 +2038,8 @@ $('#modaldataedit').on('hidden.bs.modal', function (){
   	$('#mtituloalavista').val("");
  	$('#descripcionalavista').val("");
  	$('#idalavista').text(""); 
+ 	$('#tagalavista').val("");
+	$('#urltagalavista').val("");
  	// $("#categoriaalavista").empty();
  	$('#uniqedit').html("");
  	
@@ -1676,7 +2051,8 @@ $('#guardaralavista').click(function(et) {
 	/* Act on the event */
 	$('#uniqedit').html("");
 	et.preventDefault();
-	if($('#categoriaalavista').val() != ""){
+	// if($('#categoriaalavista').val() != "")
+	// {
 		$.each(datas.items, function(n) {
 			$('#uniqedit').html("<img src='img/devoops_getdata.gif'  alt='preloader'/>");
 			 /* iterate through array or object */
@@ -1686,18 +2062,27 @@ $('#guardaralavista').click(function(et) {
 			 	datas.items[n].titulo=$('#tituloalavista').val();
 			 	datas.items[n].descr=$('#wysiwig_full').val();
 			 	datas.items[n].cat=$('#categoriaalavista').val();
-			 	 // console.log(datas.items[n].ide+' '+datas.items[n].cat);
+			 	datas.items[n].tag=$('#tagalavista').val();
+			 	datas.items[n].turl=$('#urltagalavista').val();
+			 	 console.log(datas.items[n].ide+' '+datas.items[n].cat);
+			 // 	 $("#categoriaalavista option").each(function(){
+			 // 		if($(this).attr('value')==datas.items[n].cat){
+			 // 			$('#cateidit').text($(this).text());
+			 // 		}
+				// });
+
+
 			 }
 			
 		});
-		// console.log(datas);
+		console.log(datas);
 		$('#uniqedit').html("<center><label class='col-sm-12 bg-info'>Informacion Agregada</label></center>");
 
-	}
-	else{
-		$('#uniqedit').html("<center><label class='col-sm-12 bg-danger'>Seleccione una Categoria</label></center>");
+	//}
+	// else{
+	// 	$('#uniqedit').html("<center><label class='col-sm-12 bg-danger'>Seleccione una Categoria</label></center>");
 
-	}
+	// }
 		
 
 });

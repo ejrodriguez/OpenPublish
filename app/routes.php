@@ -52,20 +52,22 @@ Route::get('/video',array('as' => 'downloadxml', 'uses' => 'VideoController@show
 
 //rutear a administracion en youtube
 
-Route::post('/video/youtube/videoid',array('as' => 'getvideoid', 'uses' => 'VideoController@getVideoById'))->before("auth_user");
+Route::post('/video/youtube/videoid',array('as' => 'getvideoid', 'uses' => 'YouTubeController@getVideoById'))->before("auth_user");
 
-Route::post('/video/youtube/popularvideos',array('as' => 'getpopularvideos', 'uses' => 'VideoController@getPopularVideos'))->before("auth_user");
+Route::post('/video/youtube/popularvideos',array('as' => 'getpopularvideos', 'uses' => 'YouTubeController@getPopularVideos'))->before("auth_user");
 
-Route::post('/video/youtube/videocategorias',array('as' => 'categoriesvideos', 'uses' => 'VideoController@getVideoCategories'))->before("auth_user");
+Route::post('/video/youtube/videocategorias',array('as' => 'categoriesvideos', 'uses' => 'YouTubeController@getVideoCategories'))->before("auth_user");
 
-Route::post('/video/youtube/masvistos',array('as' => 'videosmasvistos', 'uses' => 'VideoController@getMostViewed'))->before("auth_user");
+Route::post('/video/youtube/masvistos',array('as' => 'videosmasvistos', 'uses' => 'YouTubeController@getMostViewed'))->before("auth_user");
 
-Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' => 'VideoController@searchVideos'))->before("auth_user");
+Route::post('/video/youtube/busqueda',array('as' => 'busquedaavanzada', 'uses' => 'YouTubeController@searchVideos'))->before("auth_user");
 
 
 Route::post('/categorias/alavista',array('as' => 'categoryalavista', 'uses' => 'VideoController@CategoryAlavista'))->before("auth_user");
 
-Route::post('/categorias/alavista/guardar',array('as' => 'savealavista', 'uses' => 'VideoController@SaveAlavista'))->before("auth_user");
+Route::post('/categorias/alavista/guardar',array('as' => 'savealavista', 'uses' => 'YouTubeController@SaveAlavista'))->before("auth_user");
+
+Route::post('/video/tags/seo',array('as' => 'tagsalavista', 'uses' => 'YouTubeController@Tags'))->before("auth_user");
 //ejemplo con base joomla
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 

@@ -38,13 +38,14 @@
 						<thead>
 							<tr>
 								<th>Id</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
 								<th>Nombre</th>
 								<th>Email</th>
 								<th>Estado</th>
 								<th>Rol</th>
 								<th>Actualizado en</th>
-								<th>Editar</th>
-								<th>Eliminar</th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -52,6 +53,12 @@
 							@foreach($usuarios as $usuario)
 							<tr>
 								<td id="user_id">{{$usuario->id}}</td>
+								<td>
+									<a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a>					
+								</td>
+								<td>
+									<a id="callmodaldel" data-toggle="modal" href="#modaldatadel" class="btn btn-danger btn-large"><span class="fa fa-trash-o" aria-hidden="true"></span> Eliminar</a>
+								</td>
 								<td id="user_name">{{$usuario->UserName}}</td>
 								<td id="user_email">{{$usuario->email}}</td>
 								<td id="user_stat">{{$usuario->StatusDescrip}}</td>
@@ -59,12 +66,7 @@
 								<td id="user_upd">
 									{{$usuario->updated_at}}
 								</td>
-								<td>
-									<a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span> Editar</a>					
-								</td>
-								<td>
-									<a id="callmodaldel" data-toggle="modal" href="#modaldatadel" class="btn btn-danger btn-large"><span class="fa fa-trash-o" aria-hidden="true"></span> Eliminar</a>
-								</td>
+								
 							</tr>
 							@endforeach
 						<!-- End: list_row -->
@@ -72,13 +74,14 @@
 						<tfoot>
 							<tr>
 								<th>Id</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
 								<th>Nombre</th>
 								<th>Email</th>
 								<th>Estado</th>
 								<th>Rol</th>
 								<th>Actualizado en</th>
-								<th>Editar</th>
-								<th>Eliminar</th>
+								
 							</tr>
 						</tfoot>
 					</table>
@@ -297,14 +300,28 @@ $(document).ready(function() {
 });
 
 //seleccion de una fila
- $('table tbody tr').click(function(){
+ // $('table tbody tr').click(function(){
+
+var table = $('#datatable-1').DataTable();
+ 
+$('#datatable-1 tbody').on( 'click', 'tr', function () {
+  var rowData = table.row( this ).data();
+	// console.log('id: '+rowData[0]+' name: '+rowData[3]+' email: '+rowData[4]+' stado: '+rowData[5]+' rol: '+rowData[6]+' upd: '+rowData[7]);
+  // ... do something with `rowData`
+// } );
+
+
+
+
  	// console.log($(this).text());
- 	var ID = $(this).find("td[id='user_id']").text();
- 	var NAME = $(this).find("td[id='user_name']").text();
- 	var EMAIL = $(this).find("td[id='user_email']").text();
- 	var STADO = $(this).find("td[id='user_stat']").text();
- 	var ROL = $(this).find("td[id='user_rol']").text();
- 	var UPDAT = $(this).find("td[id='user_upd']").text();
+ 	var ID = rowData[0];
+ 	var NAME = rowData[3];
+ 	var EMAIL = rowData[4];
+ 	var STADO = rowData[5];
+ 	var ROL = rowData[6];
+ 	var UPDAT = rowData[7];
+
+ 	//0 rol 1 name 2 email 3 stado 4 rol 5 up
 
     //load values modal elimiar
  	$('#useriddel').text(ID);
@@ -428,14 +445,17 @@ $(document).ready(function() {
 
 
 //cambiar de color al pasar el puntero
-$("#datatable-1 tr").mouseenter(function(){
-        $(this).css('background-color','#369');
-        $(this).css('color','white');
-    });
-    $("#datatable-1 tr").mouseleave(function(){
-        $(this).css('background-color','#F4F4F4');
-        $(this).css('color','#333');
-    });
+ var sel = $('#datatable-1').DataTable();
+ 
+	$('#datatable-1 tbody').on( 'click', 'tr', function () {
+	    if ( $(this).hasClass('selected') ) {
+	        $(this).removeClass('selected');
+	    }
+	    else {
+	        sel.$('tr.selected').removeClass('selected');
+	        $(this).addClass('selected');
+	    }
+	} );
 
 // //limpiar datos de edicion
 // $("#close").click(function(e) {
