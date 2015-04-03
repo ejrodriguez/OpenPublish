@@ -63,13 +63,12 @@
 						</div>	
 						<div class="form-group" >
 						</fieldset>
-						<div>
+						<div class="form-group">
 						<fieldset>
-						<legend>Cuentas:</legend>
-
-							<textarea class="form-control" name="descripcion" id="descripcion"></textarea>
-						
-						<fieldset>
+						<legend>Mensaje:</legend>
+							<textarea class="form-control" name="descripcion" id="mensaje"  maxlength="140" onKeyDown="valida_longitud()"></textarea>
+							<h4 class="col-sm-8" id="contador" class="control-label"></h4>
+						</fieldset>
 						</div>
 						</fieldset>
 						<legend>Cuentas:</legend>
@@ -99,7 +98,6 @@ $(document).ready(function() {
 		appendTo: 'div.box-content'
 	});
 
-// Create jQuery-UI tabs
 //cargar videos
 $.ajax({
 		url: "{{URL::route('listvideos')}}",
@@ -183,7 +181,7 @@ function showModal(seoname,seocategoria,title,image)
 	
 	link = 'http://alavista.tv/index.php/es/player/'+seocategoria+'/'+seoname;
 	$('#titlevideo').text(title);
-	document.getElementById("descripcion").value="";
+	document.getElementById("mensaje").value="";
 	document.getElementById("linkvideo").value = link;
 	document.getElementById("imgvideo").src = image;
 	$('#modalshareprofile').modal('show');
@@ -281,20 +279,43 @@ function Share(identificador)
             elem=document.getElementById(id).options;
 			for(i=0;i<elem.length;i++)
 				{
-					elem[i].selected=true; 
-					//$("#"+id).find("option:contains("+i+")").prop('selected',true).parent().focus();
+					elem[i].selected=true; 					
 					$("#"+id).change();
 				}
         } else {   
             elem=document.getElementById(id).options;
 			for(i=0;i<elem.length;i++)
 			{
-				elem[i].selected=false; 
-				//$("#"+id).find("option:contains("+i+")").prop('selected',false).parent().focus();
+				elem[i].selected=false;
 				$("#"+id).change();
 			}
         }  
    }
 
+contenido_textarea = "" 
+num_caracteres_permitidos = 140
+
+function valida_longitud(){ 
+   cuenta() 
+   num_caracteres = document.getElementById("mensaje").value.length;
+   if (num_caracteres >= num_caracteres_permitidos){
+      document.getElementById("contador").style.color = "#FF0000";
+   }
+   else
+	{
+	   	if (num_caracteres >= num_caracteres_permitidos-20)
+	   	{ 
+	       document.getElementById("contador").style.color = "#FF9900";
+	   	}
+	   	else{
+	   			document.getElementById("contador").style.color = "#000000";
+	   		}
+   }
+
+} 
+function cuenta(){ 
+	c= $('#mensaje').val().length;
+	$('#contador').text(c);
+} 
 </script>
 </body>
