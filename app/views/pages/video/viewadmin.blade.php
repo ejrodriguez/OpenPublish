@@ -492,7 +492,7 @@
 			        		<label class="col-sm-2 control-label" id="catall">Categoria Todos: </label>
 						  	<div class="col-sm-4">
 								<select class="populate placeholder"  name="categoryall" id="categoryall">
-									<option value="10">-- Default --</option>
+									<option value="22">-- Default --</option>
 
 								</select>
 							</div>
@@ -1330,11 +1330,11 @@ $("#buscar2").click(function(e) {
 											})
 											.done(function(data) {
 												console.log("success");
-												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','',data.list,'');
+												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
 											})
 											.fail(function(data) {
 												console.log("error");
-												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','','','');
+												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
 											})
 
 										};
@@ -1539,11 +1539,11 @@ $("#buscar3").click(function(e) {
 								})
 								.done(function(data) {
 									console.log("success");
-									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','',data.list,'');
+									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
 								})
 								.fail(function(data) {
 									console.log("error");
-									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','','','');
+									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
 								})
 
 							};
@@ -1745,11 +1745,11 @@ $("#buscar4").click(function(e) {
 													})
 													.done(function(data) {
 														console.log("success");
-														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','',data.list,'');
+														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
 													})
 													.fail(function(data) {
 														console.log("error");
-														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','','','');
+														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
 													})
 
 												};
@@ -1941,11 +1941,11 @@ $("#buscar4").click(function(e) {
 												})
 												.done(function(data) {
 													console.log("success");
-													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','',data.list,'');
+													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
 												})
 												.fail(function(data) {
 													console.log("error");
-													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'10','','','');
+													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
 												})
 
 											};
