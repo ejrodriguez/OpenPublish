@@ -68,6 +68,8 @@ Route::post('/categorias/alavista',array('as' => 'categoryalavista', 'uses' => '
 Route::post('/categorias/alavista/guardar',array('as' => 'savealavista', 'uses' => 'YouTubeController@SaveAlavista'))->before("auth_user");
 
 Route::post('/video/tags/seo',array('as' => 'tagsalavista', 'uses' => 'YouTubeController@Tags'))->before("auth_user");
+
+Route::post('/video/tags/vererror',array('as' => 'vererror', 'uses' => 'YouTubeController@Probar'))->before("auth_user");
 //ejemplo con base joomla
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 

@@ -72,7 +72,7 @@ class VideoController extends BaseController {
 		$encontrados='<select class="populate placeholder" name="categoriaalavista" id="categoriaalavista" ><option  value="">-- Seleccione una categoria --</option>';
 		foreach ($cats as $categoria)
 		{
-			if($categoria->published != 0)
+			if($categoria->published == 1)
 			{
 				if($categoria->parent_id != 0)
 				{
