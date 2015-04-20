@@ -744,114 +744,6 @@
         ]
     },
     {
-        "name": "alaouy/youtube",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/alaouy/Youtube.git",
-            "reference": "e779c29d70d2d3b8596a2bdae486887c1713d27d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/alaouy/Youtube/zipball/e779c29d70d2d3b8596a2bdae486887c1713d27d",
-            "reference": "e779c29d70d2d3b8596a2bdae486887c1713d27d",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*@stable"
-        },
-        "time": "2015-02-11 15:43:35",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Alaouy\\Youtube\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Mustapha Alaouy",
-                "email": "alaouym@gmail.com"
-            }
-        ],
-        "description": "Laravel PHP Facade/Wrapper for the Youtube Data API v3",
-        "keywords": [
-            "alaouy",
-            "api",
-            "laravel",
-            "video",
-            "youtube"
-        ]
-    },
-    {
-        "name": "filp/whoops",
-        "version": "1.1.4",
-        "version_normalized": "1.1.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/filp/whoops.git",
-            "reference": "dcce91553e2e056857f1ea844949e9a8a71b613d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/filp/whoops/zipball/dcce91553e2e056857f1ea844949e9a8a71b613d",
-            "reference": "dcce91553e2e056857f1ea844949e9a8a71b613d",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "mockery/mockery": "0.9.*"
-        },
-        "time": "2015-02-17 15:50:31",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.2-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Whoops": "src/"
-            },
-            "classmap": [
-                "src/deprecated"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Filipe Dobreira",
-                "homepage": "https://github.com/filp",
-                "role": "Developer"
-            }
-        ],
-        "description": "php error handling for cool kids",
-        "homepage": "https://github.com/filp/whoops",
-        "keywords": [
-            "error",
-            "exception",
-            "handling",
-            "library",
-            "silex-provider",
-            "whoops",
-            "zf2"
-        ]
-    },
-    {
         "name": "monolog/monolog",
         "version": "1.13.1",
         "version_normalized": "1.13.1.0",
@@ -1078,57 +970,6 @@
             "nosql",
             "predis",
             "redis"
-        ]
-    },
-    {
-        "name": "facebook/php-sdk-v4",
-        "version": "4.0.21",
-        "version_normalized": "4.0.21.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/facebook/facebook-php-sdk-v4.git",
-            "reference": "b583b4a756e477df1d0941caccea27b5d7532f18"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/b583b4a756e477df1d0941caccea27b5d7532f18",
-            "reference": "b583b4a756e477df1d0941caccea27b5d7532f18",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "guzzlehttp/guzzle": "~4.0",
-            "mockery/mockery": "dev-master",
-            "phpunit/phpunit": "3.7.*"
-        },
-        "suggest": {
-            "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client"
-        },
-        "time": "2015-03-31 22:01:09",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Facebook\\": "src/Facebook/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Facebook Platform"
-        ],
-        "authors": [
-            {
-                "name": "Facebook",
-                "homepage": "https://github.com/facebook/facebook-php-sdk-v4/contributors"
-            }
-        ],
-        "description": "Facebook SDK for PHP",
-        "homepage": "https://github.com/facebook/facebook-php-sdk-v4",
-        "keywords": [
-            "facebook",
-            "sdk"
         ]
     },
     {
@@ -2004,5 +1845,257 @@
         ],
         "description": "Symfony Filesystem Component",
         "homepage": "http://symfony.com"
+    },
+    {
+        "name": "facebook/php-sdk-v4",
+        "version": "4.0.23",
+        "version_normalized": "4.0.23.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/facebook/facebook-php-sdk-v4.git",
+            "reference": "c82611e05596622c9bd7abfa1cea1512d885c95e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/c82611e05596622c9bd7abfa1cea1512d885c95e",
+            "reference": "c82611e05596622c9bd7abfa1cea1512d885c95e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "guzzlehttp/guzzle": "~4.0",
+            "mockery/mockery": "dev-master",
+            "phpunit/phpunit": "3.7.*"
+        },
+        "suggest": {
+            "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client"
+        },
+        "time": "2015-04-03 20:31:47",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Facebook\\": "src/Facebook/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Facebook Platform"
+        ],
+        "authors": [
+            {
+                "name": "Facebook",
+                "homepage": "https://github.com/facebook/facebook-php-sdk-v4/contributors"
+            }
+        ],
+        "description": "Facebook SDK for PHP",
+        "homepage": "https://github.com/facebook/facebook-php-sdk-v4",
+        "keywords": [
+            "facebook",
+            "sdk"
+        ]
+    },
+    {
+        "name": "filp/whoops",
+        "version": "1.1.5",
+        "version_normalized": "1.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/filp/whoops.git",
+            "reference": "c982fe62c44798c433229cb0425c61b487cc1883"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/c982fe62c44798c433229cb0425c61b487cc1883",
+            "reference": "c982fe62c44798c433229cb0425c61b487cc1883",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "0.9.*"
+        },
+        "time": "2015-03-30 15:26:59",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Whoops": "src/"
+            },
+            "classmap": [
+                "src/deprecated"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Filipe Dobreira",
+                "homepage": "https://github.com/filp",
+                "role": "Developer"
+            }
+        ],
+        "description": "php error handling for cool kids",
+        "homepage": "https://github.com/filp/whoops",
+        "keywords": [
+            "error",
+            "exception",
+            "handling",
+            "library",
+            "silex-provider",
+            "whoops",
+            "zf2"
+        ]
+    },
+    {
+        "name": "vimeo/vimeo-api",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vimeo/vimeo.php.git",
+            "reference": "e1552376ce7bb2e90ea56d127a95ea30b8fe770e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vimeo/vimeo.php/zipball/e1552376ce7bb2e90ea56d127a95ea30b8fe770e",
+            "reference": "e1552376ce7bb2e90ea56d127a95ea30b8fe770e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-10-23 20:06:03",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Vimeo\\": "src/Vimeo"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Vimeo",
+                "homepage": "http://vimeo.com"
+            }
+        ],
+        "description": "Official PHP library for the Vimeo API.",
+        "homepage": "https://github.com/vimeo/vimeo.php",
+        "keywords": [
+            "video",
+            "vimeo"
+        ]
+    },
+    {
+        "name": "vinkla/vimeo",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vinkla/vimeo.git",
+            "reference": "935c1aa7b580902be9652d846a026bc7600e5392"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vinkla/vimeo/zipball/935c1aa7b580902be9652d846a026bc7600e5392",
+            "reference": "935c1aa7b580902be9652d846a026bc7600e5392",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "~4.0|~5.0",
+            "php": ">=5.4.0",
+            "vimeo/vimeo-api": "~1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2015-01-21 08:31:16",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Vinkla\\Vimeo": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Vincent Klaiber",
+                "email": "me@vinkla.com",
+                "homepage": "http://vinkla.com"
+            }
+        ],
+        "description": "Laravel wrapper for the official Vimeo API.",
+        "homepage": "https://github.com/vinkla/vimeo",
+        "keywords": [
+            "laravel",
+            "video",
+            "vimeo"
+        ]
+    },
+    {
+        "name": "alaouy/youtube",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alaouy/Youtube.git",
+            "reference": "7d112a919a3c3058e75ad363a266c3463054301c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/alaouy/Youtube/zipball/7d112a919a3c3058e75ad363a266c3463054301c",
+            "reference": "7d112a919a3c3058e75ad363a266c3463054301c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*@stable"
+        },
+        "time": "2015-04-05 14:37:17",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Alaouy\\Youtube\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mustapha Alaouy",
+                "email": "alaouym@gmail.com"
+            }
+        ],
+        "description": "Laravel PHP Facade/Wrapper for the Youtube Data API v3",
+        "keywords": [
+            "alaouy",
+            "api",
+            "laravel",
+            "video",
+            "youtube"
+        ]
     }
 ]

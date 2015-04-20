@@ -36,11 +36,8 @@
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content">
-				<!-- <div class="panel panel-default"> -->
 					<div id="tabs">
 						<ul  class="list-inline">
-							<!-- <li><a class="btn btn-default btn-app-sm " data-toggle="tooltip" data-placement="bottom" title="YouTube"  href="#tabs-1"><i class="fa fa-youtube txt-danger" ></i></a></li>
-							<li><a class="btn btn-default btn-app-sm " data-toggle="tooltip" data-placement="bottom" title="Vimeo" href="#tabs-2"><i class="fa fa-vimeo-square txt-info"></i></a></li> -->
 							<li><a  data-toggle="tooltip" data-placement="bottom" title="YouTube"  href="#tabs-1"><i class="fa fa-youtube txt-danger" ></i> YouTube</a></li>
 							<li><a data-toggle="tooltip" data-placement="bottom" title="Vimeo" href="#tabs-2"><i class="fa fa-vimeo-square txt-info"></i> Vimeo</a></li>
 						</ul>
@@ -51,57 +48,6 @@
 								  YouTube
 								</div>
 								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-									<!-- <div  class="panel panel-default">
-										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-										    <div  class="panel-heading" role="tab" id="headingOne">
-										      <h4 class="panel-title">
-										       
-										         Obtener Video <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info1" class="" ><i class="fa fa-info-circle" ></i></a>
-										        
-										      </h4>
-										    </div>
-										</a>
-									    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-									      <div class="panel-body">
-									        
-											<form id="DelDataPersonalForm" method="POST"  action="" class="form-horizontal">
-								        		<fieldset>
-								        		<div class="form-group" >
-									        		<label class="col-sm-2 control-label" >Criterio: </label>
-												  	<div class="col-sm-3">
-														<select class="populate placeholder" name="criterio" id="criterio" disabled>
-														<option  value="">-- Seleccione un Criterio --</option>
-														<option  selected value="0">getVideoInfo</option>
-
-														</select>
-													</div>
-													
-													
-												</div>
-
-												<div class="form-group" >
-													<label class="col-sm-2 control-label">Video Id: </label>
-													<div class="col-sm-4">
-														<input type="text" class="form-control" name="idvideo" id="idvideo" />
-													</div>
-												</div>
-
-												<div class="form-group" >
-
-													<div class="col-sm-4 ">
-													
-													</div>
-													<div class="col-sm-4">
-															<button  data-loading-text="Loading..." id="buscar1" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
-													</div>
-												</div>
-												</fieldset>
-																							
-											</form>
-
-									      </div>
-									    </div>
-									</div> -->
 									<div class="panel panel-default">
 										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 									    <div class="panel-heading" role="tab" id="headingTwo">
@@ -471,7 +417,10 @@
 					
 						<div style="overflow:auto;" >
 							<div id="listresult">
-								
+								<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead>
+									<tbody>
+									</tbody>
+								</table>
 							</div>
 	
 					</div>
@@ -920,6 +869,28 @@ function validarFechaMenorMayor(datetime1,datetime2){
 
 $(document).ready(function() {
 
+
+	$('#datatable-1').DataTable({
+	
+	"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+	"language": {
+					"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+					"paginate": {
+				       				 	"next": "Siguiente",
+				       				 	"previous": "Anterior",
+
+									},
+						"search": "Buscar:",
+						"infoEmpty": "No hay registros que mostrar",
+						"infoFiltered": " - filtrados en _MAX_ registros en total",
+						"emptyTable": "No hay registros en la tabla",
+						"lengthMenu": "Ver _MENU_ registros",
+						"loadingRecords": "Espere un momento - cargando...",
+						"zeroRecords": "No hay registros coincidentes encontrados",
+				},
+	
+	});
+
 	AllCat();
 
 	$("#mostrar").hide();
@@ -1330,11 +1301,11 @@ $("#buscar2").click(function(e) {
 											})
 											.done(function(data) {
 												console.log("success");
-												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
 											})
 											.fail(function(data) {
 												console.log("error");
-												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
 											})
 
 										};
@@ -1366,7 +1337,7 @@ $("#buscar2").click(function(e) {
 											 			seleo=$(this).text();
 											 		}
 												});
-											 	
+											 	$('#urltagalavista').val(datas.items[n].turl);
 											 	$('#tagalavista').val(datas.items[n].tag);
 											 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
 												$("#categoriaalavista").change();
@@ -1539,11 +1510,11 @@ $("#buscar3").click(function(e) {
 								})
 								.done(function(data) {
 									console.log("success");
-									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
 								})
 								.fail(function(data) {
 									console.log("error");
-									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
 								})
 
 							};
@@ -1574,7 +1545,7 @@ $("#buscar3").click(function(e) {
 								 			seleo=$(this).text();
 								 		}
 									});
-								 	
+								 	$('#urltagalavista').val(datas.items[n].turl);
 								 	$('#tagalavista').val(datas.items[n].tag);
 								 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
 									$("#categoriaalavista").change();
@@ -1745,11 +1716,11 @@ $("#buscar4").click(function(e) {
 													})
 													.done(function(data) {
 														console.log("success");
-														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
 													})
 													.fail(function(data) {
 														console.log("error");
-														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
 													})
 
 												};
@@ -1779,7 +1750,7 @@ $("#buscar4").click(function(e) {
 													 			seleo=$(this).text();
 													 		}
 														});
-													 	
+													 	$('#urltagalavista').val(datas.items[n].turl);
 													 	$('#tagalavista').val(datas.items[n].tag);
 													 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
 														$("#categoriaalavista").change();
@@ -1941,11 +1912,11 @@ $("#buscar4").click(function(e) {
 												})
 												.done(function(data) {
 													console.log("success");
-													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'');
+													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
 												})
 												.fail(function(data) {
 													console.log("error");
-													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','');
+													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
 												})
 
 											};
@@ -1975,7 +1946,7 @@ $("#buscar4").click(function(e) {
 													 			seleo=$(this).text();
 													 		}
 														});
-													 	
+													 	$('#urltagalavista').val(datas.items[n].turl);
 													 	$('#tagalavista').val(datas.items[n].tag);
 													 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
 														$("#categoriaalavista").change();

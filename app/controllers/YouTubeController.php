@@ -139,7 +139,8 @@ class YouTubeController extends BaseController {
                 foreach ($datos as $value) {
                     if ($value['sel'] == 'true') {
                         $count = Video::where('videourl', '=', 'https://www.youtube.com/watch?v=' . $value['ide'])->count();
-                        if ($count == 0) {
+                        $counta = VideoOpenpub::where('VideoId', '=', $value['ide'])->count();
+                        if ($count == 0 && $counta == 0) {
                             if (strlen($value['titulo']) > 1 || strlen($value['titulo']) < 255) {
                                 $market = array('VideoId' => $value['ide'], 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $value['titulo'], 'VideoUrl' => 'https://www.youtube.com/watch?v=' . $value['ide'], 'VideoImage' => 'http://img.youtube.com/vi/' . $value['ide'] . '/mqdefault.jpg', 'VideoDate' => date("Y-m-d H:i:s"));
                                 VideoOpenpub::create($market);
@@ -162,7 +163,7 @@ class YouTubeController extends BaseController {
 
                                 $titu = $value['titulo'];
                                 $titu = str_replace(array('“', '”', '"', '\''), '' , $titu);
-
+                            
                                 $DataVideo = array('memberid' => 539, 'published' => 1, 'title' => $titu, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => 'https://www.youtube.com/watch?v='.$value['ide'], 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $value['cat'], 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $value['descr'], 'targeturl' => $value['turl'], 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $value['tag'], 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
                                 $newVideo = Video::create($DataVideo);
                                 $VidCat = array('vid' => $newVideo->id, 'catid' => $value['cat']);
