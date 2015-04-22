@@ -61,20 +61,24 @@
 								<h4 id="titlevideo" class="control-label"></h4>
 								</div>
 						</div>	
-						<div class="form-group" >
-						</fieldset>
+					</fieldset>
 						<div class="form-group">
 						<fieldset>
 						<legend>Mensaje:</legend>
-							<textarea class="form-control" name="descripcion" id="mensaje"  maxlength="140" onKeyDown="valida_longitud()"></textarea>
-							<h4 class="col-sm-8" id="contador" class="control-label"></h4>
+							<textarea class="form-control" name="descripcion" id="mensaje"  maxlength="118" rows="5"  onKeyDown="valida_longitud()"></textarea>
+							<h5 class="col-sm-8" id="contador" class="control-label"></h5>
 						</fieldset>
 						</div>
-						</fieldset>
-						<legend>Cuentas:</legend>
 						<fieldset>
 						<div class="form-group">
+						<legend>Cuentas:</legend>
 						<div id="cuentas"></div>
+						<br>
+						<span onclick="Share()" class="dtr-data"><a id="callmodalshare" data-toggle="modal" class="btn btn-default btn-large">
+						<span class="fa  fa-twitter txt-primary" aria-hidden="true"></span>  Twittear</a></span>
+
+						<div id="resultshare"></div>
+						</div>
 						</fieldset>
 
 				</form>
@@ -131,11 +135,11 @@ $.ajax({
 		console.log("error");
 
 	});
-	/*
-	//--------------cargar cuentas Facebook
+	
+	//--------------cargar cuentas twitter
 		$.ajax({
 	    	
-	    	url: "{{URL::route('accounts')}}",
+	    	url: "{{URL::route('accountstw')}}",
 	    	type: 'GET',
 		    beforeSend: function(){
 	                    $('#cuentas').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
@@ -150,15 +154,8 @@ $.ajax({
 				echo 'cuentas ='.$accounts.';';?>
 				function SelectCat()
 				{
-					for (var i = 1; i <= cuentas; i++) 
-					{
-						$('#groups'+i).select2();
-						$('#groups'+i).select2({placeholder: "Seleccione sus grupos"});
-						$('#pages'+i).select2();
-						$('#pages'+i).select2({placeholder: "Seleccione sus páginas"});
-						$('#events'+i).select2();
-						$('#events'+i).select2({placeholder: "Seleccione sus eventos"});
-					};
+					$('#account').select2();
+					$('#account').select2({placeholder: "Seleccione las cuentas"});
 				}			
 				LoadSelect2Script(SelectCat);
 			}
@@ -172,7 +169,7 @@ $.ajax({
 		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
 		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Facebook, Seleccione nuevamente la opcion del menu Redes Sociales, Facebook para obtener las cuentas de facebook.</p>');
 	    })
-	/////////////////////////// */
+	
 
 });	
 //funcion para publicar perfil
@@ -191,42 +188,20 @@ function closemodal(){
 	$('#modalshareprofile').modal('hide');
 }
 //funcion para compartir
-function Share(identificador)
+function Share()
 {
-	link = document.getElementById("linkvideo").value;
-	mensaje = document.getElementById("mensaje").value;
-	descripcion = document.getElementById("descripcion").value; 
-	cuenta = document.getElementById(identificador).value;  
-	idcuenta = document.getElementById('idcuenta'+identificador).value;  
-	grupos = $('#groups'+identificador).val();
-	paginas = $('#pages'+identificador).val();
-	eventos = $('#events'+identificador).val();
-	//lista de id de las cuentas donde se publicara. 
-	var ids = [cuenta];
-	if (grupos != null){
-		for (var i = 0; i <  grupos.length ; i++) {
-		 	ids.push(grupos[i]);
-		 };
-	}
-
-	if (paginas != null){
-		for (var i = 0; i <  paginas.length ; i++) {
-		 	ids.push(paginas[i]);
-		 };
-	}
-	
-	if (eventos != null){
-		for (var i = 0; i <  eventos.length ; i++) {
-		 	ids.push(eventos[i]);
-		 };
-	}
+	message = document.getElementById("mensaje").value;
+	message = message+"  "+document.getElementById("linkvideo").value;
+	accounts = $('#account').val();
+	alert(message);
+	alert(accounts);
 	$.ajax({
-		url: "{{URL::route('share')}}",
+		url: "{{URL::route('twittear')}}",
 		type: 'POST',
-		data: {link:link,mensaje:mensaje,descripcion:descripcion,ids:ids,idcuenta:idcuenta},
+		data: {message:message,accounts:accounts},
 		beforeSend: function(){
 	    			
-                    $('#resultshare'+identificador).html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+                    $('#resultshare').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
                 },
         error: function(jqXHR, exception) {
 		        if (jqXHR.status === 0) {
@@ -247,17 +222,17 @@ function Share(identificador)
 		    },
 	})
 	.done(function(data) {
-		$('#resultshare'+identificador).html('<label></label>');
-		// console.log("success");
+		$('#resultshare').html('<label></label>');
+		console.log(data.msg)
 		if(data.success=='true'){
 
 					// alert(data.msg);
-					$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+					$('#resultshare').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
 				}
 		if(data.success=='false'){
 
 					// alert(data.msg);
-					$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
 				}
 		if(data.success=='falserollb'){
 
@@ -269,28 +244,8 @@ function Share(identificador)
 	})
 	.always(function() {
 		console.log("complete");
-	}); 	
+	});
 }
-
-//funcion agregar todos los elementos de un select
-	function checkTodos(id,idcheck) {
-
-        if($("#"+idcheck).is(':checked')) {  
-            elem=document.getElementById(id).options;
-			for(i=0;i<elem.length;i++)
-				{
-					elem[i].selected=true; 					
-					$("#"+id).change();
-				}
-        } else {   
-            elem=document.getElementById(id).options;
-			for(i=0;i<elem.length;i++)
-			{
-				elem[i].selected=false;
-				$("#"+id).change();
-			}
-        }  
-   }
 
 contenido_textarea = "" 
 num_caracteres_permitidos = 140
@@ -303,7 +258,7 @@ function valida_longitud(){
    }
    else
 	{
-	   	if (num_caracteres >= num_caracteres_permitidos-20)
+	   	if (num_caracteres >= num_caracteres_permitidos-22)
 	   	{ 
 	       document.getElementById("contador").style.color = "#FF9900";
 	   	}

@@ -24,6 +24,7 @@ class FacebookHelper
 	{
 		FacebookSession::setDefaultApplication(Config::get('facebook.app_id'),Config::get('facebook.app_secret'));
 		$this->helper = new FacebookRedirectLoginHelper(url('facebook/callback'));
+		
 	}
 
 	public function getUrlLogin()
@@ -53,8 +54,19 @@ class FacebookHelper
 	//generar session desde token.
 	public function generateSessionFromToken($token)
 	{
-		$session = new FacebookSession($token);
-		return $session;
+		$session = null;
+		try {
+				$session = new FacebookSession($token);
+				return $session;
+		} catch (FacebookRequestException $ex) {
+				echo $ex->getMessage();
+		} catch (\Exception $ex){
+				echo $ex->getMessage();
+		}
+
+		//$session = new FacebookSession($token);
+		//return $session;
+		//var_dump($session);
 	}
 
 	//hacer cambio de token de corta duración a larga duración.

@@ -71,9 +71,11 @@ class FacebookController extends \BaseController {
 					$descripcion =Input::get('descripcion');
 					//-- obtener session
 					$idcuenta = Account::where('id', '=',$idcuenta)->get(array('access_token_fb'));
+					//recorre una sola ver ya que se obtiene una sola cuenta. 
 					foreach ($idcuenta as $identificador) {
 						$token = $identificador->access_token_fb;
 					}
+					//obtener la sessión fb. 
 					$sessionfb = $this->fb->generateSessionFromToken($token);
 					//--------------------
 					foreach ($ides as $id) {
@@ -84,13 +86,13 @@ class FacebookController extends \BaseController {
 				                    'msg'         =>  $msg
 				                    ));
 				}
-				else
-				{
-					return Response::json(array(
-			                    'success'         =>     'false',
-			                    'msg'         =>     'ID de cuentas no obtenidas'
-			                    ));
-				}
+					else
+					{
+						return Response::json(array(
+				                    'success'         =>     'false',
+				                    'msg'         =>     'ID de cuentas no obtenidas'
+				                    ));
+					}
 
 			}
 			
@@ -151,6 +153,7 @@ class FacebookController extends \BaseController {
 				}
 				//}
 			//------------------------
+			//variables para enviar que imput llenar automaticamente. 
 			$contador +=1;
 			$allg = "'".'groups'.$contador."'";
 			$checkg = "'".'checkg'.$contador."'"; 
@@ -158,6 +161,7 @@ class FacebookController extends \BaseController {
 			$checkp = "'".'checkp'.$contador."'"; 
 			$alle = "'".'events'.$contador."'";
 			$checke = "'".'checke'.$contador."'"; 
+			
 			
 			$encontrados= $encontrados.'
 						<div  class="panel panel-default">
@@ -168,29 +172,52 @@ class FacebookController extends \BaseController {
 								</h4>	
 							</div>
 						</a>
+
 						<div id="collapse'.$contador.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'.$contador.'">
 						    <div class="panel-body">
 						    <p id="id'.$contador.'"> ID Cuenta: '.$id.'</p>
+							<div class="checkbox">
+								<p>&nbsp;&nbsp;Seleccionar perfil
+								<label>
+								<input id="checkm'.$contador.'" name="check" checked="" type="checkbox"/><i class="fa fa-square-o"></i>
+								</label>
+								</p>
+							</div>
 						    <input type="text" id="'.$contador.'" value="'.$id.'" style="display:none"/>
 						    <input type="text" id="idcuenta'.$contador.'" value="'.$account->id.'" style="display:none"/>
 						    <h5>Grupos</h5>
 						    <select id="groups'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
 							'.$grp.'						
 							</select>
-							<p>Seleccionar todos:
-							<input id="checkg'.$contador.'" onclick="checkTodos('.$allg.','.$checkg.')" name="checkAll" type="checkbox" /></p>
+							<div class="checkbox">
+								<p>&nbsp;&nbsp;Seleccionar todos
+								<label>
+								<input id="checkg'.$contador.'" onclick="checkTodos('.$allg.','.$checkg.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+							   </label>
+								</p>
+							</div>
 						    <h5>Páginas</h5>
 						    <select id="pages'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
 							'.$pgs.'						
 							</select>
-							<p>Seleccionar todos:
-							<input id="checkp'.$contador.'" onclick="checkTodos('.$allp.','.$checkp.')" name="checkAll" type="checkbox" /></p>
+							<div class="checkbox">
+								<p>&nbsp;&nbsp;Seleccionar todos
+								<label>
+								<input id="checkp'.$contador.'" onclick="checkTodos('.$allp.','.$checkp.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+						     	</label>
+								</p>
+							</div>
 						    <h5>Eventos</h5>
 						    <select id="events'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
 							'.$evts.'						
 							</select>
-							<p>Seleccionar todos:
-							<input id="checke'.$contador.'" onclick="checkTodos('.$alle.','.$checke.')" name="checkAll" type="checkbox" /></p>
+							<div class="checkbox">
+								<p>&nbsp;&nbsp;Seleccionar todos
+								<label>
+								<input id="checke'.$contador.'" onclick="checkTodos('.$alle.','.$checke.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+								</label>
+								</p>
+							</div>
 							<br><br>
 							 <button onclick="Share('.$contador.')" type="button" class="btn btn-default" aria-label="Left Align">
                				 <span class="fa fa-share-square " aria-hidden="true">Publicar</span>

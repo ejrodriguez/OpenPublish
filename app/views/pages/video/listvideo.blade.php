@@ -205,8 +205,11 @@ function Share(identificador)
 	grupos = $('#groups'+identificador).val();
 	paginas = $('#pages'+identificador).val();
 	eventos = $('#events'+identificador).val();
+	var ids = [];
 	//lista de id de las cuentas donde se publicara. 
-	var ids = [cuenta];
+	if($("#checkm"+identificador).is(':checked')) {
+		ids = [cuenta];
+	}
 	if (grupos != null){
 		for (var i = 0; i <  grupos.length ; i++) {
 		 	ids.push(grupos[i]);

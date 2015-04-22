@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@alavista" />
+<meta name="twitter:creator" content="@alavista" />
+<meta property="og:url" content="http://alavista.tv/index.php/es/" />
+<meta property="og:title" content="A Twitter for Alavista" />
+<meta property="og:description" content="In the early days, Twitter grew so quickly that it was almost impossible to add new features because engineers spent their time trying to keep the rocket ship from stalling." />
+<meta property="og:image" content="http://graphics8.nytimes.com/images/2011/12/08/technology/bits-newtwitter/bits-newtwitter-tmagArticle.jpg" />
+
 <link rel="stylesheet" type="text/css" href="css/tables/dataTables.responsive.css">
 <link rel="stylesheet" type="text/css" href="css/tables/jquery.dataTables.css">
 <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>

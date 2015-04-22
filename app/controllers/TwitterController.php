@@ -35,7 +35,6 @@ class TwitterController extends \BaseController {
 		//obtener el outh_verifier desde la respuesta de la pagina de twitter. 
 		$oauth_verifier = Input::get('oauth_verifier');
 		//nueva conexión. 
-
 		try {
 				$twitter= $this->tw->generateSessionFromRedirect($oauth_verifier);
 				$account = Account::where('id_account','=',$twitter["user_id"])->get();
@@ -56,13 +55,6 @@ class TwitterController extends \BaseController {
 				return Redirect::to('welcome');	
 		}
 
-		
-	}
-
-	public function PostTweet()
-	{
-		$restul = $this->tw->PostTweet();
-		var_dump($restul);
 	}
 
 	//listar cuentas para la administración
@@ -100,6 +92,80 @@ class TwitterController extends \BaseController {
 			'list' => $encontrados	
             )); 
 	}
+//listar cuentas para publicar.
+ 
+	public function ListAccounttw(){
+		$Accounts = Accounttw::all();
+		$accounts =""; 
+		if (count($accounts) ==0)
+		{
+			$encontrados = $encontrados.'<h4>No existe cuentas de facebook registradas, agregue las cuentas en Adminsitración de Facebook</h4></div>';		
+		}
+		else
+		{
+			foreach ($Accounts as $account) {
+				$name = $account->name;
+				$idaccount = $account->idtw; 
+				$accounts.='<option value='.$idaccount.'>'.$name.'</option>';
+			}
+			$encontrados = '<select id="account" name="modal_menu" multiple="multiple" class="populate placeholder">
+				        		'.$accounts.'					
+								</select>';
+		}
+		
+		return Response::json(array(
+			'success' => true,
+			'list' => $encontrados	
+            )); 
+	}
+
+	//función para twittear en las cuentas. 
+	public function Twittear()
+	{ //message:messsage,account:account
+		$msg=""; 
+		if (Request::ajax()) {
+			if (Input::get('accounts')!=null)
+			{	
+				$idcuenta  = NULL; 
+				//ides, lista de los ID de cada grupo, evento, perfil, para publicar
+				$accounts = Input::get('accounts');
+				$mensaje =Input::get('message');
+				//recorre una sola ver ya que se obtiene una sola cuenta. 
+				foreach ($accounts as $account) {
+
+					$idcuenta = Accounttw::where('idtw', '=',$account)->get();
+					$oauth_token = $idcuenta[0]["oauth_token"];
+					$oauth_token_secret  = $idcuenta[0]["oauth_token_secret"];
+					$session = $this->tw->generateSession($oauth_token,$oauth_token_secret);
+					if($session!= NULL){
+						$result = $this->tw->PostTweet($session,$mensaje);	
+						if ($result !=NULL){
+
+							$msg = $msg.'Publicado en la cuenta'.$idcuenta[0]["name"];
+						}
+						else{
+							$msg =$msg.'Error en twittear en la cuenta: '.$idcuenta[0]["name"].'</br>';
+						}			
+					}
+					else{
+						$msg =$msg.'Error en crear la sesion: '.$idcuenta[0]["name"].'</br>';
+					} 				
+				}
+				return Response::json(array(
+			                    'success'         =>   'true',
+			                    'msg'        =>  $msg
+			                    ));
+			}
+			else
+			{
+				return Response::json(array(
+				                    'success'         =>   'false',
+				                    'msg'        =>  $msg
+				                    ));
+			}
+		}
+	}
+	
 
 	public function destroy()
 	{

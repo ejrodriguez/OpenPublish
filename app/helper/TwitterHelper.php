@@ -45,11 +45,30 @@ class TwitterHelper
 		return $twitter;
 	}
 
-	public function PostTweet()
+	public function generateSession($oauth_token,$oauth_token_secret)
 	{
-		$new_twitter= new TwitterOAuth(Config::get('twitter.consumer_key'),Config::get('twitter.consumer_secret'),'1351200332-9tt4agCw8YSdDl3pIUwQlXhnJ2HbQP2KkVtRStC','bYgISlCFGDX4trq4bGBZJ8UK0cz0lD0poWwoqb5PyzzW4');
-		$statues = $new_twitter->post("statuses/update", array("status" => "Gary Clark Jr - Next Door Neighbor Blues (Live at Farm Aid 2014)   https://www.youtube.com/watch?v=XIf1wclN7pA&list=RDXIf1wclN7pA"));
-		return $statues;
+		$new_twitter=NULL; 
+		try {
+
+			$new_twitter= new TwitterOAuth(Config::get('twitter.consumer_key'),Config::get('twitter.consumer_secret'),$oauth_token,$oauth_token_secret);
+			return $new_twitter;			
+			//var_dump($new_twitter);
+				} catch (Exception $ex) {
+					return $ex;
+				}
+			
+	}
+
+	public function PostTweet($session,$mensaje)
+	{
+		$statues = NULL; 
+		try {
+				$statues = $session->post("statuses/update", array("status" => $mensaje));
+			    return $statues;
+		} catch (Exception $e) {
+			return $e;
+		}
+		
 	}
 }
 
