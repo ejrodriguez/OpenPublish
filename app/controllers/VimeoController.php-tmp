@@ -15,18 +15,15 @@ class VimeoController extends BaseController {
 	|
 	 */
 
-    public function getCategorias() {
-        if (Request::ajax()) {
+	public function getCategorias() {
+		if (Request::ajax()) {
 
-           
-            return Response::json(array(
-                        'success' => 'true',
-                        'resultobt' => 'encontrados'
-                    ));
+			return Response::json(array(
+					'success'   => 'true',
+					'resultobt' => 'encontrados'
+				));
 
-        }
-    }
-
-
+		}
+	}
 
 }

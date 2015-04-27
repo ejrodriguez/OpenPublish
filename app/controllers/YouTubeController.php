@@ -142,8 +142,10 @@ class YouTubeController extends BaseController {
                         $counta = VideoOpenpub::where('VideoId', '=', $value['ide'])->count();
                         if ($count == 0 && $counta == 0) {
                             if (strlen($value['titulo']) > 1 || strlen($value['titulo']) < 255) {
-                                $market = array('VideoId' => $value['ide'], 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $value['titulo'], 'VideoUrl' => 'https://www.youtube.com/watch?v=' . $value['ide'], 'VideoImage' => 'http://img.youtube.com/vi/' . $value['ide'] . '/mqdefault.jpg', 'VideoDate' => date("Y-m-d H:i:s"));
+                                $titlemarket=preg_replace('([^A-Za-zÁÉÍÓÚÑáéíóúñ0-9\s])','', $value['titulo']);
+                                $market = array('VideoId' => $value['ide'], 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $titlemarket, 'VideoUrl' => 'https://www.youtube.com/watch?v=' . $value['ide'], 'VideoImage' => 'http://img.youtube.com/vi/' . $value['ide'] . '/mqdefault.jpg', 'VideoDate' => date("Y-m-d H:i:s"));
                                 VideoOpenpub::create($market);
+
                                 $thum = 'http://img.youtube.com/vi/' . $value['ide'] . '/mqdefault.jpg';
                                 $thumh = 'https://i.ytimg.com/vi/' . $value['ide'] . '/maxresdefault.jpg';
                                 date_default_timezone_set('America/Guayaquil');
@@ -151,6 +153,7 @@ class YouTubeController extends BaseController {
                                 //eliminar car. especiales
                                 $seo = $value['titulo'];
                                 $seo = trim($seo);
+
                                 $seo = str_replace(array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $seo);
                                 $seo = str_replace(array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $seo);
                                 $seo = str_replace(array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $seo);
@@ -158,19 +161,24 @@ class YouTubeController extends BaseController {
                                 $seo = str_replace(array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $seo);
                                 $seo = str_replace(array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C'), $seo);
                                 $seo = preg_replace('([^A-Za-z0-9[:space:]])','', $seo);
+                                
                                 $seo = str_replace(" ", "-", $seo);
                                 $seo = strtolower($seo);
 
-                                $titu = $value['titulo'];
+                                $titu = $titlemarket;
                                 $titu = str_replace(array('“', '”', '"', '\''), '' , $titu);
-                            
-                                $DataVideo = array('memberid' => 539, 'published' => 1, 'title' => $titu, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => 'https://www.youtube.com/watch?v='.$value['ide'], 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $value['cat'], 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $value['descr'], 'targeturl' => $value['turl'], 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $value['tag'], 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
+                                // 539
+                                $DataVideo = array('memberid' => 42, 'published' => 1, 'title' => $titu, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => 'https://www.youtube.com/watch?v='.$value['ide'], 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $value['cat'], 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $value['descr'], 'targeturl' => $value['turl'], 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $value['tag'], 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
                                 $newVideo = Video::create($DataVideo);
                                 $VidCat = array('vid' => $newVideo->id, 'catid' => $value['cat']);
                                 VideoCategory::create($VidCat);
 
+                                
+
                                 DB::commit();
                                 $res = 'Se inserto Correctamente';
+
+                                
                             }
 
                         }
@@ -206,7 +214,12 @@ class YouTubeController extends BaseController {
     public function Tags() {
         $string = Input::get('cad');
         $string = trim($string);
-        $string = str_replace(array("\\", "‘", "_", "¨", "º", "-", "~", "#", "@", "|", "!", "\"", "·", "$", "%", "&", "/", "(", ")", "?", "'", "¡", "¿", "[", "^", "`", "]", "+", "}", "{", "¨", "´", ">", "< ", ";", ":", ".", "●", "○", "☑", "↕", "☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○", "◙", "♂", "♀", "♪", "♫", "☼", "►", "◄", "↕", "‼", "¶", "§", "▬", "↨", "↑", "↓", "→", "←", "∟", "↔", "▲", "▼", "❤", "❥", "웃", "유", "♋", "☮", "✌", "☏", "☢", "☠", "✔", "☑", "♚", "▲", "♪", "✈", "❞", "¿", "♥", "❣", "♂", "♀", "☿", "Ⓐ", "✍", "✉", "☣", "☤", "✘", "☒", "♛", "▼", "♫", "⌘", "❝", "¡", "ღ", "ツ", "☼", "☁", "❅", "♒", "✎", "©", "®", "™", "Σ", "✪", "✯", "☭", "➳", "卐", "✞", "°", "✿", "ϟ", "☃", "☂", "✄", "¢", "€", "£", "∞", "✫", "★", "½", "☯", "✡", "☪", "ß", "Γ", "π", "Σ", "σ", "µ", "τ", "Φ", "Θ", "Ω", "δ", "∞", "φ", "ε", "∩", "≡", "±", "≥", "≤", "⌠", "⌡", "÷", "≈", "°", "∙", "·", "√", "ⁿ", "²", "■", "░", "▒", "▓", "│", "┤", "╡", "╢", "╖", "╕", "╣", "║", "╗", "╝", "╜", "╛", "┐", "└", "┴", "┬", "├", "─", "┼", "╞", "╟", "╚", "╔", "╩", "╦", "╠", "═", "╬", "╧", "╨", "╤", "╥", "╙", "╘", "╒", "╓", "╫", "╪", "┘", "┌", "█", "▄", "▌", "▐", "▀", "α"), ',', $string);
+
+        $conservar = '0-9a-zA-Z[:space:]'; // juego de caracteres a conservar
+        $regex = sprintf('~[^%s]++~i', $conservar); // case insensitive
+        $string = preg_replace($regex, ',', $string);
+
+        // $string = str_replace(array("\\", "‘", "_", "¨", "º", "-", "~", "#", "@", "|", "!", "\"", "·", "$", "%", "&", "/", "(", ")", "?", "'", "¡", "¿", "[", "^", "`", "]", "+", "}", "{", "¨", "´", ">", "< ", ";", ":", ".", "●", "○", "☑", "↕", "☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○", "◙", "♂", "♀", "♪", "♫", "☼", "►", "◄", "↕", "‼", "¶", "§", "▬", "↨", "↑", "↓", "→", "←", "∟", "↔", "▲", "▼", "❤", "❥", "웃", "유", "♋", "☮", "✌", "☏", "☢", "☠", "✔", "☑", "♚", "▲", "♪", "✈", "❞", "¿", "♥", "❣", "♂", "♀", "☿", "Ⓐ", "✍", "✉", "☣", "☤", "✘", "☒", "♛", "▼", "♫", "⌘", "❝", "¡", "ღ", "ツ", "☼", "☁", "❅", "♒", "✎", "©", "®", "™", "Σ", "✪", "✯", "☭", "➳", "卐", "✞", "°", "✿", "ϟ", "☃", "☂", "✄", "¢", "€", "£", "∞", "✫", "★", "½", "☯", "✡", "☪", "ß", "Γ", "π", "Σ", "σ", "µ", "τ", "Φ", "Θ", "Ω", "δ", "∞", "φ", "ε", "∩", "≡", "±", "≥", "≤", "⌠", "⌡", "÷", "≈", "°", "∙", "·", "√", "ⁿ", "²", "■", "░", "▒", "▓", "│", "┤", "╡", "╢", "╖", "╕", "╣", "║", "╗", "╝", "╜", "╛", "┐", "└", "┴", "┬", "├", "─", "┼", "╞", "╟", "╚", "╔", "╩", "╦", "╠", "═", "╬", "╧", "╨", "╤", "╥", "╙", "╘", "╒", "╓", "╫", "╪", "┘", "┌", "█", "▄", "▌", "▐", "▀", "α"), ',', $string);
         return Response::json(array(
                     'success' => true,
                     'list' => $string

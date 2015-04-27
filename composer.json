@@ -9,7 +9,7 @@
 		"ollieread/multiauth": "dev-master",
 		"pingpong/menus": "1.0.*",
 		"way/generators": "~2.0",
-		
+		"alaouy/youtube": "dev-master",
 		"facebook/php-sdk-v4":"4.0.*",
 		"abraham/twitteroauth": "0.5.2",
 		"vinkla/vimeo":"~1.0"
