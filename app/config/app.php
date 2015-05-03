@@ -126,7 +126,8 @@ return array(
         'Pingpong\Menus\MenusServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Alaouy\Youtube\YoutubeServiceProvider',
-        'Vinkla\Vimeo\VimeoServiceProvider'
+        'Vinkla\Vimeo\VimeoServiceProvider',
+        'Chumper\Datatable\DatatableServiceProvider'
 
 	),
 
@@ -196,6 +197,7 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'MenuGen'           =>  'Pingpong\Menus\Facades\Menu',
 		'Vimeo' 			=> 'Vinkla\Vimeo\Facades\Vimeo',
+		'Datatable' 	    => 'Chumper\Datatable\Facades\DatatableFacade',
 
 	),
 

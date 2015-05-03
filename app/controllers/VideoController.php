@@ -95,9 +95,56 @@ class VideoController extends BaseController {
 	}
 
 
+	public function Datatable()
+	{
+		$tabla2= [];
+		$ind = 0; 
+	    $tabla = Datatable::collection(
+	    Video::all(
+	        array('thumburl','seotitle','description','videourl','published','id','title')
+	        )
+	    )
+	    
+	    ->showColumns('thumburl', 'seotitle','description','videourl','published','id','title')
+	    ->searchColumns('titulo','seotitle','description')
+	    ->orderColumns('id', 'titulo','seotitle')
+	    ->make();
+	    //modifcar el objeto para presentar en la tabla con el formato requerido 
+	    //para la integraión de la imagen y el boton para presentar el modal.
+	    for ($i=0; $i < count($tabla['aaData']) ; $i++) { 
 
+			if ($tabla['aaData'][$i][4] == 1)
+			{
+				$title = "'".$tabla['aaData'][$i][6]."'";
+				$imagen ="'".$tabla['aaData'][$i][0]."'";
+				$seo = "'".$tabla['aaData'][$i][1] ."'";
+				$descripcion = "'".$tabla['aaData'][$i][2] ."'";
+				$idvideo = $tabla['aaData'][$i][5];
+				
+				$idcategory = VideoCategory::where('vid', '=',$idvideo)->get(array('catid'));
+				foreach ($idcategory as $cat) {
+					$idcategory = $cat->catid;
+				}
+				$namecategory =Category::where('id','=',$idcategory)->get(array('seo_category'));
+				foreach ($namecategory as $namec) {
+					$namecategory = "'".$namec->seo_category."'";
+				}
+	    		$tabla2['aaData'][$ind][0] = '<img src="'.$tabla['aaData'][$i][0]. '" width="160" height="100">';
+	    		$tabla2['aaData'][$ind][1] =  $tabla['aaData'][$i][1];
+	    		$tabla2['aaData'][$ind][2] =  $tabla['aaData'][$i][2];
+	    		$tabla2['aaData'][$ind][3] =  '<button onclick="showModal('.$seo.','.$namecategory.','.$title.','.$imagen.')" type="button" class="btn btn-default" aria-label="Left Align">
+		                <span class="fa fa-group" aria-hidden="true">Cuentas</span>';
 
-	
+				$ind += 1; 
+	    	}
+	    }
+	    if (count($tabla['aaData']) == 0 )
+	    	$tabla2['aaData'] = [];
+	    $tabla2['iTotalDisplayRecords'] = $tabla['iTotalDisplayRecords'];
+	    $tabla2['iTotalRecords'] = $tabla['iTotalRecords'];
+	    $tabla2['sEcho'] = $tabla['sEcho'];
 
+	    return $tabla2;
+	}
 }
 

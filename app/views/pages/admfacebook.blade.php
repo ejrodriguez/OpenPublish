@@ -83,25 +83,20 @@
 
 	</div>
 <script type="text/javascript">
-
 $(document).ready(function() {
 // Sortable for elements
 	$(".sort").sortable({
 		items: "div.col-sm-2",
 		appendTo: 'div.box-content'
 	});
-
 //cargar cuentas
 $.ajax({
 		url: "{{URL::route('listaccount')}}",
 		type: 'POST',
 	})
 	.done(function(data) {
-
 		if(data.success==true){
-
 			$('#listresult').html(data.list);	
-
 				$('#datatable-1').DataTable({
 			
 				});
@@ -122,11 +117,8 @@ $.ajax({
 	})
 	.fail(function() {
 		console.log("error");
-
 	});
-
 });	
-
 //funcion para actualizar token
 function Actualizar(id,token)
 {
@@ -160,12 +152,10 @@ function Actualizar(id,token)
 		//$('#resultshare').html('<label></label>');
 		// console.log("success");
 		if(data.success=='true'){
-
 					// alert(data.msg);
 					$('#result').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
 				}
 		if(data.success=='false'){
-
 					// alert(data.msg);
 					$('#result').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
 					
@@ -177,14 +167,11 @@ function Actualizar(id,token)
 	.always(function() {
 		console.log("complete");
 	});
-
 }
-
 function NewAccount()
 {
 	 location.href="{{URL::route('loginfb')}}";
 }
-
 function ShowDelet(id,account,name,token,update,create)
 {
  	$('#ide').text(id);
@@ -195,7 +182,6 @@ function ShowDelet(id,account,name,token,update,create)
  	$('#create').text(create);
 	$('#modaldatadel').modal('show'); 
 }
-
 function DeleteAccount()
 {
 	$.ajax({
@@ -230,13 +216,11 @@ function DeleteAccount()
 		$('#cargardel').html('<label></label>');
 		// console.log("success");
 		if(data.success=='true'){
-
 					// alert(data.msg);
 					$('#uniqdel').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
 					
 				}
 		if(data.success=='falserollb'){
-
 					alert('Internal Server Error [500].');
 				}
 	})
@@ -246,8 +230,6 @@ function DeleteAccount()
 	.always(function() {
 		console.log("complete");
 	});
-
 }
-
 </script>
 </body>

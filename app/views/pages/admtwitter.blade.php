@@ -186,7 +186,7 @@ function DeleteAccount()
 		// console.log("success");
 		if(data.success=='true'){
 
-					// alert(data.msg);
+					refresh();
 					$('#uniqdel').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
 					
 				}
@@ -258,6 +258,41 @@ function Actualizar(id,token)
 
 }
 
+function refresh()
+{
+	$.ajax({
+		url: "{{URL::route('listaccounttw')}}",
+		type: 'POST',
+	})
+	.done(function(data) {
 
+		if(data.success==true){
+
+			$('#listresult').html(data.list);	
+
+				$('#datatable-1').DataTable({
+			
+				});
+				//cambiar de color al pasar el puntero
+				$("#datatable-1 tr").mouseenter(function(){
+				        $(this).css('background-color','#369');
+				        $(this).css('color','white');
+				    });
+				    $("#datatable-1 tr").mouseleave(function(){
+				        $(this).css('background-color','#F4F4F4');
+				        $(this).css('color','#333');
+				    });	
+					}
+		else
+		{
+			alert(data.list);
+		}	
+	})
+	.fail(function() {
+		console.log("error");
+
+	});
+
+}
 </script>
 </body>

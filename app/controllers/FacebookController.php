@@ -302,9 +302,10 @@ class FacebookController extends \BaseController {
 	                    ));
 
 					}
+					
 						return Response::json(array(
 	                    'success'         =>   'true',
-	                    'msg'         =>  'Token de larga duración actualizado.'
+	                    'msg'         =>  $newToken
 	                    ));
 						
 			}

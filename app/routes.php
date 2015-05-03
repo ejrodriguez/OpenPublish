@@ -122,6 +122,9 @@ Route::get('/twitter',array('as' => 'sharetw', 'uses' => 'VideoController@LoadVi
 Route::get('/twitter/account',array('as' => 'accountstw', 'uses' => 'TwitterController@ListAccounttw'))->before("auth_user");
 // twittear 
 Route::post('/twitter/twittear',array('as' => 'twittear', 'uses' => 'TwitterController@Twittear'))->before("auth_user");
+//listar videos
+Route::get('datatables', array('as'=>'datatables', 'uses'=>'VideoController@Datatable'))->before("auth_user");
+
 //rutear a errores
 App::missing(function($exception)
 {

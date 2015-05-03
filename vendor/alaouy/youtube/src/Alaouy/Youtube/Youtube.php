@@ -17,7 +17,6 @@ class Youtube {
     		'playlists.list' => 'https://www.googleapis.com/youtube/v3/playlists',
     		'playlistItems.list' => 'https://www.googleapis.com/youtube/v3/playlistItems',
     		'activities' => 'https://www.googleapis.com/youtube/v3/activities',
-    		'categorias' => 'https://www.googleapis.com/youtube/v3/videoCategories',
 	);
 
 	/**
@@ -62,79 +61,25 @@ class Youtube {
 	}
 
 	/**
-	 * Videos Mas vistos*****************************
-	 * @param $single
-	 * @return array
-	 */
-	public function getMostViewed($order=null,$maxResults=5) {
-		$API_URL = $this->getApi('search.list');
-		$params = array(
-			'part' => 'id,snippet',
-			'fields' => 'items(id,snippet(title,description,thumbnails(default(url))))',
-			'type' => 'video',
-			'order' => $order,
-			'hl' => 'es',
-			'maxResults' => $maxResults
-		);
-
-		// $apiData = $this->api_get($API_URL, $params);
-		// return $this->decodeList($apiData);		
-		return $this->searchAdvancedsinQuery($params);
-	}
-
-	/**
 	 * Gets popular videos for a specific region (ISO 3166-1 alpha-2)
 	 *
 	 * @param $regionCode
 	 * @param int $maxResults
 	 * @return array
 	 */
-	public function getPopularVideos($regionCode=null, $videoCategoryId=null,  $maxResults = 5) {
+	public function getPopularVideos($regionCode,  $maxResults = 10) {
 		$API_URL = $this->getApi('videos.list');
-		
 		$params = array(
 			'chart' => 'mostPopular',
-			'part' => 'id,snippet',
-			'fields' => 'items(id,snippet(title,description,thumbnails(default(url))))',
+			'part' => 'id, snippet, contentDetails, player, statistics, status',
+			'regionCode' => $regionCode,
 			'maxResults' => $maxResults
 		);
-		if (!empty($regionCode)) {
-			$params['regionCode'] = $regionCode;
-			}
-
-		if (!empty($videoCategoryId)) {
-			$params['videoCategoryId'] = $videoCategoryId;
-			}
 
 		$apiData = $this->api_get($API_URL, $params);
 		return $this->decodeList($apiData);
 	}
-
-	//mostrar lista de todas las categorias de video
-	/**
-	 * Simple search interface, this search all categories
-	 *
-	 * @return array
-	 */
-	public function getVideosCategory() {
-		$API_URL = $this->getApi('categorias');
-		
-		$params = array(
-			'chart' => 'mostPopular',
-			'part' => 'id,snippet',
-			'hl' => 'es',
-			'id' => '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50',
-			'fields' => 'items(id,snippet(title))',
-		);
-
-		$apiData = $this->api_get($API_URL, $params);
-		return $this->decodeList($apiData);
-	}
-
-
-
-
-
+	
 	/**
 	 * Simple search interface, this search all stuffs
 	 * and order by relevance
@@ -160,57 +105,15 @@ class Youtube {
 	 * @param  string $order Order by
 	 * @return \StdClass  API results
 	 */
-	public function searchVideos($q, $maxResults = 5, $eventType = null, $safeSearch = null, $videoCaption = null,$videoCategoryId = null, $videoDefinition = null,$videoDimension = null, $videoDuration = null, $videoEmbeddable = null, $videoLicense = null, $videoSyndicated = null, $videoType = null, $order = null, $publishedAfter = null, $publishedBefore = null) {
+	public function searchVideos($q, $maxResults = 10, $order = null) {
 		$params = array(
 			'q' => $q,
 			'type' => 'video',
-			'part' => 'id,snippet',
-			'fields' => 'items(id,snippet(title,description,thumbnails(default(url))))',
+			'part' => 'id, snippet',
 			'maxResults' => $maxResults,
-			'hl' => 'es',
-
 		);
-		if (!empty($eventType)) {
-			$params['eventType'] = $eventType;
-		}
-		if (!empty($safeSearch)) {
-			$params['safeSearch'] = $safeSearch;
-		}
-		if (!empty($videoCaption)) {
-			$params['videoCaption'] = $videoCaption;
-		}
-		if (!empty($videoCategoryId)) {
-			$params['videoCategoryId'] = $videoCategoryId;
-		}
-		if (!empty($videoDefinition)) {
-			$params['videoDefinition'] = $videoDefinition;
-		}
-		if (!empty($videoDimension)) {
-			$params['videoDimension'] = $videoDimension;
-		}
-		if (!empty($videoDuration)) {
-			$params['videoDuration'] = $videoDuration;
-		}
-		if (!empty($videoEmbeddable)) {
-			$params['videoEmbeddable'] = $videoEmbeddable;
-		}
-		if (!empty($videoLicense)) {
-			$params['videoLicense'] = $videoLicense;
-		}
-		if (!empty($videoSyndicated)) {
-			$params['videoSyndicated'] = $videoSyndicated;
-		}
-		if (!empty($videoType)) {
-			$params['videoType'] = $videoType;
-		}
 		if (!empty($order)) {
 			$params['order'] = $order;
-		}
-		if (!empty($publishedAfter)) {
-			$params['publishedAfter'] = $publishedAfter;
-		}
-		if (!empty($publishedBefore)) {
-			$params['publishedBefore'] = $publishedBefore;
 		}
 
 		return $this->searchAdvanced($params);
@@ -253,24 +156,6 @@ class Youtube {
 		$API_URL = $this->getApi('search.list');
 
 		if (empty($params) || !isset($params['q'])) {
-			throw new \InvalidArgumentException('at least the Search query must be supplied');
-		}
-
-		$apiData = $this->api_get($API_URL, $params);
-		if ($pageInfo) {
-			return array(
-				'results' => $this->decodeList($apiData),
-				'info' => $this->page_info
-			);
-		} else {
-			return $this->decodeList($apiData);
-		}
-	}
-
-	public function searchAdvancedsinQuery($params, $pageInfo = false) {
-		$API_URL = $this->getApi('search.list');
-
-		if (empty($params)) {
 			throw new \InvalidArgumentException('at least the Search query must be supplied');
 		}
 
@@ -377,16 +262,28 @@ class Youtube {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getPlaylistItemsByPlaylistId($playlistId, $maxResults = 50) {
+	public function getPlaylistItemsByPlaylistId($playlistId, $pageToken = false, $maxResults = 50) {
 		$API_URL = $this->getApi('playlistItems.list');
 		$params = array(
 			'playlistId' => $playlistId,
 			'part' => 'id, snippet, contentDetails, status',
 			'maxResults' => $maxResults,
 		);
+
+		// Pass page token if it is given, an empty string won't change the api response
+		if(is_string($pageToken)) {
+			$params['pageToken'] = $pageToken;
+		}
 		$apiData = $this->api_get($API_URL, $params);
-		return $this->decodeList($apiData);
+		$result =['results' => $this->decodeList($apiData)];
+
+		if(is_string($pageToken) || $pageToken) {
+			$result['info']['nextPageToken'] = (isset($this->page_info['nextPageToken']) ? $this->page_info['nextPageToken'] : false );
+			$result['info']['prevPageToken'] = (isset($this->page_info['prevPageToken']) ? $this->page_info['prevPageToken'] : false );
+		}
+		return $result;
 	}
+
 
 	/**
 	 * @param $channelId
@@ -416,8 +313,14 @@ class Youtube {
 	 */
 	public static function parseVIdFromURL($youtube_url) {
 		if (strpos($youtube_url, 'youtube.com')) {
-			$params = static::_parse_url_query($youtube_url);
-			return $params['v'];
+			if (strpos($youtube_url, 'embed')) {
+				$path = static::_parse_url_path($youtube_url);
+				$vid = substr($path, 7);
+				return $vid;
+			} else {
+				$params = static::_parse_url_query($youtube_url);
+				return $params['v'];
+			}
 		} else if (strpos($youtube_url, 'youtu.be')) {
 			$path = static::_parse_url_path($youtube_url);
 			$vid = substr($path, 1);
@@ -535,17 +438,15 @@ class Youtube {
 			}
 			throw new \Exception($msg);
 		} else {
-
-			//aki cambia
-			// $this->page_info = array(
-			// 	'resultsPerPage' => $resObj->pageInfo->resultsPerPage,
-			// 	'totalResults' => $resObj->pageInfo->totalResults,
-			// 	'kind' => $resObj->kind,
-			// 	'etag' => $resObj->etag,
-			// 	'prevPageToken' => NULL,
-			// 	'nextPageToken'	=> NULL
-			// );
-			//aki cambia
+			$this->page_info = array(
+				'resultsPerPage' => $resObj->pageInfo->resultsPerPage,
+				'totalResults' => $resObj->pageInfo->totalResults,
+				'kind' => $resObj->kind,
+				'etag' => $resObj->etag,
+				'prevPageToken' => NULL,
+				'nextPageToken'	=> NULL
+			);
+			
 			if(isset($resObj->prevPageToken)){
         $this->page_info['prevPageToken'] = $resObj->prevPageToken;
       }
@@ -577,12 +478,6 @@ class Youtube {
 
 		//boilerplates for CURL
 		$tuCurl = curl_init();
-		//direccion de certificado
-		curl_setopt($tuCurl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
-		curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, true);
-		//direccion de certificado
-
-		
 		curl_setopt($tuCurl, CURLOPT_URL, $url . (strpos($url, '?') === false ? '?' : '') . http_build_query($params));
 		if (strpos($url, 'https') === false) {
 			curl_setopt($tuCurl, CURLOPT_PORT, 80);

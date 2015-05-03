@@ -30,6 +30,11 @@
 					
 						<div style="overflow:scroll;" >
 							<div id="listresult">
+							 {{ Datatable::table() 
+							    ->addColumn('Video','Titulo','Descripción','Publicar')  
+							    ->setUrl(route('datatables'))
+							    ->render() 
+							    }}
 							</div>
 	
 					</div>
@@ -100,40 +105,6 @@ $(document).ready(function() {
 	$(".sort").sortable({
 		items: "div.col-sm-2",
 		appendTo: 'div.box-content'
-	});
-
-//cargar videos
-$.ajax({
-		url: "{{URL::route('listvideos')}}",
-		type: 'POST',
-	})
-	.done(function(data) {
-
-		if(data.success==true){
-
-			$('#listresult').html(data.list);	
-
-				$('#datatable-1').DataTable({
-			
-				});
-				//cambiar de color al pasar el puntero
-				$("#datatable-1 tr").mouseenter(function(){
-				        $(this).css('background-color','#369');
-				        $(this).css('color','white');
-				    });
-				    $("#datatable-1 tr").mouseleave(function(){
-				        $(this).css('background-color','#F4F4F4');
-				        $(this).css('color','#333');
-				    });	
-					}
-		else
-		{
-			alert(data.list);
-		}	
-	})
-	.fail(function() {
-		console.log("error");
-
 	});
 	
 	//--------------cargar cuentas twitter

@@ -85,7 +85,9 @@ class FacebookHelper
     			return $access_token_response->getProperty('access_token');
 
   			}   catch(FacebookRequestException $e) {
-   		 		return  "Exception occured, code: " . $e->getCode();
+   		 		//return  "Exception occured, code: " . $e->getCode();
+   		 		//return $e->getMessage(); 
+   		 		return $e->getCode();
   			}   
 		}
 		else

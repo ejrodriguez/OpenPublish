@@ -30,8 +30,12 @@
 					
 						<div style="overflow:scroll;" >
 							<div id="listresult">
-							</div>
-	
+							    {{ Datatable::table() 
+							    ->addColumn('Video','Titulo','Descripción','Publicar')  
+							    ->setUrl(route('datatables'))
+							    ->render() 
+							    }}
+							</div> 
 					</div>
 				</div>
 
@@ -94,48 +98,14 @@
 
 
 <script type="text/javascript">
+
 $(document).ready(function() {
 // Sortable for elements
 	$(".sort").sortable({
 		items: "div.col-sm-2",
 		appendTo: 'div.box-content'
 	});
-
-// Create jQuery-UI tabs
-//cargar videos
-$.ajax({
-		url: "{{URL::route('listvideos')}}",
-		type: 'POST',
-	})
-	.done(function(data) {
-
-		if(data.success==true){
-
-			$('#listresult').html(data.list);	
-
-				$('#datatable-1').DataTable({
-			
-				});
-				//cambiar de color al pasar el puntero
-				$("#datatable-1 tr").mouseenter(function(){
-				        $(this).css('background-color','#369');
-				        $(this).css('color','white');
-				    });
-				    $("#datatable-1 tr").mouseleave(function(){
-				        $(this).css('background-color','#F4F4F4');
-				        $(this).css('color','#333');
-				    });	
-					}
-		else
-		{
-			alert(data.list);
-		}	
-	})
-	.fail(function() {
-		console.log("error");
-
-	});
-	//--------------cargar cuentas Facebook
+//--------------cargar cuentas Facebook
 		$.ajax({
 	    	
 	    	url: "{{URL::route('accounts')}}",
@@ -143,7 +113,6 @@ $.ajax({
 		    beforeSend: function(){
 	                    $('#cuentas').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
 	                },
-
 	    })
 	    .done(function(data) {
 	    	if(data.success== true)
@@ -172,112 +141,108 @@ $.ajax({
 		})
 		.fail(function() {
 		console.log("error");
-		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
 		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Facebook, Seleccione nuevamente la opcion del menu Redes Sociales, Facebook para obtener las cuentas de facebook.</p>');
 	    })
-	///////////////////////////
-
 });	
 //funcion para publicar perfil
-function showModal(seoname,seocategoria,title,image)
-{
-	
-	link = 'http://alavista.tv/index.php/es/player/'+seocategoria+'/'+seoname;
-	$('#titlevideo').text(title);
-	document.getElementById("mensaje").value = "";
-	document.getElementById("descripcion").value="";
-	document.getElementById("linkvideo").value = link;
-	document.getElementById("imgvideo").src = image;
-	$('#modalshareprofile').modal('show');
-}
-
-function closemodal(){
-	$('#modalshareprofile').modal('hide');
-}
-//funcion para compartir
-function Share(identificador)
-{
-	link = document.getElementById("linkvideo").value;
-	mensaje = document.getElementById("mensaje").value;
-	descripcion = document.getElementById("descripcion").value; 
-	cuenta = document.getElementById(identificador).value;  
-	idcuenta = document.getElementById('idcuenta'+identificador).value;  
-	grupos = $('#groups'+identificador).val();
-	paginas = $('#pages'+identificador).val();
-	eventos = $('#events'+identificador).val();
-	var ids = [];
-	//lista de id de las cuentas donde se publicara. 
-	if($("#checkm"+identificador).is(':checked')) {
-		ids = [cuenta];
-	}
-	if (grupos != null){
-		for (var i = 0; i <  grupos.length ; i++) {
-		 	ids.push(grupos[i]);
-		 };
+	function showModal(seoname,seocategoria,title,image)
+	{
+		link = 'http://alavista.tv/index.php/es/player/'+seocategoria+'/'+seoname;
+		$('#titlevideo').text(title);
+		document.getElementById("mensaje").value = "";
+		document.getElementById("descripcion").value="";
+		document.getElementById("linkvideo").value = link;
+		document.getElementById("imgvideo").src = image;
+		$('#modalshareprofile').modal('show');
 	}
 
-	if (paginas != null){
-		for (var i = 0; i <  paginas.length ; i++) {
-		 	ids.push(paginas[i]);
-		 };
+	function closemodal(){
+		$('#modalshareprofile').modal('hide');
 	}
-	
-	if (eventos != null){
-		for (var i = 0; i <  eventos.length ; i++) {
-		 	ids.push(eventos[i]);
-		 };
+	//funcion para compartir
+	function Share(identificador)
+	{
+		link = document.getElementById("linkvideo").value;
+		mensaje = document.getElementById("mensaje").value;
+		descripcion = document.getElementById("descripcion").value; 
+		cuenta = document.getElementById(identificador).value;  
+		idcuenta = document.getElementById('idcuenta'+identificador).value;  
+		grupos = $('#groups'+identificador).val();
+		paginas = $('#pages'+identificador).val();
+		eventos = $('#events'+identificador).val();
+		var ids = [];
+		//lista de id de las cuentas donde se publicara. 
+		if($("#checkm"+identificador).is(':checked')) {
+			ids = [cuenta];
+		}
+		if (grupos != null){
+			for (var i = 0; i <  grupos.length ; i++) {
+			 	ids.push(grupos[i]);
+			 };
+		}
+
+		if (paginas != null){
+			for (var i = 0; i <  paginas.length ; i++) {
+			 	ids.push(paginas[i]);
+			 };
+		}
+		
+		if (eventos != null){
+			for (var i = 0; i <  eventos.length ; i++) {
+			 	ids.push(eventos[i]);
+			 };
+		}
+		$.ajax({
+			url: "{{URL::route('share')}}",
+			type: 'POST',
+			data: {link:link,mensaje:mensaje,descripcion:descripcion,ids:ids,idcuenta:idcuenta},
+			beforeSend: function(){
+		    			
+	                    $('#resultshare'+identificador).html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+	        error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			            alert('Internal Server Error [500].');
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+		})
+		.done(function(data) {
+			$('#resultshare'+identificador).html('<label></label>');
+			// console.log("success");
+			if(data.success=='true'){
+
+						// alert(data.msg);
+						$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+					}
+			if(data.success=='false'){
+
+						// alert(data.msg);
+						$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					}
+			if(data.success=='falserollb'){
+
+						alert('Internal Server Error [500].');
+					}
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		}); 	
 	}
-	$.ajax({
-		url: "{{URL::route('share')}}",
-		type: 'POST',
-		data: {link:link,mensaje:mensaje,descripcion:descripcion,ids:ids,idcuenta:idcuenta},
-		beforeSend: function(){
-	    			
-                    $('#resultshare'+identificador).html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		$('#resultshare'+identificador).html('<label></label>');
-		// console.log("success");
-		if(data.success=='true'){
-
-					// alert(data.msg);
-					$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
-				}
-		if(data.success=='false'){
-
-					// alert(data.msg);
-					$('#resultshare'+identificador).html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-				}
-		if(data.success=='falserollb'){
-
-					alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	}); 	
-}
 
 //funcion agregar todos los elementos de un select
 	function checkTodos(id,idcheck) {

@@ -12,7 +12,8 @@
 		"alaouy/youtube": "dev-master",
 		"facebook/php-sdk-v4":"4.0.*",
 		"abraham/twitteroauth": "0.5.2",
-		"vinkla/vimeo":"~1.0"
+		"vinkla/vimeo":"~1.0",
+		"chumper/datatable": "2.*"
 	},
 	"autoload": {
 		"classmap": [
