@@ -1651,7 +1651,7 @@ $('#enviaralavista').click(function(event) {
 		.done(function(data) {
 			 $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
 			console.log("success22");
-			if(data.success==true){
+			if(data.success=='true'){
 				if(data.list!=''){
 					$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-archive'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
 					
@@ -1669,7 +1669,7 @@ $('#enviaralavista').click(function(event) {
 				}
 				
 			}
-			if(!data.success){
+			if(data.success=='false'){
 				$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-minus-square-o'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
 				// alert((data.list));
 				$('#modalmessage').modal({
@@ -1864,7 +1864,7 @@ $(document).ready(function() {
 		    },
 	})
 	.done(function(data) {
-		if(data.success==true){
+		if(data.success=='true'){
 			$('#listarcategorias').html('');
 			$('#listarcategorias').html(data.list);
 			
@@ -1909,7 +1909,7 @@ $(document).ready(function() {
 		    },
 	})
 	.done(function(data) {
-		if(data.success==true){
+		if(data.success=='true'){
 			$('#listarcategoriasq').html('');
 			$('#listarcategoriasq').html(data.listq);
 			function DemoSelect2(){
@@ -2334,7 +2334,7 @@ $("#buscar3").click(function(e) {
 		})
 		.done(function(data) {
 			console.log("success");
-			if(data.success==true){
+			if(data.success=='true'){
 					seleccion = 'youtube';
 						$("#enviaralavista").show();
 						$("#mostrar").show();
@@ -2541,7 +2541,7 @@ $("#buscar4").click(function(e) {
 							})
 							.done(function(data) {
 								console.log("success");
-								if(data.success==true){
+								if(data.success=='true'){
 									seleccion = 'youtube';
 											$("#mostrar").show();
 											$("#enviaralavista").show();
@@ -2738,7 +2738,7 @@ $("#buscar4").click(function(e) {
 							})
 							.done(function(data) {
 								console.log("success");
-								if(data.success==true){
+								if(data.success=='true'){
 									seleccion = 'youtube';
 											$("#mostrar").show();
 											$("#enviaralavista").show();

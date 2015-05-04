@@ -72,7 +72,7 @@ class YouTubeController extends BaseController {
         $encontradosq = $encontradosq . '</select>';
 
         return Response::json(array(
-                    'success' => true,
+                    'success' => 'true',
                     'list' => $encontrados,
                     'listq' => $encontradosq
                 ));
@@ -93,7 +93,7 @@ class YouTubeController extends BaseController {
         $encontrados = $encontrados . '</tbody><tfoot><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></tfoot></table>';
 
         return Response::json(array(
-                    'success' => true,
+                    'success' => 'true',
                     'list' => $encontrados
                 ));
     }
@@ -125,7 +125,7 @@ class YouTubeController extends BaseController {
         $encontrados = $encontrados . '</tbody><tfoot><tr><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th><th>Editar</th></tr></tfoot></table>';
 
         return Response::json(array(
-                    'success' => true,
+                    'success' => 'true',
                     'list' => $encontrados
                 ));
     }
@@ -196,14 +196,14 @@ class YouTubeController extends BaseController {
             }
 
             return Response::json(array(
-            'success' => true,
+            'success' => 'true',
             'list'    => $res
             ));
             
         } catch (ValidationException $e) {
             DB::rollback();
             return Response::json(array(
-            'success' => false,
+            'success' => 'false',
             'list' => $e->getErrors()
             ));
         }
