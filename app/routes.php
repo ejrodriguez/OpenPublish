@@ -75,9 +75,15 @@ Route::post('/video/tags/vererror',array('as' => 'vererror', 'uses' => 'YouTubeC
 
 // Vimeo Videos
 
-Route::post('/video/vimeo/categorias',array('as' => 'categoriasvimeo', 'uses' => 'VimeoController@getCategorias'))->before("auth_user");
+Route::post('/video/vimeo/categoriasv',array('as' => 'categoriasvimeo', 'uses' => 'VimeoController@getCategorias'))->before("auth_user");
 
+Route::post('/video/vimeo/videos_categoria',array('as' => 'categoria_videos', 'uses' => 'VimeoController@getVideos_Categorias'))->before("auth_user");
 
+Route::post('/video/vimeo/videos_tag',array('as' => 'tag_videos', 'uses' => 'VimeoController@getVideos_Tags'))->before("auth_user");
+
+Route::post('/video/vimeo/videos_search',array('as' => 'search_videos', 'uses' => 'VimeoController@getVideos_Search'))->before("auth_user");
+
+Route::post('/video/vimeo/videossave',array('as' => 'savevimeo_videos', 'uses' => 'VimeoController@SaveAlavista'))->before("auth_user");
 //ejemplo con base joomla
 //Route::get('/video/alavista',array('as' => 'alavista', 'uses' => 'AlavistaController@ListCategory'))->before("auth_user");
 

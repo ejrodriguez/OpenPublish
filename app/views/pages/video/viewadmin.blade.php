@@ -66,7 +66,7 @@
 									      <div class="panel-body">
 									       		<form id="" method="POST"  action="" class="form-horizontal">
 									        		<fieldset>
-									        		<div class="form-group" >
+									        		<!-- <div class="form-group" >
 										        		<label class="col-sm-2 control-label" >Criterio: </label>
 													  	<div class="col-sm-3">
 															<select class="populate placeholder" name="criterio2" id="criterio2" disabled>
@@ -77,7 +77,7 @@
 														</div>
 														
 														
-													</div>
+													</div> -->
 
 													<div class="form-group" >
 														<label class="col-sm-2 control-label">Codigo de Region: </label>
@@ -399,13 +399,16 @@
 									       		<form id="" method="POST"  action="" class="form-horizontal">
 									        		<fieldset>
 									        		<div class="form-group" >
-										        		<label class="col-sm-2 control-label" >Categoria: </label>
-													  	<div class="col-sm-6">
+										        		<label class="col-sm-2 control-label" > Categoria: </label>
+													  	<div class="col-sm-5">
 															<select class="populate placeholder" name="vcategoria" id="vcategoria" >
 															<option  value="">-- Seleccione una Categoria --</option>
 															</select>
 														</div>
-														
+														<label  class="col-sm-2 control-label"> Max Result:</label>
+														<div class="col-sm-2">
+																<input type="text" class="form-control" name="vmaxcat" id="vmaxcat" value="10" />
+														</div>
 													</div>
 													<div class="form-group" >
 														
@@ -415,12 +418,27 @@
 														</div>
 													</div>
 													<div class="form-group" >
-														<label  class="col-sm-2 control-label">Max Result: </label>
-														<div class="col-sm-2">
-																<input type="text" class="form-control" name="vmaxcat" id="vmaxcat" value="10" />
-														</div>
-														<div class="col-sm-2"></div>												
 														
+														<label  class="col-sm-2 control-label">Ordenar:</label>
+														<div class="col-sm-4">
+															<select class="populate placeholder" name="vorden1" id="vorden1" >
+															<option  value="">-- Seleccione una Opcion --</option>
+															<option  value="relevant">Relevancia </option>
+															<option  value="date">Fecha </option>
+															<option  value="alphabetical">Alfabetico</option>
+															<option  value="likes">Calificacion</option>
+															<option  value="comments">Comentarios</option>
+															<option  value="duration">Duracion</option>
+															</select>
+														</div>												 
+														<label  class="col-sm-2 control-label">Forma:</label>
+														<div class="col-sm-3">
+															<select class="populate placeholder" name="vforma1" id="vforma1" disabled >
+															<option  value="">-- Seleccione una Opcion --</option>
+															<option  value="asc">Ascendente </option>
+															<option  value="desc">Descendente</option>
+															</select>
+														</div>	
 													</div>
 													<div class="form-group" >
 										        		<label class="col-sm-2 control-label" >Filtro: </label>
@@ -428,11 +446,10 @@
 															<select class="populate placeholder" name="vfiltro" id="vfiltro" >
 															<option  value="">-- Seleccione una Opcion --</option>
 															<option  value="1">Embeddable </option>
-															<option  value="2">Embeddable no </option>
 															</select>
 														</div>
 														<label class="col-sm-2 control-label" >Filtro Embeddable: </label>
-													  	<div class="col-sm-4">
+													  	<div class="col-sm-3">
 															<select class="populate placeholder" name="vfiltro2n" id="vfiltro2n" disabled>
 															<option  value="">-- Seleccione una Opcion --</option>
 															<option  value="1"> true </option>
@@ -441,9 +458,175 @@
 														</div>
 														
 													</div>
+													<div class="form-group" >
+										    			
+														<div class="col-sm-9"></div>
+														
+														<div class="col-sm-2">
+																<button  data-loading-text="Loading..." id="buscarv1" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
+														</div>
+													</div>
 
 													<div class="form-group" >
 														<div class="col-sm-12"  id="vinfo1"></div>
+													</div>
+													</fieldset>
+																								
+												</form>
+
+									      </div>
+									    </div>
+									</div>
+
+									<div class="panel panel-default">
+										<a class="collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
+									    <div class="panel-heading" role="tab" id="headingTwo2">
+									      <h4 class="panel-title">
+									        	Videos Por Etiquetas 	<a tabindex="0" data-toggle="popover" data-trigger="focus" id="info2" class="" ><i class="fa fa-info-circle" ></i></a>
+									      </h4>
+									    </div>
+									    </a>
+									    <div id="collapseTwo2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo2">
+									      <div class="panel-body">
+									       		<form id="" method="POST"  action="" class="form-horizontal">
+									        		<fieldset>
+									        		<div class="form-group" >
+										        		<label class="col-sm-2 control-label" > Tag: </label>
+													  	<div class="col-sm-5">
+																<input type="text" class="form-control" name="vtag" id="vtag"  />
+														</div>
+														<label  class="col-sm-2 control-label"> Max Result:</label>
+														<div class="col-sm-2">
+																<input type="text" class="form-control" name="vmaxcat2" id="vmaxcat2" value="10" />
+														</div>
+													</div>
+													<div class="form-group" >
+														
+														<label  class="col-sm-2 control-label">Buscar: </label>
+														<div class="col-sm-9">
+																<input type="text" class="form-control" name="vbuscarq2" id="vbuscarq2" />
+														</div>
+													</div>
+													<!-- <div class="form-group" >
+														
+														<label  class="col-sm-2 control-label">Ordenar:</label>
+														<div class="col-sm-4">
+															<select class="populate placeholder" name="vorden2" id="vorden2" >
+															<option  value="">-- Seleccione una Opcion --</option>
+															<option  value="created_time">Creacion </option>
+															<option  value="name">Nombre </option>
+															<option  value="duration">Duracion</option>
+															</select>
+														</div>												 
+														<label  class="col-sm-2 control-label">Forma:</label>
+														<div class="col-sm-3">
+															<select class="populate placeholder" name="vforma2" id="vforma2" disabled >
+															<option  value="">-- Seleccione una Opcion --</option>
+															<option  value="asc">Ascendente </option>
+															<option  value="desc">Descendente</option>
+															</select>
+														</div>	
+													</div> -->
+													
+													<div class="form-group" >
+										    			
+														<div class="col-sm-9"></div>
+														
+														<div class="col-sm-2">
+																<button  data-loading-text="Loading..." id="buscarv2" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
+														</div>
+													</div>
+
+													<div class="form-group" >
+														<div class="col-sm-12"  id="vinfo2"></div>
+													</div>
+													</fieldset>
+																								
+												</form>
+
+									      </div>
+									    </div>
+									</div>
+
+									<div class="panel panel-default">
+										<a class="collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo3" aria-expanded="false" aria-controls="collapseTwo3">
+									    <div class="panel-heading" role="tab" id="headingTwo3">
+									      <h4 class="panel-title">
+									        	Buscar Videos mediante Palabras 	<a tabindex="0" data-toggle="popover" data-trigger="focus" id="info2" class="" ><i class="fa fa-info-circle" ></i></a>
+									      </h4>
+									    </div>
+									    </a>
+									    <div id="collapseTwo3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo3">
+									      <div class="panel-body">
+									       		<form id="" method="POST"  action="" class="form-horizontal">
+									        		<fieldset>
+									        		<div class="form-group" >
+										        		<label  class="col-sm-2 control-label">Buscar: </label>
+														<div class="col-sm-9">
+																<input type="text" class="form-control" name="vbuscarq3" id="vbuscarq3" />
+														</div>
+														
+													</div>
+													<div class="form-group" >
+														<label  class="col-sm-2 control-label"> Max Result:</label>
+														<div class="col-sm-2">
+																<input type="text" class="form-control" name="vmaxcat3" id="vmaxcat3" value="10" />
+														</div>
+														
+													</div>
+													<div class="form-group" >
+														
+														<label  class="col-sm-2 control-label">Ordenar:</label>
+														<div class="col-sm-4">
+															<select class="populate placeholder" name="vorden3" id="vorden3" >
+															<option  value="">-- Seleccione una Opcion --</option>
+															<option  value="relevant">Relevancia </option>
+															<option  value="date">Fecha </option>
+															<option  value="alphabetical">Alfabetico</option>
+															<option  value="likes">Calificacion</option>
+															<option  value="comments">Comentarios</option>
+															<option  value="duration">Duracion</option>
+															</select>
+														</div>												 
+														<label  class="col-sm-2 control-label">Forma:</label>
+														<div class="col-sm-3">
+															<select class="populate placeholder" name="vforma3" id="vforma3" disabled >
+															<option  value="">-- Seleccione una Opcion --</option>
+															<option  value="asc">Ascendente </option>
+															<option  value="desc">Descendente</option>
+															</select>
+														</div>	
+													</div>
+													<div class="form-group" >
+														
+														<label  class="col-sm-2 control-label">Filtro:</label>
+														<div class="col-sm-4">
+															<select class="populate placeholder" name="vfiltro3" id="vfiltro3" >
+															<option  value="">-- Seleccione una Opcion --</option>
+															<option  value="CC">Creative Commons</option>
+															<option  value="CC-BY">Atribución </option>
+															<option  value="CC-BY-SA">Atribución-CompartirIgual</option>
+															<option  value="CC-BY-ND">Atribución-NoDerivadas</option>
+															<option  value="CC-BY-NC">Atribución-NoComercial</option>
+															<option  value="CC-BY-NC-SA">Atribución-NoComercial-CompartirIgual</option>
+															<option  value="CC-BY-NC-ND">Atribución-NoComercial-NoDerivadas</option>
+															</select>
+														</div>												
+														<div class="col-sm-8">
+															
+														</div>	
+													</div>
+													<div class="form-group" >
+										    			
+														<div class="col-sm-9"></div>
+														
+														<div class="col-sm-2">
+																<button  data-loading-text="Loading..." id="buscarv3" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Buscar</button>
+														</div>
+													</div>
+
+													<div class="form-group" >
+														<div class="col-sm-12"  id="vinfo3"></div>
 													</div>
 													</fieldset>
 																								
@@ -495,6 +678,7 @@
 									<tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr>
 								</thead>
 								<tbody>
+									<!-- <div id="filas"></div> -->
 								</tbody>
 							</table>
 						</div>
@@ -713,6 +897,479 @@ $("#vfiltro").change(function(event) {
 	}
 });
 
+$("#vorden1").change(function(event) {
+	
+	if ($("#vorden1").val() != '') {
+		$("#vforma1").removeAttr('disabled');
+	}
+	else
+	{	var b='-- Seleccione una Opcion --';
+		$("#vforma1").attr('disabled', 'disabled');
+		$("#vforma1").find("option:contains("+b+")").prop('selected',true).parent().focus();
+		$("#vforma1").change();
+	}
+});
+
+$("#vorden2").change(function(event) {
+	
+	if ($("#vorden2").val() != '') {
+		$("#vforma2").removeAttr('disabled');
+	}
+	else
+	{	var b='-- Seleccione una Opcion --';
+		$("#vforma2").attr('disabled', 'disabled');
+		$("#vforma2").find("option:contains("+b+")").prop('selected',true).parent().focus();
+		$("#vforma2").change();
+	}
+});
+
+$("#vorden3").change(function(event) {
+	
+	if ($("#vorden3").val() != '') {
+		$("#vforma3").removeAttr('disabled');
+	}
+	else
+	{	var b='-- Seleccione una Opcion --';
+		$("#vforma3").attr('disabled', 'disabled');
+		$("#vforma3").find("option:contains("+b+")").prop('selected',true).parent().focus();
+		$("#vforma3").change();
+	}
+});
+function CambiarColorTabla(){
+	var sel = $('#datatable-1').DataTable();
+
+    $('#datatable-1 tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            sel.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+}
+
+function VerTablaVimeo(datos){
+	
+	$('#listresult').html(datos.list);
+	$('#datatable-1').DataTable({
+		
+		"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+		"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+						"paginate": {
+					       				 	"next": "Siguiente",
+					       				 	"previous": "Anterior",
+
+										},
+							"search": "Buscar:",
+							"infoEmpty": "No hay registros que mostrar",
+							"infoFiltered": " - filtrados en _MAX_ registros en total",
+							"emptyTable": "No hay registros en la tabla",
+							"lengthMenu": "Ver _MENU_ registros",
+							"loadingRecords": "Espere un momento - cargando...",
+							"zeroRecords": "No hay registros coincidentes encontrados",
+					},
+		
+		});
+}
+
+function VerTablaVacia(datos){
+	$('#listresult').html('<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody></tbody></table>');
+	$('#datatable-1').DataTable({
+		
+		"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+		"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+						"paginate": {
+					       				 	"next": "Siguiente",
+					       				 	"previous": "Anterior",
+
+										},
+							"search": "Buscar:",
+							"infoEmpty": "No hay registros que mostrar",
+							"infoFiltered": " - filtrados en _MAX_ registros en total",
+							"emptyTable": "No hay registros en la tabla",
+							"lengthMenu": "Ver _MENU_ registros",
+							"loadingRecords": "Espere un momento - cargando...",
+							"zeroRecords": "No hay registros coincidentes encontrados",
+					},
+		
+		});
+}
+
+function MostrarOpcionesAll(){
+	$("#mostrar").show();
+	$("#enviaralavista").show();
+}
+function CategoriasVimeo(){
+	$.ajax({
+		url: "{{URL::route('categoriasvimeo')}}",
+		type: 'POST',
+		error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+
+		})
+		.done(function(data) {
+			// console.log("success");
+			if(data.success=='true'){
+				 $.each(data.list, function(id) {
+				 	data.list[id].iden=data.list[id].iden.replace("/categories/","");
+				 	$("#vcategoria").append('<option value='+data.list[id].iden+'><b>'+data.list[id].desc+'</b></option>');
+				 });
+				 // console.log(data.list);
+			}
+		})
+		.fail(function(data) {
+			console.log("error");
+		})
+		.always(function(data) {
+			console.log("complete");
+		});
+};
+
+function CrearObjeto(){
+	var oTable = $('#datatable-1').dataTable();
+	var di=oTable.fnGetData().length;
+	if(di > 0){
+
+		for (var i = 0 ; i < di; i++) {
+			var aData = oTable.fnGetData( i );
+			// alert(aData[2]);
+			var images = $(aData[2]).attr('src');
+			$.ajax({
+				url: "{{URL::route('tagsalavista')}}",
+				type: 'POST',
+				data: {cad: aData[4]},
+				async: false,
+				error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			        	var msg=jQuery.parseJSON(jqXHR.responseText);
+			        	 VerError(msg);
+			            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+			})
+			.done(function(data) {
+				console.log("success");
+				getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",images,'22','',data.list,'www.ebetrix.com');
+			})
+			.fail(function(data) {
+				console.log("error");
+				getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",images,'22','','','www.ebetrix.com');
+			})
+
+		};
+
+	}
+}
+
+function SeleccionClick(){
+	var table = $('#datatable-1').DataTable();
+	$('#datatable-1 tbody').on( 'click', 'tr', function () {
+	  var rowData = table.row( this ).data();
+
+	  // ... do something with `rowData`
+	  console.log(rowData[3]);
+	  $('#idalavista').text(rowData[3]);
+
+	  var seleo;
+	  $.each(datas.items, function(n) {
+			 /* iterate through array or object */
+			 if(datas.items[n].ide ==$('#idalavista').text()){
+			 	// datas.items.push(item);
+			 	$('#tituloalavista').val(datas.items[n].titulo);
+			 	$('#wysiwig_full').val(datas.items[n].descr);
+
+			 	$("#categoriaalavista option").each(function(){
+			 		if($(this).attr('value')==datas.items[n].cat){
+			 			$('#cateidit').text($(this).text());
+			 			seleo=$(this).text();
+			 		}
+				});
+			 	$('#urltagalavista').val(datas.items[n].turl);
+			 	$('#tagalavista').val(datas.items[n].tag);
+			 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
+				$("#categoriaalavista").change();
+			 }
+		});
+
+	} );
+}
+
+function CambioCategoriaEditar(){
+	$("#categoriaalavista").change(function(event) {
+		/* Act on the event */
+		$.each(datas.items, function(n) {
+			 /* iterate through array or object */
+			 if(datas.items[n].ide ==$('#idalavista').text()){
+			 	// datas.items.push(item);
+			 	datas.items[n].cat=$("#categoriaalavista").val();
+			 	$("#categoriaalavista option").each(function(){
+			 		if($(this).attr('value')==datas.items[n].cat){
+			 			$('#cateidit').text($(this).text());
+			 		}
+				});
+
+			 }
+		});
+	});
+}
+
+$('#buscarv1').click(function(e) {
+	e.preventDefault();
+	//
+	if (!$('#vcategoria').val()=='') 
+	{
+		if (Maximo($('#vmaxcat').val())) 
+		{
+			$.ajax({
+				url: "{{URL::route('categoria_videos')}}",
+				type: 'POST',
+				data: {	max: $('#vmaxcat').val() , 
+						buscar: $('#vbuscarq').val() , 
+						cat: $('#vcategoria').val() ,
+						orden: $('#vorden1').val() ,
+						forma: $('#vforma1').val() ,
+						filtro: $('#vfiltro').val() ,
+						vefa: $('#vfiltro2n').val() 
+					   },
+				beforeSend: function(){
+			    			$('#vinfo1').html("");
+		                    $('#buscarv1').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+		                    datas = {items: 
+							[
+							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+							]};
+		                },
+				error: function(jqXHR, exception) {
+				        if (jqXHR.status === 0) {
+				            alert('Error de conexión, verifica tu instalación.');
+				        } else if (jqXHR.status == 404) {
+				            alert('La página no ha sido encontrada. [404]');
+				        } else if (jqXHR.status == 500) {
+				            var msg=jQuery.parseJSON(jqXHR.responseText);
+				           	VerError(msg);
+				        } else if (exception === 'parsererror') {
+				            alert('Error parse JSON.');
+				        } else if (exception === 'timeout') {
+				            alert('Exceso tiempo.');
+				        } else if (exception === 'abort') {
+				            alert('Petición ajax abortada.');
+				        } else {
+				            alert('Error desconocido: ' + jqXHR.responseText);
+				        }
+				    },
+			})
+			.done(function(data) {
+				if (data.success=='true') {
+					seleccion = 'vimeo';
+					MostrarOpcionesAll();
+					VerTablaVimeo(data);
+					CambiarColorTabla();
+					CrearObjeto();
+					SeleccionClick();
+					CambioCategoriaEditar();
+				}
+				else{
+					VerTablaVacia();
+				}		
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+				$('#buscarv1').html('<span><i class="fa fa-search"></i></span> Buscar');
+			});
+		}
+		else
+		{
+			$('#vinfo1').html("<center><label class='col-sm-12 bg-danger'>El valor max debe estar entre 1 y 50</label></center>");
+		}
+	}
+	else{
+		$('#vinfo1').html("<center><label class='col-sm-12 bg-danger'>Seleccione una Categoria</label></center>");
+	};
+	
+});
+
+
+$('#buscarv2').click(function(e) {
+	e.preventDefault();
+	if (!$('#vtag').val()=='') 
+	{
+		if (Maximo($('#vmaxcat2').val())){
+			$.ajax({
+				url: "{{URL::route('tag_videos')}}",
+				type: 'POST',
+				data: {	tag: $('#vtag').val() , 
+						max: $('#vmaxcat2').val() , 
+						buscar: $('#vbuscarq2').val() , 
+						orden: $('#vorden2').val() ,
+						forma: $('#vforma2').val() , 
+					   },
+				beforeSend: function(){
+			    			$('#vinfo2').html("");
+		                    $('#buscarv2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+		                    datas = {items: 
+							[
+							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+							]};
+		                },
+				error: function(jqXHR, exception) {
+				        if (jqXHR.status === 0) {
+				            alert('Error de conexión, verifica tu instalación.');
+				        } else if (jqXHR.status == 404) {
+				            alert('La página no ha sido encontrada. [404]');
+				        } else if (jqXHR.status == 500) {
+				            var msg=jQuery.parseJSON(jqXHR.responseText);
+				           	VerError(msg);
+				        } else if (exception === 'parsererror') {
+				            alert('Error parse JSON.');
+				        } else if (exception === 'timeout') {
+				            alert('Exceso tiempo.');
+				        } else if (exception === 'abort') {
+				            alert('Petición ajax abortada.');
+				        } else {
+				            alert('Error desconocido: ' + jqXHR.responseText);
+				        }
+				    },
+			})
+			.done(function(data) {
+				if (data.success=='true') {
+					seleccion = 'vimeo';
+					MostrarOpcionesAll();
+					VerTablaVimeo(data);
+					CambiarColorTabla();
+					CrearObjeto();
+					SeleccionClick();
+					CambioCategoriaEditar();
+				}
+				else{
+					VerTablaVacia();
+				}		
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+				$('#buscarv2').html('<span><i class="fa fa-search"></i></span> Buscar');
+			});
+		}
+		else{
+			$('#vinfo2').html("<center><label class='col-sm-12 bg-danger'>El valor max debe estar entre 1 y 50</label></center>");
+		}
+	}
+	else{
+		$('#vinfo2').html("<center><label class='col-sm-12 bg-danger'>Ingrese un Tag</label></center>");
+	};
+	
+});
+
+$('#buscarv3').click(function(e) {
+	e.preventDefault();
+	if (!$('#vbuscarq3').val()=='') 
+	{
+		if (Maximo($('#vmaxcat3').val())){
+			$.ajax({
+				url: "{{URL::route('search_videos')}}",
+				type: 'POST',
+				data: {	max: $('#vmaxcat3').val() , 
+						buscar: $('#vbuscarq3').val() , 
+						orden: $('#vorden3').val() ,
+						forma: $('#vforma3').val() , 
+						filtro: $('#vfiltro3').val() ,
+					   },
+				beforeSend: function(){
+			    			$('#vinfo3').html("");
+		                    $('#buscarv3').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+		                    datas = {items: 
+							[
+							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
+							]};
+		                },
+				error: function(jqXHR, exception) {
+				        if (jqXHR.status === 0) {
+				            alert('Error de conexión, verifica tu instalación.');
+				        } else if (jqXHR.status == 404) {
+				            alert('La página no ha sido encontrada. [404]');
+				        } else if (jqXHR.status == 500) {
+				            var msg=jQuery.parseJSON(jqXHR.responseText);
+				           	VerError(msg);
+				        } else if (exception === 'parsererror') {
+				            alert('Error parse JSON.');
+				        } else if (exception === 'timeout') {
+				            alert('Exceso tiempo.');
+				        } else if (exception === 'abort') {
+				            alert('Petición ajax abortada.');
+				        } else {
+				            alert('Error desconocido: ' + jqXHR.responseText);
+				        }
+				    },
+			})
+			.done(function(data) {
+				if (data.success=='true') {
+					seleccion = 'vimeo';
+					MostrarOpcionesAll();
+					VerTablaVimeo(data);
+					CambiarColorTabla();
+					CrearObjeto();
+					SeleccionClick();
+					CambioCategoriaEditar();
+				}
+				else{
+					VerTablaVacia();
+				}	
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+				$('#buscarv3').html('<span><i class="fa fa-search"></i></span> Buscar');
+			});
+		}
+		else{
+			$('#vinfo3').html("<center><label class='col-sm-12 bg-danger'>El valor max debe estar entre 1 y 50</label></center>");
+		}
+
+	}
+	else{
+		$('#vinfo3').html("<center><label class='col-sm-12 bg-danger'>Ingrese una cadena de busqueda</label></center>");
+	};
+	
+});
+
 
 
 /**
@@ -746,9 +1403,13 @@ function VerError(data){
 	else if('Error 400 Bad Request : videoChartNotFound'==data.error.message){
 		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: La categoria solicitada no se encuentra habilitada en el pais seleccionado </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
 	}
+	else if('Undefined index: data'==data.error.message){
+		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: No se han encontrados datos en la Busqueda Realizada  </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+	}
+	
 	else{
 		$('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: "+data.error.message+"</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
-
+		console.log(data.error.message);
 	}
 
 	$('#modalerrores').modal({
@@ -889,72 +1550,147 @@ $('#enviaralavista').click(function(event) {
 
 
 
-	console.log(datas);
-	
-	$.ajax({
-		url: "{{URL::route('savealavista')}}",
-		type: 'POST',
-		// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-		data: {videos: datas},
-		beforeSend: function(){
-	    			// alert("message");
-                    $('#enviaralavista').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            var msg=jQuery.parseJSON(jqXHR.responseText);
-		           	VerError(msg);
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		 $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
-		console.log("success22");
-		if(data.success==true){
-			if(data.list!=''){
-				$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-archive'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
+	// console.log(datas);
+	if (seleccion == 'vimeo') {
+		// alert(seleccion);
+			$.ajax({
+			url: "{{URL::route('savevimeo_videos')}}",
+			type: 'POST',
+			// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+			data: {videos: datas},
+			beforeSend: function(){
+		    			// alert("message");
+	                    $('#enviaralavista').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+	                },
+	        error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			            var msg=jQuery.parseJSON(jqXHR.responseText);
+			           	VerError(msg);
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+		})
+		.done(function(data) {
+			 $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
+			// console.log("success22");
+			if(data.success=='true'){
+				if(data.list!=''){
+					$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-archive'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
+					
+					$('#modalmessage').modal({
+						show: true
+					});
+				}
+				else{
+					$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-check-square-o'></i></button><legend class='col-sm-12 '>"+"Seleccione al Menos un Video"+"</legend></center>");
+					$('#modalmessage').modal({
+						show: true
+					});
+					
+					
+				}
 				
-				$('#modalmessage').modal({
-					show: true
-				});
 			}
-			else{
-				$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-check-square-o'></i></button><legend class='col-sm-12 '>"+"Seleccione al Menos un Video"+"</legend></center>");
+			if(!data.success){
+				$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-minus-square-o'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
+				// alert((data.list));
 				$('#modalmessage').modal({
-					show: true
-				});
-				
-				
+						show: true
+					});
 			}
 			
-		}
-		if(!data.success){
-			$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-minus-square-o'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
-			// alert((data.list));
-			$('#modalmessage').modal({
-					show: true
-				});
-		}
-		
-	})
-	.fail(function(data) {
-		console.log("error");
-	})
-	.always(function(data) {
-		console.log("complete"); $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
-	});
+		})
+		.fail(function(data) {
+			console.log("error");
+		})
+		.always(function(data) {
+			console.log("complete"); $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
+		});
+	};
+	if(seleccion == 'youtube'){
+		// alert(seleccion);
+			$.ajax({
+			url: "{{URL::route('savealavista')}}",
+			type: 'POST',
+			// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+			data: {videos: datas},
+			beforeSend: function(){
+		    			// alert("message");
+	                    $('#enviaralavista').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+	                },
+	        error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			            var msg=jQuery.parseJSON(jqXHR.responseText);
+			           	VerError(msg);
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+		})
+		.done(function(data) {
+			 $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
+			console.log("success22");
+			if(data.success==true){
+				if(data.list!=''){
+					$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-archive'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
+					
+					$('#modalmessage').modal({
+						show: true
+					});
+				}
+				else{
+					$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-check-square-o'></i></button><legend class='col-sm-12 '>"+"Seleccione al Menos un Video"+"</legend></center>");
+					$('#modalmessage').modal({
+						show: true
+					});
+					
+					
+				}
+				
+			}
+			if(!data.success){
+				$('#modalnotice').html("<center><button type='button' class='btn btn-primary btn-app-sm btn-circle'><i class='fa fa-minus-square-o'></i></button><legend class='col-sm-12 '>"+data.list+"</legend></center>");
+				// alert((data.list));
+				$('#modalmessage').modal({
+						show: true
+					});
+			}
+			
+		})
+		.fail(function(data) {
+			console.log("error");
+		})
+		.always(function(data) {
+			console.log("complete"); $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
+		});
+	};
+	if(seleccion == 'ninguna'){
+		alert('Ningun Video de YouTube o Vimeo valido');
+
+	};
+	
+	
 });
 
 
@@ -966,7 +1702,7 @@ var datas = {items:
 	    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat", sel:"sel", tag:"tag" , url:"url"},
 	]};
 		
-
+var seleccion = 'ninguna';
 function getFormJson(a,b,c,d,e,f,g,h){
 
 	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f, tag:g, turl:h};
@@ -1003,7 +1739,17 @@ function validarFechaMenorMayor(datetime1,datetime2){
 
 
 $(document).ready(function() {
+	/**
+	 * Vimeo
+	 */
+	CategoriasVimeo();
 
+
+
+
+	/**
+	 * YouTube
+	 */
 	$('#datatable-1').DataTable({
 	
 	"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
@@ -1046,6 +1792,18 @@ $(document).ready(function() {
 		max: 50,
 		min: 1,
 	});
+	$("#vmaxcat").spinner({
+		max: 50,
+		min: 1,
+	});
+	$("#vmaxcat2").spinner({
+		max: 50,
+		min: 1,
+	});
+	$("#vmaxcat3").spinner({
+		max: 50,
+		min: 1,
+	});	
 	// Load TimePicker plugin and callback all time and date pickers
 	LoadTimePickerScript(AllTimePickers);
 
@@ -1194,6 +1952,13 @@ function DemoSelect2(){
 	$('#vcategoria').select2();
 	$('#vfiltro').select2();
 	$('#vfiltro2n').select2();
+	$('#vorden1').select2();
+	$('#vforma1').select2();
+	$('#vorden2').select2();
+	$('#vforma2').select2();
+	$('#vforma3').select2();
+	$('#vorden3').select2();
+	$('#vfiltro3').select2();
 };
 
 $("#accordion .panel-heading").mouseover(function(e) {
@@ -1356,7 +2121,7 @@ $("#buscar2").click(function(e) {
 			})
 			.done(function(data) {
 				console.log("success");
-
+				seleccion = 'youtube';
 				if(data.success=='true'){
 							$("#mostrar").show();
 							$("#enviaralavista").show();
@@ -1570,6 +2335,7 @@ $("#buscar3").click(function(e) {
 		.done(function(data) {
 			console.log("success");
 			if(data.success==true){
+					seleccion = 'youtube';
 						$("#enviaralavista").show();
 						$("#mostrar").show();
 
@@ -1776,6 +2542,7 @@ $("#buscar4").click(function(e) {
 							.done(function(data) {
 								console.log("success");
 								if(data.success==true){
+									seleccion = 'youtube';
 											$("#mostrar").show();
 											$("#enviaralavista").show();
 
@@ -1972,6 +2739,7 @@ $("#buscar4").click(function(e) {
 							.done(function(data) {
 								console.log("success");
 								if(data.success==true){
+									seleccion = 'youtube';
 											$("#mostrar").show();
 											$("#enviaralavista").show();
 
@@ -2205,7 +2973,7 @@ $('#categoryall').change(function(e) {
 		 	// datas.items.push(item);
 		 	datas.items[n].cat=$('#categoryall').val();
 	});
-	console.log(datas);
+	// console.log(datas);
 });
 
 

@@ -141,6 +141,11 @@ class Vimeo
 
         // Call the API
         $curl = curl_init($url);
+
+        curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+
+        
         curl_setopt_array($curl, $curl_opts);
         $response = curl_exec($curl);
         $curl_info = curl_getinfo($curl);

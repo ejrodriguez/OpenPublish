@@ -35,6 +35,6 @@ return [
 	| or generated using OAuth 2.
 	*/
 
-	'access_token' => '44f2f49e6ac443b69bc4bea2761754af',
+	'access_token' => '3c8325a1ab1b9715b9c5e1bef7ec2785',
 
 ];
