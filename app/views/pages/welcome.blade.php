@@ -399,7 +399,7 @@ $(document).on('click', '#viewgalery',function (e) {
 
 	    })
 	    .fail(function() {
-
+	    	// console.log('no vale');
 	    })
 	});
 	

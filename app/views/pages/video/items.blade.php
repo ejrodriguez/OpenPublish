@@ -2,7 +2,7 @@
 <html>
 <head>
 <!-- Add jQuery library -->
-<script type="text/javascript" src="plugins/fancyapps/lib/jquery-1.10.1.min.js"></script>
+<!-- <script type="text/javascript" src="plugins/fancyapps/lib/jquery-1.10.1.min.js"></script> -->
 <!-- Add mousewheel plugin (this is optional) -->
 <script type="text/javascript" src="plugins/fancyapps/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 <!-- Add fancyBox main JS and CSS files -->

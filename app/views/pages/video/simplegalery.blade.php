@@ -2,7 +2,7 @@
 <html>
 <head>
 <!-- Add jQuery library -->
-<script type="text/javascript" src="plugins/fancyapps/lib/jquery-1.10.1.min.js"></script>
+<!-- <script type="text/javascript" src="plugins/fancyapps/lib/jquery-1.10.1.min.js"></script> -->
 </head>
 <body>
 <br>
@@ -70,6 +70,30 @@ function DemoSelect2(){
 	$('#pagi').select2();
 };
 
+function VerError(data){
+    if('Invalid argument supplied for foreach()'==data.error.message)
+    {
+        $('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>No se han encontrados datos en la Busqueda Realizada </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+    }
+    else if('Curl Error : Failed to connect to www.googleapis.com port 443: Host unreachable'==data.error.message){
+        $('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: No se pudo conectar con www.googleapis.com puerto 443: host inalcanzable</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+    }
+    else if('Curl Error : Could not resolve host: www.googleapis.com'==data.error.message){
+        $('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: No se pudo resolver el host: www.googleapis.com</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+    }
+    else if('Error 400 Bad Request : videoChartNotFound'==data.error.message){
+        $('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: La categoria solicitada no se encuentra habilitada en el pais seleccionado </p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+    }
+    else{
+        $('#modalerror').html("<center><button type='button' class='btn btn-danger btn-app-sm btn-circle'><i class='fa fa-times-circle'></i></button><p><legend class='col-sm-12 '>Error: "+data.error.message+"</p><p>Linea: "+data.error.line+"</p><p>Archivo: "+data.error.file+"</legend></center>");
+
+    }
+
+    $('#modalerrores').modal({
+                                show: true
+                            });
+}
+
 $(function() {
     // 1.
     var ca=$('#pagi').val();
@@ -105,6 +129,7 @@ $(function() {
             }
         });
     });
+
 
     $('#impression').load("{{URL::route('itemstype')}}"+"?page=1&can="+ca);
 });

@@ -384,7 +384,6 @@
 								  <i class="fa fa-vimeo-square" ></i> 
 								  Vimeo
 								</div>
-							</div>
 							<div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
 								<div class="panel panel-default">
 										<a class="collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -635,6 +634,7 @@
 									      </div>
 									    </div>
 									</div>
+								</div>
 							</div>
 						</div>
 						<!-- 
