@@ -129,8 +129,17 @@ Route::get('/twitter/account',array('as' => 'accountstw', 'uses' => 'TwitterCont
 // twittear 
 Route::post('/twitter/twittear',array('as' => 'twittear', 'uses' => 'TwitterController@Twittear'))->before("auth_user");
 //listar videos
+//Route::get('datatables', array('as'=>'datatables', 'uses'=>'VideoController@Datatable'))->before("auth_user");
+//listar ventana para presentar los videos
+Route::get('/twitter',array('as' => 'sharetw', 'uses' => 'VideoController@LoadVideoTw'))->before("auth_user");
+// listar cuentas twiiter
+Route::get('/twitter/account',array('as' => 'accountstw', 'uses' => 'TwitterController@ListAccounttw'))->before("auth_user");
+// twittear 
+Route::post('/twitter/twittear',array('as' => 'twittear', 'uses' => 'TwitterController@Twittear'))->before("auth_user");
+//listar videos
 Route::get('datatables', array('as'=>'datatables', 'uses'=>'VideoController@Datatable'))->before("auth_user");
-
+//listar treanding
+Route::get('/twitter/trending',array('as' => 'trending', 'uses' => 'TwitterController@Trending'))->before("auth_user");
 
 // Galeria
 

@@ -4,7 +4,7 @@ class TwitterController extends \BaseController {
 
 /*
 	|--------------------------------------------------------------------------
-	| Facebook Controller
+	| Twitter Controller
 	|--------------------------------------------------------------------------
 	|Controlador de la API de Twittter.
 	|
@@ -37,9 +37,9 @@ class TwitterController extends \BaseController {
 		//nueva conexión. 
 		try {
 				$twitter= $this->tw->generateSessionFromRedirect($oauth_verifier);
-				$account = Account::where('id_account','=',$twitter["user_id"])->get();
+				$account = Accounttw::where('id_account','=',$twitter["user_id"])->get();
 		
-				if(count($account)==0)
+				if(count($account) == 0)
 				{
 					$account = new Accounttw;
 					$account->name = $twitter["screen_name"];
@@ -61,28 +61,51 @@ class TwitterController extends \BaseController {
 	public function ListAccount(){
 		$Accounts = Accounttw::all();
 
+
 		$encontrados='<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Id</th><th>Id Twitter</th><th>Nombre</th><th>Actualización</th><th>Eliminar</th></tr></thead><tbody>';
 				foreach ($Accounts as $account) {
-					$oauth_token = "'".$account->oauth_token."'";
-					$oauth_token_secret = "'".$account->oauth_token_secret."'";
-					$name = "'".$account->name."'";
-					$create = "'".$account->created_at."'";
-					$update = "'".$account->updated_at."'";
-					$encontrados=$encontrados.'<tr><td id="id">'.$account->idtw.'</td><td id="id_account">'.$account->id_account.'</td><td id="id_name">'.$account->name.'</td><td id="id_fecha">'.$account->updated_at.'</td>
-	                <td>
-					<span onclick="ShowDelet('.$account->idtw.','.$account->id_account.','.$name.','.$oauth_token.','.$update.','.$create.')" class="dtr-data"><a id="callmodaldel" data-toggle="modal" href="#modaldatadel" class="btn btn-danger btn-large">
-					<span class="fa fa-trash-o" aria-hidden="true"></span> Eliminar</a></span>
-					</td>
-	                </tr>';
+
+					if( Auth::user()->get()->RolId != 1 )
+					{
+						//si no lo es presentar solamente sus cuantas. 
+						if($account->usuario_ide == Auth::user()->get()->id)
+						{
+							$oauth_token = "'".$account->oauth_token."'";
+							$oauth_token_secret = "'".$account->oauth_token_secret."'";
+							$name = "'".$account->name."'";
+							$create = "'".$account->created_at."'";
+							$update = "'".$account->updated_at."'";
+							$encontrados=$encontrados.'<tr><td id="id">'.$account->idtw.'</td><td id="id_account">'.$account->id_account.'</td><td id="id_name">'.$account->name.'</td><td id="id_fecha">'.$account->updated_at.'</td>
+			                <td>
+							<span onclick="ShowDelet('.$account->idtw.','.$account->id_account.','.$name.','.$oauth_token.','.$update.','.$create.')" class="dtr-data"><a id="callmodaldel" data-toggle="modal" href="#modaldatadel" class="btn btn-danger btn-large">
+							<span class="fa fa-trash-o" aria-hidden="true"></span> Eliminar</a></span>
+							</td>
+			                </tr>';
+			            }
+			        }
+			        else
+			        {
+			        		$oauth_token = "'".$account->oauth_token."'";
+							$oauth_token_secret = "'".$account->oauth_token_secret."'";
+							$name = "'".$account->name."'";
+							$create = "'".$account->created_at."'";
+							$update = "'".$account->updated_at."'";
+							$encontrados=$encontrados.'<tr><td id="id">'.$account->idtw.'</td><td id="id_account">'.$account->id_account.'</td><td id="id_name">'.$account->name.'</td><td id="id_fecha">'.$account->updated_at.'</td>
+			                <td>
+							<span onclick="ShowDelet('.$account->idtw.','.$account->id_account.','.$name.','.$oauth_token.','.$update.','.$create.')" class="dtr-data"><a id="callmodaldel" data-toggle="modal" href="#modaldatadel" class="btn btn-danger btn-large">
+							<span class="fa fa-trash-o" aria-hidden="true"></span> Eliminar</a></span>
+							</td>
+			                </tr>';
+	
+			        }
 				}
-		$encontrados=$encontrados.'</tbody><tfoot><tr><th>Id</th><th>Id Facebook</th><th>Nombre</th><th>Actualización</th><th>Eliminar</th></tr></tfoot></table>
+		$encontrados=$encontrados.'</tbody><tfoot><tr><th>Id</th><th>Id Twitter</th><th>Nombre</th><th>Actualización</th><th>Eliminar</th></tr></tfoot></table>
 									<br>
 								   	<fieldset>
 								   	<h4 id="result"></h4>
 									</fieldset>
 									<legend></legend>
-								    <fieldset>
-								    
+								    <fieldset>								    
 									   <div><button  onclick="NewAccount()" type="button" class="btn btn-default" aria-label="Left Align">
 		                				<i class="fa fa-twitter txt-primary" aria-hidden="true"></i>      Registrar nueva cuenta.</div>
 								    </fieldset>
@@ -99,14 +122,29 @@ class TwitterController extends \BaseController {
 		$accounts =""; 
 		if (count($accounts) ==0)
 		{
-			$encontrados = $encontrados.'<h4>No existe cuentas de facebook registradas, agregue las cuentas en Adminsitración de Facebook</h4></div>';		
+			$encontrados = $encontrados.'<h4>No existe cuentas de twitter registradas, agregue las cuentas en Adminsitración de Twiiter</h4></div>';		
 		}
 		else
 		{
 			foreach ($Accounts as $account) {
-				$name = $account->name;
-				$idaccount = $account->idtw; 
-				$accounts.='<option value='.$idaccount.'>'.$name.'</option>';
+
+				if( Auth::user()->get()->RolId != 1 )
+					{
+						//si no lo es presentar solamente sus cuantas. 
+						if($account->usuario_ide == Auth::user()->get()->id)
+						{
+							$name = $account->name;
+							$idaccount = $account->idtw; 
+							$accounts.='<option value='.$idaccount.'>'.$name.'</option>';
+						}
+					}	
+					else
+					{
+						$name = $account->name;
+						$idaccount = $account->idtw; 
+						$accounts.='<option value='.$idaccount.'>'.$name.'</option>';
+					}
+
 			}
 			$encontrados = '<select id="account" name="modal_menu" multiple="multiple" class="populate placeholder">
 				        		'.$accounts.'					
@@ -134,22 +172,33 @@ class TwitterController extends \BaseController {
 				foreach ($accounts as $account) {
 
 					$idcuenta = Accounttw::where('idtw', '=',$account)->get();
-					$oauth_token = $idcuenta[0]["oauth_token"];
-					$oauth_token_secret  = $idcuenta[0]["oauth_token_secret"];
-					$session = $this->tw->generateSession($oauth_token,$oauth_token_secret);
-					if($session!= NULL){
-						$result = $this->tw->PostTweet($session,$mensaje);	
-						if ($result !=NULL){
+					
+					if ($idcuenta != NULL)
+					{
+						$oauth_token = $idcuenta[0]["oauth_token"];
+						$oauth_token_secret  = $idcuenta[0]["oauth_token_secret"];
+						$session = $this->tw->generateSession($oauth_token,$oauth_token_secret);
+						if($session!= NULL){
+							$result = $this->tw->PostTweet($session,$mensaje);
+							//comprobar si el resultado es un array con mensaje de error o confirmación
+							//de la publicación. 
+							if (isset($result->errors) == 0 ){
 
-							$msg = $msg.'Publicado en la cuenta'.$idcuenta[0]["name"];
+								$msg = $msg.'Publicado en la cuenta  '.$idcuenta[0]["name"];
+							}
+							else
+								{
+									$msg =$msg.'<p class="alert alert-danger"> Error:  '.$result->errors[0]->message.' en la cuenta: '.$idcuenta[0]["name"].'</p></br>';
+								}
 						}
 						else{
-							$msg =$msg.'Error en twittear en la cuenta: '.$idcuenta[0]["name"].'</br>';
-						}			
+							$msg =$msg.'Error en abrir la sesion: '.$idcuenta[0]["name"].'</br>';
+						} 
 					}
-					else{
-						$msg =$msg.'Error en crear la sesion: '.$idcuenta[0]["name"].'</br>';
-					} 				
+					else
+					{
+						$msg =$msg.'<p class="alert alert-danger"> No existen cuentas registradas, primero registre una para realizar un tweet </p></br>';
+					}				
 				}
 				return Response::json(array(
 			                    'success'         =>   'true',
@@ -194,4 +243,43 @@ class TwitterController extends \BaseController {
 		}
 	}
 
+public function Trending()
+	{ 
+		$trnd="";
+		$encontrados="";
+		if (Request::ajax()) 
+		{
+				$idcuenta  = NULL; 
+
+					$idcuenta = Accounttw::where('usuario_ide', '=', Auth::user()->get()->id )->get();
+					$oauth_token = $idcuenta[0]["oauth_token"];
+					$oauth_token_secret  = $idcuenta[0]["oauth_token_secret"];
+					$session = $this->tw->generateSession($oauth_token,$oauth_token_secret);
+					if($session!= NULL)
+					{
+						$result = $this->tw->Get_trends($session);
+						if (isset($result->errors) == 0 ){
+								foreach ($result[0]->trends as $value) 
+								{
+								$trnd.='<span class="fc-button  fc-state-default fc-corner-center">'.$value->name.' '.'</span>'; 
+										
+								}
+						}
+						else
+							{
+								$trnd =$trnd.'<p class="alert alert-danger"> Error:  '.$result->errors[0]->message.' en la cuenta: '.$idcuenta[0]["name"].'</p></br>';
+
+							}
+					} 	
+
+				$encontrados = '<td id="ClickWordList" class="fc-header-center">
+				        		'.$trnd.'					
+								</td>';
+
+		}
+		return Response::json(array(
+			                    'success'         =>   true,
+			                    'list'        =>  $encontrados
+			                    ));
+	}
 }

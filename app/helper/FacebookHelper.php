@@ -8,12 +8,7 @@ use Facebook\GraphUser;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
 
-/*
-| Class twitter. 
-| Function.
-| Author: Edison Rodriguez.
-| Email: rodriguezjedison@hotmail.es
-*/
+
 class FacebookHelper
 {
 	private $helper;
@@ -59,9 +54,11 @@ class FacebookHelper
 				$session = new FacebookSession($token);
 				return $session;
 		} catch (FacebookRequestException $ex) {
-				echo $ex->getMessage();
+				//echo $ex->getMessage();
+				return $ex->getCode();
 		} catch (\Exception $ex){
-				echo $ex->getMessage();
+				//echo $ex->getMessage();
+				return $ex->getCode();
 		}
 
 		//$session = new FacebookSession($token);
@@ -91,7 +88,7 @@ class FacebookHelper
   			}   
 		}
 		else
-			return "no a iniciado sesion";
+			return "No se pudo iniciar sesión, token ha espirado, elimine la cuenta y vuelva a registrarse";
 	}
 
 
@@ -118,9 +115,11 @@ public function getGraphGroups($session)
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			echo $ex->getMessage();
+  			//echo $ex->getMessage();
+  			return $ex->getMessage();
 		} catch (\Exception $ex) {
-  			echo $ex->getMessage();
+  			//echo $ex->getMessage();
+  		    return $ex->getMessage();
 		}
 	}
 
@@ -132,9 +131,11 @@ public function getGraphEvents($session)
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			echo $ex->getMessage();
+  			//echo $ex->getMessage();
+  			return $ex->getMessage();
 		} catch (\Exception $ex) {
-  			echo $ex->getMessage();
+  			//echo $ex->getMessage();
+  			return $ex->getMessage();
 		}
 	}
 
@@ -147,9 +148,11 @@ public function getGraphPages($session)
 		return  $response->getGraphObject();
 		
 		} catch (FacebookRequestException $ex) {
-  			echo $ex->getMessage();
+  			//echo $ex->getMessage();
+  			return $ex->getMessage();
 		} catch (\Exception $ex) {
-  			echo $ex->getMessage();
+  			//echo $ex->getMessage();
+  			return $ex->getMessage();
 		}
 	}
 
@@ -168,11 +171,11 @@ public function getGraphPages($session)
     			return  "Posted with id: " . $response->getProperty('id');
 
   			}   catch(FacebookRequestException $e) {
-   		 		return  "Exception occured, code: " . $e->getCode();
+   		 		return   $e->getMessage();
   			}   
 		}
 		else
-			return "no a iniciado sesion";
+			return "No se pudo iniciar sesión, token ha espirado, elimine la cuenta y vuelva a registrarse";
 	}
 
 }

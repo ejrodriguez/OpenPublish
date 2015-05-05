@@ -118,8 +118,10 @@ $(document).ready(function() {
 	    	if(data.success== true)
 	    	{
 				$('#cuentas').html(data.list);
+				
 				<?php $accounts = Account::get()->count();
 				echo 'cuentas ='.$accounts.';';?>
+				
 				function SelectCat()
 				{
 					for (var i = 1; i <= cuentas; i++) 

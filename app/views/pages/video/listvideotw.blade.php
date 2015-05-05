@@ -5,6 +5,9 @@
 <link rel="stylesheet" type="text/css" href="css/tables/jquery.dataTables.css">
 <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>
 <script type="text/javascript" language="javascript" src="js/jsfunctions/dataTables.responsive.js"></script>
+<style type="text/css" media="Screen">
+  #leftcolumn a{cursor:pointer;}
+</style>
 </head>
 <body>
 <br>
@@ -70,9 +73,17 @@
 						<div class="form-group">
 						<fieldset>
 						<legend>Mensaje:</legend>
-							<textarea class="form-control" name="descripcion" id="mensaje"  maxlength="118" rows="5"  onKeyDown="valida_longitud()"></textarea>
+							<!--el tamaño del mensaje en twitter solo admite 140 caracters, reduciendo la longitud de un link para el video,
+							gracias a twitter los link solo ocupan 22 caracteres, mas un espació, el total de texto disponible es 117-->
+							<textarea class="form-control" name="descripcion" id="mensaje"  maxlength="116" rows="5"  onKeyDown="valida_longitud()"></textarea>
 							<h5 class="col-sm-8" id="contador" class="control-label"></h5>
 						</fieldset>
+						</div>
+						<div class="form-group">
+							<fieldset>
+								<legend>Tendencia:</legend>
+								<div id="leftcolumn" class="col-xs-12"> </div>
+							</fieldset>
 						</div>
 						<fieldset>
 						<div class="form-group">
@@ -81,7 +92,6 @@
 						<br>
 						<span onclick="Share()" class="dtr-data"><a id="callmodalshare" data-toggle="modal" class="btn btn-default btn-large">
 						<span class="fa  fa-twitter txt-primary" aria-hidden="true"></span>  Twittear</a></span>
-
 						<div id="resultshare"></div>
 						</div>
 						</fieldset>
@@ -121,8 +131,7 @@ $(document).ready(function() {
 	    	if(data.success== true)
 	    	{
 				$('#cuentas').html(data.list);
-				<?php $accounts = Account::get()->count();
-				echo 'cuentas ='.$accounts.';';?>
+				
 				function SelectCat()
 				{
 					$('#account').select2();
@@ -138,11 +147,80 @@ $(document).ready(function() {
 		.fail(function() {
 		console.log("error");
 		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
-		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Facebook, Seleccione nuevamente la opcion del menu Redes Sociales, Facebook para obtener las cuentas de facebook.</p>');
+		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Twitter, Seleccione nuevamente la opcion del menu Redes Sociales, Twitter para obtener las nuevamente las cuentas.</p>');
 	    })
-	
 
+//--------------cargar trending
+		$.ajax({
+	    	
+	    	url: "{{URL::route('trending')}}",
+	    	type: 'GET',
+		    beforeSend: function(){
+	                    $('#trending').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+
+	    })
+	    .done(function(data) {
+	    	if(data.success== true)
+	    	{
+	    		//alert(data.msg);
+				$('#leftcolumn').html(data.list);
+				//function SelectCat()
+				//{
+				//	$('#trending').select2();
+				//	$('#trending').select2({placeholder: "Seleccione las cuentas"});
+				//}			
+				//LoadSelect2Script(SelectCat);
+				$('#ClickWordList span').click(function() { 
+				    $("#mensaje").insertAtCaret($(this).text());
+				    return false
+				  });
+				  $("#ClickWordList span").draggable({helper: 'clone'});
+				  $("#mensaje").droppable({
+				    accept: "#ClickWordList span",
+				    drop: function(ev, ui) {
+				      $(this).insertAtCaret(ui.draggable.text());
+				    }
+				  });
+				//
+			}
+		else
+			{
+				alert(data.list);
+			}
+		})
+		.fail(function() {
+		console.log("error");
+		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
+		$('#trending').html('<p class="alert alert-danger">Problemas de conexión con la API de Twitter, Seleccione nuevamente la opcion del menu Redes Sociales, Twitter para obtener nuevamente las tendencias.</p>');
+	    })
 });	
+//----------función para insertar el trending topic al texto
+	$.fn.insertAtCaret = function (myValue) {
+	  return this.each(function(){
+	      //IE support
+	      if (document.selection) {
+	          this.focus();
+	          sel = document.selection.createRange();
+	          sel.text = myValue;
+	          this.focus();
+	      }
+	      //MOZILLA / NETSCAPE support
+	      else if (this.selectionStart || this.selectionStart == '0') {
+	          var startPos = this.selectionStart;
+	          var endPos = this.selectionEnd;
+	          var scrollTop = this.scrollTop;
+	          this.value = this.value.substring(0, startPos)+ myValue+ this.value.substring(endPos,this.value.length);
+	          this.focus();
+	          this.selectionStart = startPos + myValue.length;
+	          this.selectionEnd = startPos + myValue.length;
+	          this.scrollTop = scrollTop;
+	      } else {
+	          this.value += myValue;
+	          this.focus();
+	      }
+	  });
+	};
 //funcion para publicar perfil
 function showModal(seoname,seocategoria,title,image)
 {
@@ -164,84 +242,94 @@ function Share()
 	message = document.getElementById("mensaje").value;
 	message = message+"  "+document.getElementById("linkvideo").value;
 	accounts = $('#account').val();
-	alert(message);
-	alert(accounts);
-	$.ajax({
-		url: "{{URL::route('twittear')}}",
-		type: 'POST',
-		data: {message:message,accounts:accounts},
-		beforeSend: function(){
-	    			
-                    $('#resultshare').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
-                },
-        error: function(jqXHR, exception) {
-		        if (jqXHR.status === 0) {
-		            alert('Error de conexión, verifica tu instalación.');
-		        } else if (jqXHR.status == 404) {
-		            alert('La página no ha sido encontrada. [404]');
-		        } else if (jqXHR.status == 500) {
-		            alert('Internal Server Error [500].');
-		        } else if (exception === 'parsererror') {
-		            alert('Error parse JSON.');
-		        } else if (exception === 'timeout') {
-		            alert('Exceso tiempo.');
-		        } else if (exception === 'abort') {
-		            alert('Petición ajax abortada.');
-		        } else {
-		            alert('Error desconocido: ' + jqXHR.responseText);
-		        }
-		    },
-	})
-	.done(function(data) {
-		$('#resultshare').html('<label></label>');
-		console.log(data.msg)
-		if(data.success=='true'){
+	if(accounts == null)
+    {alert("Seleccione por lo menos una cuenta de twitter.")}
+	else
+	{
+		$.ajax({
+			url: "{{URL::route('twittear')}}",
+			type: 'POST',
+			data: {message:message,accounts:accounts},
+			beforeSend: function(){
+		    			
+	                    $('#resultshare').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+	        error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			            alert('Internal Server Error [500].');
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+		})
+		.done(function(data) {
+			$('#resultshare').html('<label></label>');
+			console.log(data.msg)
+			if(data.success=='true'){
 
-					// alert(data.msg);
-					$('#resultshare').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
-				}
-		if(data.success=='false'){
+						// alert(data.msg);
+						$('#resultshare').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+					}
+			if(data.success=='false'){
 
-					// alert(data.msg);
-					$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
-				}
-		if(data.success=='falserollb'){
+						// alert(data.msg);
+						$('#resultshare').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					}
+			if(data.success=='falserollb'){
 
-					alert('Internal Server Error [500].');
-				}
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	});
+						alert('Internal Server Error [500].');
+					}
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+	}
 }
 
+//funciones para contabilizar el maximo de caracters para hacer el tweet
 contenido_textarea = "" 
-num_caracteres_permitidos = 140
+num_permitidos = 140 
 
 function valida_longitud(){ 
    cuenta() 
-   num_caracteres = document.getElementById("mensaje").value.length;
-   if (num_caracteres >= num_caracteres_permitidos){
+   num_caracteres = document.getElementById("mensaje").value.length + 24;
+   if (num_caracteres >= 135){
+   		//rojo
       document.getElementById("contador").style.color = "#FF0000";
    }
    else
 	{
-	   	if (num_caracteres >= num_caracteres_permitidos-22)
+	   	if (num_caracteres > 100)
 	   	{ 
+	   		//naranja
 	       document.getElementById("contador").style.color = "#FF9900";
 	   	}
 	   	else{
+	   			//negro
 	   			document.getElementById("contador").style.color = "#000000";
 	   		}
    }
 
 } 
-function cuenta(){ 
-	c= $('#mensaje').val().length;
-	$('#contador').text(c);
-} 
+	//para presentar el contador
+	function cuenta(){ 
+		c= num_permitidos - ($('#mensaje').val().length +24);
+
+		$('#contador').text('Maximo de caracteres:  '+ c);
+	} 
+
 </script>
 </body>

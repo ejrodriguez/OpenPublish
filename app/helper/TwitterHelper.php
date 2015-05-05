@@ -1,12 +1,7 @@
 <?php
 
 use Abraham\TwitterOAuth\TwitterOAuth;
-/*
-| Class twitter. 
-| Function.
-| Author: Edison Rodriguez.
-| Email: rodriguezjedison@hotmail.es
-*/
+
 class TwitterHelper
 {
 	private $twitter;
@@ -64,13 +59,57 @@ class TwitterHelper
 		$statues = NULL; 
 		try {
 				$statues = $session->post("statuses/update", array("status" => $mensaje));
+				
 			    return $statues;
+
+		} catch (Exception $e) {
+			return $e;
+		}
+		
+	}
+
+	public function GetFriends($session)
+	{
+		$statues = NULL; 
+		try {
+				$statues = $session->get("friends/ids", array());
+				
+			    return $statues;
+
+		} catch (Exception $e) {
+			return $e;
+		}
+		
+	}
+
+	public function Getscreen_name($session, $ids)
+	{
+		$statues = NULL; 
+		try {
+				$statues = $session->get("friendships/show", array("target_id"=>$ids));
+				
+			    return $statues;
+
+		} catch (Exception $e) {
+			return $e;
+		}
+		
+	}
+
+	public function Get_trends($session)
+	{
+		//WOEID DE ECUADOR = 	  23424801  
+		$statues = NULL; 
+		try {
+				$statues = $session->get("/trends/place", array("id"=>'23424801'));
+				
+			    return $statues;
+
 		} catch (Exception $e) {
 			return $e;
 		}
 		
 	}
 }
-
 
 ?>
