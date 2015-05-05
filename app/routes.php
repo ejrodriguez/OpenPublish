@@ -131,6 +131,15 @@ Route::post('/twitter/twittear',array('as' => 'twittear', 'uses' => 'TwitterCont
 //listar videos
 Route::get('datatables', array('as'=>'datatables', 'uses'=>'VideoController@Datatable'))->before("auth_user");
 
+
+// Galeria
+
+Route::get('/galery/simple',array('as' => 'viewgalery', 'uses' => 'GaleryController@showGalery'))->before("auth_user");
+
+Route::get('/galery/items/ajax', array('as' => 'itemstype','uses' => 'GaleryController@PaginacionVideos'))->before("auth_user");
+
+// Route::get('items', array('as' => 'items','uses' => 'ItemController@getIndex'));
+
 //rutear a errores
 App::missing(function($exception)
 {
