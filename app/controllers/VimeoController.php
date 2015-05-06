@@ -19,6 +19,7 @@ class VimeoController extends BaseController {
     public function getCategorias() {
     		$response=Vimeo::request('/categories',array('fields' => 'name,uri' ),'GET');
     		$var = array( );
+            // array_push($var,array('iden' => 'id' , 'desc' => 'unita' ));
     		foreach ($response['body']['data'] as  $value) {
     			array_push($var,array('iden' => $value['uri'] , 'desc' => $value['name'] ));
     		}
@@ -44,22 +45,26 @@ class VimeoController extends BaseController {
 			'fields' => 'name,uri,description,pictures.sizes.link',
 			'per_page' => Input::get('max'),
 			);
-
-    		if (!empty(Input::get('buscar'))) {
-			$params['query'] = Input::get('buscar');
-			}
-			if (!empty(Input::get('orden'))) {
-			$params['sort'] = Input::get('orden');
-			}
-			if (!empty(Input::get('forma'))) {
-			$params['direction'] = Input::get('forma');
-			}
-			if (!empty(Input::get('filtro'))) {
-			$params['filter'] = Input::get('filtro');
-			}
-			if (!empty(Input::get('vefa'))) {
-			$params['filter_embeddable'] = Input::get('vefa');
-			}
+             $buscar=Input::get('buscar');
+             $orden=Input::get('orden');
+             $forma=Input::get('forma');
+             $filtro=Input::get('filtro');
+             $vefa=Input::get('vefa');
+            if (!empty($buscar)) {
+            $params['query'] = $buscar;
+            }
+            if (!empty($orden)) {
+            $params['sort'] = $orden;
+            }
+            if (!empty($forma)) {
+            $params['direction'] = $forma;
+            }
+            if (!empty($filtro)) {
+            $params['filter'] = $filtro;
+            }
+            if (!empty($vefa)) {
+            $params['filter_embeddable'] = $vefa;
+            }
 
 
     		$response=Vimeo::request('/categories'.'/'.Input::get('cat').'/videos',$params,'GET');
@@ -88,14 +93,18 @@ class VimeoController extends BaseController {
 			'fields' => 'name,uri,description,pictures.sizes.link',
 			'per_page' => Input::get('max'),
 			);
-    	if (!empty(Input::get('buscar'))) {
-		$params['query'] = Input::get('buscar');
+        $buscar=Input::get('buscar');
+        $orden=Input::get('orden');
+        $forma=Input::get('forma');
+
+    	if (!empty($buscar)) {
+		$params['query'] = $buscar;
 		}
-		if (!empty(Input::get('orden'))) {
-		$params['sort'] = Input::get('orden');
+		if (!empty($orden)) {
+		$params['sort'] = $orden;
 		}
-		if (!empty(Input::get('forma'))) {
-		$params['direction'] = Input::get('forma');
+		if (!empty($forma)) {
+		$params['direction'] = $forma;
 		}
 
 		$response=Vimeo::request('/tags'.'/'.Input::get('tag').'/videos',$params,'GET');
@@ -123,17 +132,22 @@ class VimeoController extends BaseController {
 			'fields' => 'name,uri,description,pictures.sizes.link',
 			'per_page' => Input::get('max'),
 			);
-    	if (!empty(Input::get('buscar'))) {
-		$params['query'] = Input::get('buscar');
+        $buscar=Input::get('buscar');
+        $orden=Input::get('orden');
+        $forma=Input::get('forma');
+        $filtro=Input::get('filtro');
+        
+    	if (!empty($buscar)) {
+		$params['query'] = $buscar;
 		}
-		if (!empty(Input::get('orden'))) {
-		$params['sort'] = Input::get('orden');
+		if (!empty($orden)) {
+		$params['sort'] = $orden;
 		}
-		if (!empty(Input::get('forma'))) {
-		$params['direction'] = Input::get('forma');
+		if (!empty($forma)) {
+		$params['direction'] = $forma;
 		}
-		if (!empty(Input::get('filtro'))) {
-		$params['filter'] = Input::get('filtro');
+		if (!empty($filtro)) {
+		$params['filter'] = $filtro;
 		}
 
 		$response=Vimeo::request('/videos',$params,'GET');
