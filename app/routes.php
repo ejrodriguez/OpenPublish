@@ -147,7 +147,12 @@ Route::get('/galery/simple',array('as' => 'viewgalery', 'uses' => 'GaleryControl
 
 Route::get('/galery/items/ajax', array('as' => 'itemstype','uses' => 'GaleryController@PaginacionVideos'))->before("auth_user");
 
-// Route::get('items', array('as' => 'items','uses' => 'ItemController@getIndex'));
+// Administracion Eliminar Videos
+
+Route::get('/video/delete',array('as' => 'delvideo', 'uses' => 'VideoController@showVideoDelete'))->before("auth_user");
+
+Route::get('/video/delete/datatable', array('as'=>'datatabledel', 'uses'=>'VideoController@DatatableDelete'))->before("auth_user");
+
 
 //rutear a errores
 App::missing(function($exception)

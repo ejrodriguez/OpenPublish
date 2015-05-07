@@ -15,7 +15,9 @@ class VideoController extends BaseController {
 		return View::make('pages.video.viewadmin');
 	}
 
-
+	public function showVideoDelete() {
+		return View::make('pages.video.viewdelete');
+	}
 
 
 
@@ -146,5 +148,48 @@ class VideoController extends BaseController {
 
 	    return $tabla2;
 	}
+
+
+	public function DatatableDelete()
+	{	
+		$campos = array('id', 'title', 'videourl','rate','times_viewed','thumburl');
+		$tabla2= [];
+		$ind = 0; 
+	    $tabla = Datatable::collection( Video::where('published', '=', 1)->get($campos) )
+	    
+	    ->showColumns('id', 'title', 'videourl','rate','times_viewed','thumburl')
+	    ->searchColumns('titulo')
+	    ->orderColumns('id', 'titulo')
+	    ->make();
+
+	    //modifcar el objeto para presentar en la tabla con el formato requerido 
+	    //para la integraión de la imagen y el boton para presentar el modal.
+	    for ($i=0; $i < count($tabla['aaData']) ; $i++) { 
+
+				$market = VideoOpenpub::where('VideoUrl', '=', $tabla['aaData'][$i][2])->count();
+				$alavista = Video::where('videourl', '=', $tabla['aaData'][$i][2])->count();
+				$enmark='';$enav='';
+
+				if ($market==1) {$enmark='<center><i class="fa fa-check txt-success"></i></center>';} else{$enmark='<center><i class="fa fa-times txt-danger"></i></center>';}
+				if ($alavista==1) {$enav='<center><i class="fa fa-check txt-success"></i></center>';} else{$enav='<center><i class="fa fa-times txt-danger"></i></center>';}
+				
+	    		$tabla2['aaData'][$ind][0] = '<input class="ajoomla" type="checkbox" name="elemento1" id="' . $tabla['aaData'][$i][0]. '" value="' . $tabla['aaData'][$i][2] . '"/>';
+	    		$tabla2['aaData'][$ind][1] =  $enmark;
+	    		$tabla2['aaData'][$ind][2] =  $enav;
+	    		$tabla2['aaData'][$ind][3] =  '<img src="'.$tabla['aaData'][$i][5]. '" width="160" height="100">';
+	    		$tabla2['aaData'][$ind][4] =  $tabla['aaData'][$i][1];
+	    		$tabla2['aaData'][$ind][5] =  '<a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-danger btn-large"><span class="fa fa-trash-o" aria-hidden="true"></span></a>';
+
+				$ind += 1; 
+	    }
+	    if (count($tabla['aaData']) == 0 )
+	    	$tabla2['aaData'] = [];
+	    $tabla2['iTotalDisplayRecords'] = $tabla['iTotalDisplayRecords'];
+	    $tabla2['iTotalRecords'] = $tabla['iTotalRecords'];
+	    $tabla2['sEcho'] = $tabla['sEcho'];
+
+	    return $tabla2;
+	}
+
 }
 

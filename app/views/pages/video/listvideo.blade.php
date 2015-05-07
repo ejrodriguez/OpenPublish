@@ -28,7 +28,7 @@
 			</div>
 				<div class="box-content">
 					
-						<div style="overflow:scroll;" >
+						<div  >
 							<div id="listresult">
 							    {{ Datatable::table() 
 							    ->addColumn('Video','Titulo','Descripción','Publicar')  

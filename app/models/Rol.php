@@ -1,6 +1,7 @@
 <?php
 
 class Rol extends \Eloquent {
+	protected $connection = 'mysql';
 	protected $fillable = [];
 
 	protected $table = 'rol';

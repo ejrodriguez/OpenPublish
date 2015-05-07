@@ -402,6 +402,45 @@ $(document).on('click', '#viewgalery',function (e) {
 	    	// console.log('no vale');
 	    })
 	});
+
+$(document).on('click', '#delvideo',function (e) {
+	e.preventDefault();
+	
+	$.ajax({
+	    	
+	    	url: "{{URL::route('delvideo')}}",
+	    	type: 'GET',
+	    	beforeSend: function(){
+	    			
+                    $('#jscontent').append('<center><img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/></center>');
+                },
+             error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+		           	VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+	    })
+	    .done(function() {
+	    	$("#jscontent").load('{{URL::route('delvideo')}}');
+
+	    })
+	    .fail(function() {
+	    	// console.log('no vale');
+	    })
+	});
 	
 if (window.location.hash == '#_=_')
 { // Check if the browser supports history.replaceState.

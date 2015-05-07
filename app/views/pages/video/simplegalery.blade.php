@@ -2,7 +2,7 @@
 <html>
 <head>
 <!-- Add jQuery library -->
-<!-- <script type="text/javascript" src="plugins/fancyapps/lib/jquery-1.10.1.min.js"></script> -->
+
 </head>
 <body>
 <br>
@@ -35,18 +35,36 @@
 				<div class="no-move"></div>
 			</div>
 			<!-- <div class="box-content"> -->
-				<div class="form-group" >
-				<br>
-					<div class="col-sm-1">
-						<select class="populate placeholder" name="pagi" id="pagi" >
-						<option  value="12">12</option>
-						<option  value="24">24</option>
-						<option  value="36">36</option>
-						<option  value="100">100</option>
-						</select>
-					</div>
-					<label class="col-sm-1 control-label">Registros </label>
-				</div>
+                <form>
+    				<div class="form-group" >
+    				<br>
+                        <label class="col-sm-1 control-label">Registros </label>                
+    					<div class="col-sm-1">
+    						<select class="populate placeholder" name="pagi" id="pagi" >
+    						<option  value="12">12</option>
+    						<option  value="24">24</option>
+    						<option  value="36">36</option>
+    						<option  value="100">100</option>
+    						</select>
+    					</div>
+                        <label class="col-sm-1 control-label">Ordenar</label>
+                        <div class="col-sm-2">
+                            <select class="populate placeholder" name="orden" id="orden" >
+                            <option  value="id">Id</option>
+                            <option  value="title">Titulo</option>
+                            <option  value="rate">Calificacion</option>
+                            <option  value="created_date">Fecha</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-1 control-label">Forma</label>
+                        <div class="col-sm-2">
+                            <select class="populate placeholder" name="por" id="por" >
+                            <option  value="ASC">Ascendente</option>
+                            <option  value="DESC">Descendente</option>
+                            </select>
+                        </div>
+    				</div>
+                </form>
 				<br>
 			<!-- </div> -->
 			<div id="impression"></div>
@@ -64,10 +82,12 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	
+	// DemoSelect2();
 });
 function DemoSelect2(){
 	$('#pagi').select2();
+    $('#orden').select2();
+    $('#por').select2();
 };
 
 function VerError(data){
@@ -97,6 +117,8 @@ function VerError(data){
 $(function() {
     // 1.
     var ca=$('#pagi').val();
+    var ord=$('#orden').val();
+    var forma=$('#por').val();
     function getPaginationSelectedPage(url) {
         var chunks = url.split('?');
         // alert(chunks); link de siguiente pag
@@ -123,7 +145,7 @@ $(function() {
         
         $.ajax({
             url: "{{URL::route('itemstype')}}",
-            data: { page: pg , can:ca },
+            data: { page: pg , can:ca , orde:ord , por:forma },
             success: function(data) {
                 $('#impression').html(data);
             }
@@ -131,13 +153,15 @@ $(function() {
     });
 
 
-    $('#impression').load("{{URL::route('itemstype')}}"+"?page=1&can="+ca);
+    $('#impression').load("{{URL::route('itemstype')}}"+"?page=1&can="+ca+"&orde="+ord+"&por="+forma);
 });
 
 $('#pagi').change(function(e) {
 	/* Act on the event */
 	e.preventDefault();
-	    var ca=$('#pagi').val();
+    var ca=$('#pagi').val();
+    var ord=$('#orden').val();
+    var forma=$('#por').val();
     function getPaginationSelectedPage(url) {
         var chunks = url.split('?');
         // alert(chunks); link de siguiente pag
@@ -164,16 +188,97 @@ $('#pagi').change(function(e) {
         
         $.ajax({
             url: "{{URL::route('itemstype')}}",
-            data: { page: pg , can:ca },
+            data: { page: pg , can:ca , orde:ord , por:forma },
             success: function(data) {
                 $('#impression').html(data);
             }
         });
     });
 
-    $('#impression').load("{{URL::route('itemstype')}}"+"?page=1&can="+ca);
+    $('#impression').load("{{URL::route('itemstype')}}"+"?page=1&can="+ca+"&orde="+ord+"&por="+forma);
 });
+$('#orden').change(function(e) {
+    /* Act on the event */
+    e.preventDefault();
+    var ca=$('#pagi').val();
+    var ord=$('#orden').val();
+    var forma=$('#por').val();
+    function getPaginationSelectedPage(url) {
+        var chunks = url.split('?');
+        // alert(chunks); link de siguiente pag
+        var baseUrl = chunks[0];
+        // alert(baseUrl); url base
+        var querystr = chunks[1].split('&');
+        // alert(querystr);pagina
+        var pg = 1;
+        for (i in querystr) {
+            var qs = querystr[i].split('=');
+            if (qs[0] == 'page') {
+                pg = qs[1];
+                // alert(pg); # pagina
+                break;
+            }
+        }
+        return pg;
+    }
 
+    // 2.
+    $('#impression').on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        var pg = getPaginationSelectedPage($(this).attr('href'));
+        
+        $.ajax({
+            url: "{{URL::route('itemstype')}}",
+            data: { page: pg , can:ca , orde:ord , por:forma },
+            success: function(data) {
+                $('#impression').html(data);
+            }
+        });
+    });
+
+    $('#impression').load("{{URL::route('itemstype')}}"+"?page=1&can="+ca+"&orde="+ord+"&por="+forma);
+});
+$('#por').change(function(e) {
+    /* Act on the event */
+    e.preventDefault();
+    var ca=$('#pagi').val();
+    var ord=$('#orden').val();
+    var forma=$('#por').val();
+    function getPaginationSelectedPage(url) {
+        var chunks = url.split('?');
+        // alert(chunks); link de siguiente pag
+        var baseUrl = chunks[0];
+        // alert(baseUrl); url base
+        var querystr = chunks[1].split('&');
+        // alert(querystr);pagina
+        var pg = 1;
+        for (i in querystr) {
+            var qs = querystr[i].split('=');
+            if (qs[0] == 'page') {
+                pg = qs[1];
+                // alert(pg); # pagina
+                break;
+            }
+        }
+        return pg;
+    }
+
+    // 2.
+    $('#impression').on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        var pg = getPaginationSelectedPage($(this).attr('href'));
+        
+        $.ajax({
+            url: "{{URL::route('itemstype')}}",
+            data: { page: pg , can:ca , orde:ord , por:forma },
+            success: function(data) {
+                $('#impression').html(data);
+            }
+        });
+    });
+
+    $('#impression').load("{{URL::route('itemstype')}}"+"?page=1&can="+ca+"&orde="+ord+"&por="+forma);
+});
 </script>
 
 </body>

@@ -25,9 +25,11 @@
       <a class="fancybox-media" href="{{ $item->videourl }}" title="Calificacion: {{ $item->rate }} - Visto:  {{ $item->times_viewed }}"><img src="{{ $item->thumburl }}" width="240px" height="137px" alt="" /></a>
       <!-- <a class="fancybox-buttons fancybox.iframe" data-fancybox-group="button" href="{{ $item->videourl }}" title="{{ $item->title }}"><img src="{{ $item->thumburl }}" width="240px" height="137px" alt="" /></a> -->
   @endforeach
-
-</div>
 <center>{{ $items->appends(Input::except('page'))->links() }}</center>
+<label class="col-sm-12 control-label text-left text-primary" >{{ 'Mostrando del '.$items->appends(Input::except('page'))->getFrom().' a '.$items->appends(Input::except('page'))->getTo().' (Total: '.$items->appends(Input::except('page'))->getTotal().' Resultados)' }} </label><br>
+</div>
+
+
 
 <script type="text/javascript">
 /**

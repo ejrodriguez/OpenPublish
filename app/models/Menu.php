@@ -1,6 +1,7 @@
 <?php
 
 class Menu extends \Eloquent {
+	protected $connection = 'mysql';
 	protected $fillable = [];
 	protected $table = 'menu';
 	protected $primaryKey = 'MenuId';
