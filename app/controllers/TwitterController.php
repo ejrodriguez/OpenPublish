@@ -184,7 +184,7 @@ class TwitterController extends \BaseController {
 							//de la publicación. 
 							if (isset($result->errors) == 0 ){
 
-								$msg = $msg.'Publicado en la cuenta  '.$idcuenta[0]["name"];
+								$msg = $msg.'Publicado en la cuenta  '.$idcuenta[0]["name"]."<br>";
 							}
 							else
 								{
@@ -251,7 +251,14 @@ public function Trending()
 		{
 				$idcuenta  = NULL; 
 
-					$idcuenta = Accounttw::where('usuario_ide', '=', Auth::user()->get()->id )->get();
+				if( Auth::user()->get()->RolId == 1 )
+				{
+					$idcuenta = Accounttw::First()->get();
+				}
+				else
+				{
+					$idcuenta = Accounttw::where('usuario_ide', '=', Auth::user()->get()->id)->get();
+				}
 					$oauth_token = $idcuenta[0]["oauth_token"];
 					$oauth_token_secret  = $idcuenta[0]["oauth_token_secret"];
 					$session = $this->tw->generateSession($oauth_token,$oauth_token_secret);

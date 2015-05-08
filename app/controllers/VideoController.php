@@ -101,12 +101,9 @@ class VideoController extends BaseController {
 	{
 		$tabla2= [];
 		$ind = 0; 
-	    $tabla = Datatable::collection(
-	    Video::all(
-	        array('thumburl','seotitle','description','videourl','published','id','title')
-	        )
-	    )
-	    
+		$campos = array('thumburl','seotitle','description','videourl','published','id','title');
+	   
+	    $tabla = Datatable::collection( Video::where('published', '=', 1)->get($campos) )
 	    ->showColumns('thumburl', 'seotitle','description','videourl','published','id','title')
 	    ->searchColumns('titulo','seotitle','description')
 	    ->orderColumns('id', 'titulo','seotitle')
@@ -115,8 +112,6 @@ class VideoController extends BaseController {
 	    //para la integraión de la imagen y el boton para presentar el modal.
 	    for ($i=0; $i < count($tabla['aaData']) ; $i++) { 
 
-			if ($tabla['aaData'][$i][4] == 1)
-			{
 				$title = "'".$tabla['aaData'][$i][6]."'";
 				$imagen ="'".$tabla['aaData'][$i][0]."'";
 				$seo = "'".$tabla['aaData'][$i][1] ."'";
@@ -138,7 +133,7 @@ class VideoController extends BaseController {
 		                <span class="fa fa-group" aria-hidden="true">Cuentas</span>';
 
 				$ind += 1; 
-	    	}
+
 	    }
 	    if (count($tabla['aaData']) == 0 )
 	    	$tabla2['aaData'] = [];
@@ -158,8 +153,8 @@ class VideoController extends BaseController {
 	    $tabla = Datatable::collection( Video::where('published', '=', 1)->get($campos) )
 	    
 	    ->showColumns('id', 'title', 'videourl','rate','times_viewed','thumburl')
-	    ->searchColumns('titulo')
-	    ->orderColumns('id', 'titulo')
+	    ->searchColumns('title')
+	    ->orderColumns('id','title')
 	    ->make();
 
 	    //modifcar el objeto para presentar en la tabla con el formato requerido 

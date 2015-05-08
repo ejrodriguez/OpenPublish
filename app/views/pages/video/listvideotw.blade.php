@@ -33,7 +33,7 @@
 					
 						<div >
 							<div id="listresult">
-							 {{ DatatableDelete::table() 
+							 {{ Datatable::table() 
 							    ->addColumn('Video','Titulo','Descripción','Publicar')  
 							    ->setUrl(route('datatables'))
 							    ->render() 
@@ -89,6 +89,14 @@
 						<div class="form-group">
 						<legend>Cuentas:</legend>
 						<div id="cuentas"></div>
+						<br>
+						<div class="checkbox">
+							<p>&nbsp;&nbsp;Seleccionar todos
+							<label>
+							<input id="checka" onclick="CheckAll()"  name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+					     	</label>
+							</p>
+						</div>
 						<br>
 						<span onclick="Share()" class="dtr-data"><a id="callmodalshare" data-toggle="modal" class="btn btn-default btn-large">
 						<span class="fa  fa-twitter txt-primary" aria-hidden="true"></span>  Twittear</a></span>
@@ -330,6 +338,28 @@ function valida_longitud(){
 
 		$('#contador').text('Maximo de caracteres:  '+ c);
 	} 
+
+//funcion seleecionar todas las cuentas 
+function CheckAll() {
+
+        if($("#checka").is(':checked')) {  
+            elem=document.getElementById("account").options;
+			for(i=0;i<elem.length;i++)
+				{
+					elem[i].selected=true; 
+					//$("#"+id).find("option:contains("+i+")").prop('selected',true).parent().focus();
+					$("#account").change();
+				}
+        } else {   
+            elem=document.getElementById("account").options;
+			for(i=0;i<elem.length;i++)
+			{
+				elem[i].selected=false; 
+				//$("#"+id).find("option:contains("+i+")").prop('selected',false).parent().focus();
+				$("#account").change();
+			}
+        }  
+   } 
 
 </script>
 </body>
