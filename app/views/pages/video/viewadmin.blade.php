@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="css/tables/dataTables.responsive.css">
 <link rel="stylesheet" type="text/css" href="css/tables/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.css">
@@ -1079,12 +1080,22 @@ function CrearObjeto(){
 			    },
 			})
 			.done(function(data) {
+				var tit=aData[4].replace('"', '');
+				tit=tit.replace("'", "");
 				console.log("success");
-				getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",images,'22','',data.list,'www.ebetrix.com');
+				// getFormJson(aData[3],tit,"AlavistaTV "+aData[5]+" AlavistaTV",images,'22','',data.list,'www.ebetrix.com');
+				var viop = [];
+				viop[0]=aData[3];viop[1]=tit;viop[2]="AlavistaTV "+aData[5]+" AlavistaTV";viop[3]=images;viop[4]='22';viop[5]='false';viop[6]=data.list;viop[7]='www.ebetrix.com';
+				viav[viav.length]=viop;
 			})
 			.fail(function(data) {
+				var tit=aData[4].replace('"', '');
+				tit=tit.replace("'", "");
 				console.log("error");
-				getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",images,'22','','','www.ebetrix.com');
+				// getFormJson(aData[3],tit,"AlavistaTV "+aData[5]+" AlavistaTV",images,'22','','','www.ebetrix.com');
+				var viop = [];
+				viop[0]=aData[3];viop[1]=tit;viop[2]="AlavistaTV "+aData[5]+" AlavistaTV";viop[3]=images;viop[4]='22';viop[5]='false';viop[6]='';viop[7]='www.ebetrix.com';
+				viav[viav.length]=viop;
 			})
 
 		};
@@ -1095,52 +1106,54 @@ function CrearObjeto(){
 function SeleccionClick(){
 	var table = $('#datatable-1').DataTable();
 	$('#datatable-1 tbody').on( 'click', 'tr', function () {
-	  var rowData = table.row( this ).data();
-
+	  var rowData = table.row( this ).data()
 	  // ... do something with `rowData`
+	  // console.log(table.rows().every());
 	  console.log(rowData[3]);
 	  $('#idalavista').text(rowData[3]);
 
 	  var seleo;
-	  $.each(datas.items, function(n) {
+
+		$.each(viav, function(n,value) {
 			 /* iterate through array or object */
-			 if(datas.items[n].ide ==$('#idalavista').text()){
-			 	// datas.items.push(item);
-			 	$('#tituloalavista').val(datas.items[n].titulo);
-			 	$('#wysiwig_full').val(datas.items[n].descr);
+			 // var aux=viav[n];
+			 console.log(value[5]);
+			 if (value[0]==$('#idalavista').text()) {
+			 	$('#tituloalavista').val(value[1]);
+			 	$('#wysiwig_full').val((value[2]));
 
 			 	$("#categoriaalavista option").each(function(){
-			 		if($(this).attr('value')==datas.items[n].cat){
+			 		if($(this).attr('value')==value[4]){
 			 			$('#cateidit').text($(this).text());
 			 			seleo=$(this).text();
 			 		}
 				});
-			 	$('#urltagalavista').val(datas.items[n].turl);
-			 	$('#tagalavista').val(datas.items[n].tag);
+
+			 	$('#urltagalavista').val(value[7]);
+			 	$('#tagalavista').val(value[6]);
+
 			 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
 				$("#categoriaalavista").change();
-			 }
-		});
+			 };
 
+		});
 	} );
 }
 
 function CambioCategoriaEditar(){
-	$("#categoriaalavista").change(function(event) {
+	$("#categoriaalavista").change(function(e) {
 		/* Act on the event */
-		$.each(datas.items, function(n) {
-			 /* iterate through array or object */
-			 if(datas.items[n].ide ==$('#idalavista').text()){
-			 	// datas.items.push(item);
-			 	datas.items[n].cat=$("#categoriaalavista").val();
-			 	$("#categoriaalavista option").each(function(){
-			 		if($(this).attr('value')==datas.items[n].cat){
+		e.preventDefault();
+		$.each(viav, function(n,value) {
+			if (value[0] ==$('#idalavista').text()) {
+				value[4]=$("#categoriaalavista").val();
+				$("#categoriaalavista option").each(function(){
+			 		if($(this).attr('value')==value[4]){
 			 			$('#cateidit').text($(this).text());
 			 		}
 				});
-
-			 }
-		});
+			};
+		})
 	});
 }
 
@@ -1165,10 +1178,7 @@ $('#buscarv1').click(function(e) {
 				beforeSend: function(){
 			    			$('#vinfo1').html("");
 		                    $('#buscarv1').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-		                    datas = {items: 
-							[
-							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-							]};
+		                    viav=[];
 		                },
 				error: function(jqXHR, exception) {
 				        if (jqXHR.status === 0) {
@@ -1240,10 +1250,7 @@ $('#buscarv2').click(function(e) {
 				beforeSend: function(){
 			    			$('#vinfo2').html("");
 		                    $('#buscarv2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-		                    datas = {items: 
-							[
-							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-							]};
+		                    viav=[];
 		                },
 				error: function(jqXHR, exception) {
 				        if (jqXHR.status === 0) {
@@ -1313,10 +1320,7 @@ $('#buscarv3').click(function(e) {
 				beforeSend: function(){
 			    			$('#vinfo3').html("");
 		                    $('#buscarv3').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-		                    datas = {items: 
-							[
-							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-							]};
+		                    viav=[];
 		                },
 				error: function(jqXHR, exception) {
 				        if (jqXHR.status === 0) {
@@ -1387,7 +1391,30 @@ $('#buscarv3').click(function(e) {
  * [Funciones  para youtube ]
  * @type {[js]}
  */
+function VerTablaYoutube(datos){
+	
+	$('#listresult').html(datos.list);
+	$('#datatable-1').DataTable({
+		
+		"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+		"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+						"paginate": {
+					       				 	"next": "Siguiente",
+					       				 	"previous": "Anterior",
 
+										},
+							"search": "Buscar:",
+							"infoEmpty": "No hay registros que mostrar",
+							"infoFiltered": " - filtrados en _MAX_ registros en total",
+							"emptyTable": "No hay registros en la tabla",
+							"lengthMenu": "Ver _MENU_ registros",
+							"loadingRecords": "Espere un momento - cargando...",
+							"zeroRecords": "No hay registros coincidentes encontrados",
+					},
+		
+		});
+}
 
 function VerError(data){
 	if('Invalid argument supplied for foreach()'==data.error.message)
@@ -1513,15 +1540,10 @@ function AllCat(){
 
 $('#enviaralavista').click(function(event) {
 	/* Act on the event */
-	event.preventDefault();
-	$.each(datas.items, function(n) {
-				 /* iterate through array or object */
-				 
-				 	datas.items[n].sel=false;
-				 
-			
-			});
-
+		event.preventDefault();
+		$.each(viav, function(n,value) {
+			 	value[5]='false';
+		});
 
 		var table = $('#datatable-1').DataTable();
 		var info = table.page.info();
@@ -1532,11 +1554,10 @@ $('#enviaralavista').click(function(event) {
 	  	for (var i = 0; i <= info.pages; i++) {
 	  		$("input:checkbox:checked").each(function() {
 	  				var b=$(this).val();
-	  				$.each(datas.items, function(n) {
-	  					if(datas.items[n].ide ==b)
+	  				$.each(viav, function(n,value) {
+	  					if(value[0] ==b)
 				    	{
-						 	// datas.items.push(item);
-						 	datas.items[n].sel=true;
+						 	value[5]='true';
 						}
 	  				});  	
 			    });
@@ -1547,17 +1568,13 @@ $('#enviaralavista').click(function(event) {
 	  	oTable.fnPageChange( a );
 
 
-
-
-
-	// console.log(datas);
 	if (seleccion == 'vimeo') {
 		// alert(seleccion);
 			$.ajax({
 			url: "{{URL::route('savevimeo_videos')}}",
 			type: 'POST',
 			// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-			data: {videos: datas},
+			data: {videos: viav},
 			beforeSend: function(){
 		    			// alert("message");
 	                    $('#enviaralavista').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
@@ -1618,13 +1635,14 @@ $('#enviaralavista').click(function(event) {
 			console.log("complete"); $('#enviaralavista').html('<span><i class="fa fa-save"></i></span> Guardar');
 		});
 	};
-	if(seleccion == 'youtube'){
+
+	if(seleccion == 'youtube'){console.log('prueba');console.log(viav);
 		// alert(seleccion);
 			$.ajax({
 			url: "{{URL::route('savealavista')}}",
 			type: 'POST',
 			// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-			data: {videos: datas},
+			data: {videos:viav},
 			beforeSend: function(){
 		    			// alert("message");
 	                    $('#enviaralavista').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
@@ -1697,20 +1715,19 @@ $('#enviaralavista').click(function(event) {
 
 
 //add object
-var datas = {items: 
-	[
-	    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat", sel:"sel", tag:"tag" , url:"url"},
-	]};
+
+var viav = [];
+
 		
 var seleccion = 'ninguna';
-function getFormJson(a,b,c,d,e,f,g,h){
+// function getFormJson(a,b,c,d,e,f,g,h){
 
-	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f, tag:g, turl:h};
+// 	var item = { ide: a, titulo: b, descr: c ,emb: d, cat:e , sel: f, tag:g, turl:h};
 		
-		datas.items.push(item);
+// 		datas.items.push(item);
 
-		return datas;
-};
+// 		return datas;
+// };
 
 function validarFechaMenorMayor(datetime1,datetime2){
 	  var date1=datetime1.slice(0,10);
@@ -1743,9 +1760,6 @@ $(document).ready(function() {
 	 * Vimeo
 	 */
 	CategoriasVimeo();
-
-
-
 
 	/**
 	 * YouTube
@@ -1806,10 +1820,6 @@ $(document).ready(function() {
 	});	
 	// Load TimePicker plugin and callback all time and date pickers
 	LoadTimePickerScript(AllTimePickers);
-
-
-
-
 
 	// Create jQuery-UI tabs
 	$("#tabs").tabs();
@@ -2091,10 +2101,8 @@ $("#buscar2").click(function(e) {
 				beforeSend: function(){
 
 		                    $('#buscar2').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-		                    datas = {items: 
-							[
-							    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-							]};
+
+							viav=[];
 							// $("#categoriaalavista > option[value="+ datas.items[n].cat+"]").attr('selected',false).parent().focus();
 						 	// $('#categoriaalavista option').remove();
 						 	// $("#categoriaalavista").prop('selectedIndex', 0);
@@ -2120,171 +2128,28 @@ $("#buscar2").click(function(e) {
 				    },
 			})
 			.done(function(data) {
-				console.log("success");
-				seleccion = 'youtube';
-				if(data.success=='true'){
-							$("#mostrar").show();
-							$("#enviaralavista").show();
-
-
-							$('#uniq').html('<label></label>');
-							// alert(data.msg);
-							$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
-							$('#listresult').html(data.resultobt);
-							$('#datatable-1').DataTable({
-								
-								"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
-								"language": {
-												"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
-												"paginate": {
-				 						       				 	"next": "Siguiente",
-				 						       				 	"previous": "Anterior",
-
-				          									},
-				          						"search": "Buscar:",
-				          						"infoEmpty": "No hay registros que mostrar",
-				          						"infoFiltered": " - filtrados en _MAX_ registros en total",
-				          						"emptyTable": "No hay registros en la tabla",
-				          						"lengthMenu": "Ver _MENU_ registros",
-				          						"loadingRecords": "Espere un momento - cargando...",
-				          						"zeroRecords": "No hay registros coincidentes encontrados",
-											},
-								
-								});
-											
-								
-								//cambiar de color al pasar el puntero
-
-								    var sel = $('#datatable-1').DataTable();
- 
-								    $('#datatable-1 tbody').on( 'click', 'tr', function () {
-								        if ( $(this).hasClass('selected') ) {
-								            $(this).removeClass('selected');
-								        }
-								        else {
-								            sel.$('tr.selected').removeClass('selected');
-								            $(this).addClass('selected');
-								        }
-								    } );
-
-
-								    var oTable = $('#datatable-1').dataTable();
-									// alert(oTable.fnGetData().length);
-									var di=oTable.fnGetData().length;
-									if(di > 0){
-
-										for (var i = 0 ; i < di; i++) {
-											var aData = oTable.fnGetData( i );
-											
-											$.ajax({
-												url: "{{URL::route('tagsalavista')}}",
-												type: 'POST',
-												data: {cad: aData[4]},
-												async: false,
-												error: function(jqXHR, exception) {
-											        if (jqXHR.status === 0) {
-											            alert('Error de conexión, verifica tu instalación.');
-											        } else if (jqXHR.status == 404) {
-											            alert('La página no ha sido encontrada. [404]');
-											        } else if (jqXHR.status == 500) {
-											        	var msg=jQuery.parseJSON(jqXHR.responseText);
-											        	 VerError(msg);
-											            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
-											        } else if (exception === 'parsererror') {
-											            alert('Error parse JSON.');
-											        } else if (exception === 'timeout') {
-											            alert('Exceso tiempo.');
-											        } else if (exception === 'abort') {
-											            alert('Petición ajax abortada.');
-											        } else {
-											            alert('Error desconocido: ' + jqXHR.responseText);
-											        }
-											    },
-											})
-											.done(function(data) {
-												console.log("success");
-												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
-											})
-											.fail(function(data) {
-												console.log("error");
-												getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
-											})
-
-										};
-
-									}
-									console.log(datas);
-
-
-
-									var table = $('#datatable-1').DataTable();
-									$('#datatable-1 tbody').on( 'click', 'tr', function () {
-									  var rowData = table.row( this ).data();
-									  // ... do something with `rowData`
-									  console.log(rowData[3]);
-									  $('#idalavista').text(rowData[3]);
-
-									 
-									  var seleo;
-									  $.each(datas.items, function(n) {
-											 /* iterate through array or object */
-											 if(datas.items[n].ide ==$('#idalavista').text()){
-											 	// datas.items.push(item);
-											 	$('#tituloalavista').val(datas.items[n].titulo);
-											 	$('#wysiwig_full').val(datas.items[n].descr);
-
-											 	$("#categoriaalavista option").each(function(){
-											 		if($(this).attr('value')==datas.items[n].cat){
-											 			$('#cateidit').text($(this).text());
-											 			seleo=$(this).text();
-											 		}
-												});
-											 	$('#urltagalavista').val(datas.items[n].turl);
-											 	$('#tagalavista').val(datas.items[n].tag);
-											 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
-												$("#categoriaalavista").change();
-											 }
-										});
-
-									} );
-
-									$("#categoriaalavista").change(function(event) {
-										/* Act on the event */
-										$.each(datas.items, function(n) {
-											 /* iterate through array or object */
-											 if(datas.items[n].ide ==$('#idalavista').text()){
-											 	// datas.items.push(item);
-											 	datas.items[n].cat=$("#categoriaalavista").val();
-											 	$("#categoriaalavista option").each(function(){
-											 		if($(this).attr('value')==datas.items[n].cat){
-											 			$('#cateidit').text($(this).text());
-											 		}
-												});
-
-											 }
-										});
-										console.log(datas);
-									});
-
-									
-
-
-
-						}
-				if(data.success=='false'){
-							$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
-							$('#uniq').html('<label></label>');
-							$('#uniq').append('<legend id="uniq" class="alert alert-danger">'+data.resultobt+'</legend>');
-							console.log(data.resultobt);
-							// alert('Internal Server Error [500].');
-						}
+				if (data.success=='true') {
+					seleccion = 'youtube';
+					MostrarOpcionesAll();
+					VerTablaYoutube(data);
+					CambiarColorTabla();
+					CrearObjeto();
+					SeleccionClick();
+					CambioCategoriaEditar();
+					// console.log(viav);
+				}
+				else
+				{
+					VerTablaVacia();
+				}
 			})
 			.fail(function() {
 				console.log("error");
-				$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
+				// $('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
 			})
 			.always(function() {
 				console.log("complete");
+				$('#buscar2').html('<span><i class="fa fa-search"></i></span> Buscar');
 			});
 	}
 	else{
@@ -2306,10 +2171,7 @@ $("#buscar3").click(function(e) {
 			data: {order : $('#ordenarmasv').val() , max : $('#maxmas').val()},
 			beforeSend: function(){
 						// $("#categoriaalavista").empty();
-						datas = {items: 
-						[
-						    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-						]};
+						viav=[];
 		    			// alert("message");
 	                    $('#buscar3').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
 	                },
@@ -2333,160 +2195,27 @@ $("#buscar3").click(function(e) {
 			    },
 		})
 		.done(function(data) {
-			console.log("success");
-			if(data.success=='true'){
-					seleccion = 'youtube';
-						$("#enviaralavista").show();
-						$("#mostrar").show();
-
-						// alert(data.msg);
-						$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
-						// $('#listresult').html(data.resultobt);
-						$('#listresult').html(data.list);
-						$('#datatable-1').DataTable({
-							
-							"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
-							"language": {
-											"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
-											"paginate": {
-			 						       				 	"next": "Siguiente",
-			 						       				 	"previous": "Anterior",
-
-			          									},
-			          						"search": "Buscar:",
-			          						"infoEmpty": "No hay registros que mostrar",
-			          						"infoFiltered": " - filtrados en _MAX_ registros en total",
-			          						"emptyTable": "No hay registros en la tabla",
-			          						"lengthMenu": "Ver _MENU_ registros",
-			          						"loadingRecords": "Espere un momento - cargando...",
-			          						"zeroRecords": "No hay registros coincidentes encontrados",
-										},
-							
-							});
-
-							//cambiar de color al pasar el puntero
-							 var sel = $('#datatable-1').DataTable();
- 
-								    $('#datatable-1 tbody').on( 'click', 'tr', function () {
-								        if ( $(this).hasClass('selected') ) {
-								            $(this).removeClass('selected');
-								        }
-								        else {
-								            sel.$('tr.selected').removeClass('selected');
-								            $(this).addClass('selected');
-								        }
-								    } );
-
-						
-						var oTable = $('#datatable-1').dataTable();
-						// alert(oTable.fnGetData().length);
-						var di=oTable.fnGetData().length;
-						if(di > 0){
-
-							for (var i = 0 ; i < di; i++) {
-								var aData = oTable.fnGetData( i );
-								
-								$.ajax({
-									url: "{{URL::route('tagsalavista')}}",
-									type: 'POST',
-									data: {cad: aData[4]},
-									async: false,
-									error: function(jqXHR, exception) {
-								        if (jqXHR.status === 0) {
-								            alert('Error de conexión, verifica tu instalación.');
-								        } else if (jqXHR.status == 404) {
-								            alert('La página no ha sido encontrada. [404]');
-								        } else if (jqXHR.status == 500) {
-								        	var msg=jQuery.parseJSON(jqXHR.responseText);
-								        	 VerError(msg);
-								            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
-								        } else if (exception === 'parsererror') {
-								            alert('Error parse JSON.');
-								        } else if (exception === 'timeout') {
-								            alert('Exceso tiempo.');
-								        } else if (exception === 'abort') {
-								            alert('Petición ajax abortada.');
-								        } else {
-								            alert('Error desconocido: ' + jqXHR.responseText);
-								        }
-								    },
-								})
-								.done(function(data) {
-									console.log("success");
-									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
-								})
-								.fail(function(data) {
-									console.log("error");
-									getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
-								})
-
-							};
-
-						}
-						console.log(datas);
-							    // tabla obj
-						var table = $('#datatable-1').DataTable();
-						$('#datatable-1 tbody').on( 'click', 'tr', function () {
-						  var rowData = table.row( this ).data();
-						  // ... do something with `rowData`
-						  console.log(rowData[3]);
-						  $('#idalavista').text(rowData[3]);
-
-						 
-
-						  var seleo;
-						  $.each(datas.items, function(n) {
-								 /* iterate through array or object */
-								 if(datas.items[n].ide ==$('#idalavista').text()){
-								 	// datas.items.push(item);
-								 	$('#tituloalavista').val(datas.items[n].titulo);
-								 	$('#wysiwig_full').val(datas.items[n].descr);
-
-								 	$("#categoriaalavista option").each(function(){
-								 		if($(this).attr('value')==datas.items[n].cat){
-								 			$('#cateidit').text($(this).text());
-								 			seleo=$(this).text();
-								 		}
-									});
-								 	$('#urltagalavista').val(datas.items[n].turl);
-								 	$('#tagalavista').val(datas.items[n].tag);
-								 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
-									$("#categoriaalavista").change();
-								 }
-							});
-
-						} );
-
-						$("#categoriaalavista").change(function(event) {
-							/* Act on the event */
-							$.each(datas.items, function(n) {
-								 /* iterate through array or object */
-								 if(datas.items[n].ide ==$('#idalavista').text()){
-								 	// datas.items.push(item);
-								 	datas.items[n].cat=$("#categoriaalavista").val();
-								 	$("#categoriaalavista option").each(function(){
-								 		if($(this).attr('value')==datas.items[n].cat){
-								 			$('#cateidit').text($(this).text());
-								 		}
-									});
-
-								 }
-							});
-							console.log(datas);
-						});
-
-										
-					}
-			if(data.success=='falserollb'){
-						// alert('Internal Server Error [500].');
-					}
+			// console.log("success");
+			if (data.success=='true') {
+				seleccion = 'youtube';
+				MostrarOpcionesAll();
+				VerTablaYoutube(data);
+				CambiarColorTabla();
+				CrearObjeto();
+				SeleccionClick();
+				CambioCategoriaEditar();
+			}
+			else
+			{
+				VerTablaVacia();
+			}
 		})
 		.fail(function() {
 			console.log("error");
-			$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
+			// $('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
 		})
 		.always(function() {
-			console.log("complete");
+			$('#buscar3').html('<span><i class="fa fa-search"></i></span> Buscar');
 		});
 	}
 	else{
@@ -2515,10 +2244,7 @@ $("#buscar4").click(function(e) {
 								data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
 								beforeSend: function(){
 						                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-						                    datas = {items: 
-											[
-											    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-											]};
+											viav=[];
 						                },
 						        error: function(jqXHR, exception) {
 								        if (jqXHR.status === 0) {
@@ -2540,158 +2266,28 @@ $("#buscar4").click(function(e) {
 								    },
 							})
 							.done(function(data) {
-								console.log("success");
-								if(data.success=='true'){
+								// console.log("success");
+								if (data.success=='true') {
 									seleccion = 'youtube';
-											$("#mostrar").show();
-											$("#enviaralavista").show();
-
-											// alert(data.msg);
-											$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-											// $('#listresult').html(data.resultobt);
-											$('#listresult').html(data.list);
-											$('#datatable-1').DataTable({
-								
-													"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
-													"language": {
-																	"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
-																	"paginate": {
-									 						       				 	"next": "Siguiente",
-									 						       				 	"previous": "Anterior",
-
-									          									},
-									          						"search": "Buscar:",
-									          						"infoEmpty": "No hay registros que mostrar",
-									          						"infoFiltered": " - filtrados en _MAX_ registros en total",
-									          						"emptyTable": "No hay registros en la tabla",
-									          						"lengthMenu": "Ver _MENU_ registros",
-									          						"loadingRecords": "Espere un momento - cargando...",
-									          						"zeroRecords": "No hay registros coincidentes encontrados",
-																},
-													
-													});
-												//cambiar de color al pasar el puntero
-												 var sel = $('#datatable-1').DataTable();
- 
-											    $('#datatable-1 tbody').on( 'click', 'tr', function () {
-											        if ( $(this).hasClass('selected') ) {
-											            $(this).removeClass('selected');
-											        }
-											        else {
-											            sel.$('tr.selected').removeClass('selected');
-											            $(this).addClass('selected');
-											        }
-											    } );
-
-
-
-												    var oTable = $('#datatable-1').dataTable();
-											// alert(oTable.fnGetData().length);
-											var di=oTable.fnGetData().length;
-											if(di > 0){
-
-												for (var i = 0 ; i < di; i++) {
-													var aData = oTable.fnGetData( i );
-													
-													$.ajax({
-														url: "{{URL::route('tagsalavista')}}",
-														type: 'POST',
-														data: {cad: aData[4]},
-														async: false,
-														error: function(jqXHR, exception) {
-													        if (jqXHR.status === 0) {
-													            alert('Error de conexión, verifica tu instalación.');
-													        } else if (jqXHR.status == 404) {
-													            alert('La página no ha sido encontrada. [404]');
-													        } else if (jqXHR.status == 500) {
-													        	var msg=jQuery.parseJSON(jqXHR.responseText);
-													        	 VerError(msg);
-													            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
-													        } else if (exception === 'parsererror') {
-													            alert('Error parse JSON.');
-													        } else if (exception === 'timeout') {
-													            alert('Exceso tiempo.');
-													        } else if (exception === 'abort') {
-													            alert('Petición ajax abortada.');
-													        } else {
-													            alert('Error desconocido: ' + jqXHR.responseText);
-													        }
-													    },
-													})
-													.done(function(data) {
-														console.log("success");
-														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
-													})
-													.fail(function(data) {
-														console.log("error");
-														getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
-													})
-
-												};
-
-											}
-											console.log(datas);
-											var table = $('#datatable-1').DataTable();
-											$('#datatable-1 tbody').on( 'click', 'tr', function () {
-											  var rowData = table.row( this ).data();
-											  // ... do something with `rowData`
-											  console.log(rowData[3]);
-											  $('#idalavista').text(rowData[3]);
-
-											 
-
-											  var seleo;
-											  $.each(datas.items, function(n) {
-													 /* iterate through array or object */
-													 if(datas.items[n].ide ==$('#idalavista').text()){
-													 	// datas.items.push(item);
-													 	$('#tituloalavista').val(datas.items[n].titulo);
-													 	$('#wysiwig_full').val(datas.items[n].descr);
-
-													 	$("#categoriaalavista option").each(function(){
-													 		if($(this).attr('value')==datas.items[n].cat){
-													 			$('#cateidit').text($(this).text());
-													 			seleo=$(this).text();
-													 		}
-														});
-													 	$('#urltagalavista').val(datas.items[n].turl);
-													 	$('#tagalavista').val(datas.items[n].tag);
-													 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
-														$("#categoriaalavista").change();
-													 }
-												});
-
-											} );
-
-											$("#categoriaalavista").change(function(event) {
-												/* Act on the event */
-												$.each(datas.items, function(n) {
-													 /* iterate through array or object */
-													 if(datas.items[n].ide ==$('#idalavista').text()){
-													 	// datas.items.push(item);
-													 	datas.items[n].cat=$("#categoriaalavista").val();
-													 	$("#categoriaalavista option").each(function(){
-													 		if($(this).attr('value')==datas.items[n].cat){
-													 			$('#cateidit').text($(this).text());
-													 		}
-														});
-
-													 }
-												});
-												console.log(datas);
-											});
-															
-										}
-								if(data.success=='falserollb'){
-											// alert('Internal Server Error [500].');
-										}
+									MostrarOpcionesAll();
+									VerTablaYoutube(data);
+									CambiarColorTabla();
+									CrearObjeto();
+									SeleccionClick();
+									CambioCategoriaEditar();
+								}
+								else
+								{
+									VerTablaVacia();
+								}
 							})
 							.fail(function() {
 								console.log("error");
-								$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
+								// $('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
 							})
 							.always(function() {
-								console.log("complete");
+								// console.log("complete");
+								$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
 							});		
 					}
 					else{
@@ -2711,11 +2307,8 @@ $("#buscar4").click(function(e) {
 								// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 								data: {q : $('#buscarq').val() , max:$('#maxq').val() , evento: $('#eventoq').val(), restri:$('#contenidoq').val() , sub:$('#subq').val() , cat:$('#qcategoria').val() , def:$('#definicionq').val() , dim:$('#dimensionq').val() , dur:$('#duracionq').val() , emb:$('#embedq').val() , lic:$('#licenciaq').val() , syn:$('#synq').val() , tipo:$('#tipoq').val() , order:$('#orderq').val() , despues:$('#datetime_despuesq').val() , antes:$('#datetime_antesq').val() },
 								beforeSend: function(){
-						                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
-						                    datas = {items: 
-											[
-											    // {ide: "ide", titulo: "titulo", descr: "descripcion", emb: "emb" , act: "cat"},
-											]};
+						                    $('#buscar4').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');;
+											viav=[];
 						                },
 						        error: function(jqXHR, exception) {
 								        if (jqXHR.status === 0) {
@@ -2737,158 +2330,28 @@ $("#buscar4").click(function(e) {
 								    },
 							})
 							.done(function(data) {
-								console.log("success");
-								if(data.success=='true'){
+								// console.log("success");
+								if (data.success=='true') {
 									seleccion = 'youtube';
-											$("#mostrar").show();
-											$("#enviaralavista").show();
-
-											// alert(data.msg);
-											$('#buscar4').html('<span><i class="fa fa-search"></i></span> Buscar');
-											// $('#listresult').html(data.resultobt);
-											$('#listresult').html(data.list);
-											$('#datatable-1').DataTable({
-								
-													"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
-													"language": {
-																	"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
-																	"paginate": {
-									 						       				 	"next": "Siguiente",
-									 						       				 	"previous": "Anterior",
-
-									          									},
-									          						"search": "Buscar:",
-									          						"infoEmpty": "No hay registros que mostrar",
-									          						"infoFiltered": " - filtrados en _MAX_ registros en total",
-									          						"emptyTable": "No hay registros en la tabla",
-									          						"lengthMenu": "Ver _MENU_ registros",
-									          						"loadingRecords": "Espere un momento - cargando...",
-									          						"zeroRecords": "No hay registros coincidentes encontrados",
-																},
-													
-													});
-												//cambiar de color al pasar el puntero
-												 var sel = $('#datatable-1').DataTable();
- 
-												    $('#datatable-1 tbody').on( 'click', 'tr', function () {
-												        if ( $(this).hasClass('selected') ) {
-												            $(this).removeClass('selected');
-												        }
-												        else {
-												            sel.$('tr.selected').removeClass('selected');
-												            $(this).addClass('selected');
-												        }
-												    } );
-
-												    var oTable = $('#datatable-1').dataTable();
-											// alert(oTable.fnGetData().length);
-											var di=oTable.fnGetData().length;
-											// alert('dim'+di);
-											// oTable.rows().data().length
-											if(di > 0){
-
-												for (var i = 0 ; i < di; i++) {
-											var aData = oTable.fnGetData( i );
-											
-											$.ajax({
-													url: "{{URL::route('tagsalavista')}}",
-													type: 'POST',
-													data: {cad: aData[4]},
-													async: false,
-													error: function(jqXHR, exception) {
-												        if (jqXHR.status === 0) {
-												            alert('Error de conexión, verifica tu instalación.');
-												        } else if (jqXHR.status == 404) {
-												            alert('La página no ha sido encontrada. [404]');
-												        } else if (jqXHR.status == 500) {
-												        	var msg=jQuery.parseJSON(jqXHR.responseText);
-												        	 VerError(msg);
-												            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
-												        } else if (exception === 'parsererror') {
-												            alert('Error parse JSON.');
-												        } else if (exception === 'timeout') {
-												            alert('Exceso tiempo.');
-												        } else if (exception === 'abort') {
-												            alert('Petición ajax abortada.');
-												        } else {
-												            alert('Error desconocido: ' + jqXHR.responseText);
-												        }
-												    },
-												})
-												.done(function(data) {
-													console.log("success");
-													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','',data.list,'www.ebetrix.com');
-												})
-												.fail(function(data) {
-													console.log("error");
-													getFormJson(aData[3],aData[4],"AlavistaTV "+aData[5]+" AlavistaTV",aData[2],'22','','','www.ebetrix.com');
-												})
-
-											};
-
-											}
-											console.log(datas);
-											var table = $('#datatable-1').DataTable();
-											$('#datatable-1 tbody').on( 'click', 'tr', function () {
-											  var rowData = table.row( this ).data();
-											  // ... do something with `rowData`
-											  console.log(rowData[3]);
-											  $('#idalavista').text(rowData[3]);
-
-											 
-
-											  var seleo;
-											  $.each(datas.items, function(n) {
-													 /* iterate through array or object */
-													 if(datas.items[n].ide ==$('#idalavista').text()){
-													 	// datas.items.push(item);
-													 	$('#tituloalavista').val(datas.items[n].titulo);
-													 	$('#wysiwig_full').val(datas.items[n].descr);
-
-													 	$("#categoriaalavista option").each(function(){
-													 		if($(this).attr('value')==datas.items[n].cat){
-													 			$('#cateidit').text($(this).text());
-													 			seleo=$(this).text();
-													 		}
-														});
-													 	$('#urltagalavista').val(datas.items[n].turl);
-													 	$('#tagalavista').val(datas.items[n].tag);
-													 	$("#categoriaalavista").find("option:contains("+seleo+")").prop('selected',true).parent().focus();
-														$("#categoriaalavista").change();
-													 }
-												});
-
-											} );
-
-											$("#categoriaalavista").change(function(event) {
-												/* Act on the event */
-												$.each(datas.items, function(n) {
-													 /* iterate through array or object */
-													 if(datas.items[n].ide ==$('#idalavista').text()){
-													 	// datas.items.push(item);
-													 	datas.items[n].cat=$("#categoriaalavista").val();
-													 	$("#categoriaalavista option").each(function(){
-													 		if($(this).attr('value')==datas.items[n].cat){
-													 			$('#cateidit').text($(this).text());
-													 		}
-														});
-
-													 }
-												});
-												console.log(datas);
-											});
-															
-										}
-								if(data.success=='falserollb'){
-											// alert('Internal Server Error [500].');
-										}
+									MostrarOpcionesAll();
+									VerTablaYoutube(data);
+									CambiarColorTabla();
+									CrearObjeto();
+									SeleccionClick();
+									CambioCategoriaEditar();
+								}
+								else
+								{
+									VerTablaVacia();
+								}
 							})
 							.fail(function() {
 								console.log("error");
-								$('#buscar4').html('<span><i class="bg-info"></i></span> Buscar');
+								
 							})
 							.always(function() {
-								console.log("complete");
+								// console.log("complete");
+								$('#buscar4').html('<span><i class="bg-info"></i></span> Buscar');
 							});
 						}
 
@@ -2927,39 +2390,24 @@ $('#guardaralavista').click(function(et) {
 	/* Act on the event */
 	$('#uniqedit').html("");
 	et.preventDefault();
-	// if($('#categoriaalavista').val() != "")
-	// {
-		$.each(datas.items, function(n) {
+
+		$.each(viav, function(n,value) {
 			$('#uniqedit').html("<img src='img/devoops_getdata.gif'  alt='preloader'/>");
 			 /* iterate through array or object */
-			 if(datas.items[n].ide ==$('#idalavista').text()){
+			 if(value[0] ==$('#idalavista').text()){
 			 	// datas.items.push(item);
-			 	datas.items[n].ide=$('#idalavista').text();
-			 	datas.items[n].titulo=$('#tituloalavista').val();
-			 	datas.items[n].descr=$('#wysiwig_full').val();
-			 	datas.items[n].cat=$('#categoriaalavista').val();
-			 	datas.items[n].tag=$('#tagalavista').val();
-			 	datas.items[n].turl=$('#urltagalavista').val();
-			 	 console.log(datas.items[n].ide+' '+datas.items[n].cat);
-			 // 	 $("#categoriaalavista option").each(function(){
-			 // 		if($(this).attr('value')==datas.items[n].cat){
-			 // 			$('#cateidit').text($(this).text());
-			 // 		}
-				// });
-
-
+			 	value[0]=$('#idalavista').text();
+			 	value[1]=$('#tituloalavista').val();
+			 	value[2]=$('#wysiwig_full').val();
+			 	value[4]=$('#categoriaalavista').val();
+			 	value[6]=$('#tagalavista').val();
+			 	value[7]=$('#urltagalavista').val();
 			 }
 			
 		});
-		console.log(datas);
+		console.log(viav);
 		$('#uniqedit').html("<center><label class='col-sm-12 bg-info'>Informacion Agregada</label></center>");
 
-	//}
-	// else{
-	// 	$('#uniqedit').html("<center><label class='col-sm-12 bg-danger'>Seleccione una Categoria</label></center>");
-
-	// }
-		
 
 });
 
@@ -2968,12 +2416,9 @@ $('#guardaralavista').click(function(et) {
 $('#categoryall').change(function(e) {
 	/* Act on the event */
 	e.preventDefault();
-	$.each(datas.items, function(n) {
-		 /* iterate through array or object */
-		 	// datas.items.push(item);
-		 	datas.items[n].cat=$('#categoryall').val();
+	$.each(viav, function(n,value) {
+		 	value[4]=$('#categoryall').val();
 	});
-	// console.log(datas);
 });
 
 

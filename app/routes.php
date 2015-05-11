@@ -153,6 +153,7 @@ Route::get('/video/delete',array('as' => 'delvideo', 'uses' => 'VideoController@
 
 Route::get('/video/delete/datatable', array('as'=>'datatabledel', 'uses'=>'VideoController@DatatableDelete'))->before("auth_user");
 
+Route::post('/video/delete/eliminar', array('as'=>'eliminarvideo', 'uses'=>'VideoController@EliminarVideos'))->before("auth_user");
 
 //rutear a errores
 App::missing(function($exception)

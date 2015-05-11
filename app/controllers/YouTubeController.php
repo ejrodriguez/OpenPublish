@@ -28,36 +28,39 @@ class YouTubeController extends BaseController {
 
             return Response::json(array(
                         'success' => 'true',
-                        'resultobt' => '<div class="col-xs-12 col-sm-3"><div class="box box-pricing"><div class="box-header"><div class="box-name"><span>' . $channel . '<br/></span></div><div class="no-move"></div></div><div class="box-content no-padding"><div class="row-fluid centered"><div class="col-sm-12">' . $emb . '</div><div class="col-sm-12"></div><div class="col-sm-12"></div><div class="col-sm-12">' . $titulo . '</div><div class="clearfix"></div></div><div class="row-fluid bg-default"><div class="col-sm-6"><b>' . $id . '</b><br/></div><div class="col-sm-6"><input type="checkbox" class="ajoomla"> OK</input></div><div class="clearfix"></div></div></div></div></div>'
+                        'list' => '<div class="col-xs-12 col-sm-3"><div class="box box-pricing"><div class="box-header"><div class="box-name"><span>' . $channel . '<br/></span></div><div class="no-move"></div></div><div class="box-content no-padding"><div class="row-fluid centered"><div class="col-sm-12">' . $emb . '</div><div class="col-sm-12"></div><div class="col-sm-12"></div><div class="col-sm-12">' . $titulo . '</div><div class="clearfix"></div></div><div class="row-fluid bg-default"><div class="col-sm-6"><b>' . $id . '</b><br/></div><div class="col-sm-6"><input type="checkbox" class="ajoomla"> OK</input></div><div class="clearfix"></div></div></div></div></div>'
                             // 'resultobt' => $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'}
                     ));
         }
     }
 
+    static public function GeneraTabla($datos) {
+        $encontrados = '<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody>';
+        foreach ($datos as $value) {
+            $encontrados = $encontrados . '<tr><td><input class="ajoomla" type="checkbox" name="elemento1" id="' . $value['ide'] . '" value="' . $value['ide'] . '"/></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span></a></td><td id="video_emb"><img src="' . $value['ima'] . '" height="100" width="100"></td><td id="video_id">' . $value['ide'] . '</td><td id="video_title">' . $value['titl'] . '</td><td id="video_desc">' . $value['desc'] . '</td></tr>';
+        }
+        $encontrados = $encontrados . '</tbody><tfoot><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></tfoot></table>';
+        return $encontrados; 
+    }
+
     public function getPopularVideos() {
         if (Request::ajax()) {
-            // try {
 
             $videoList = Youtube::getPopularVideos(Input::get('cod'), Input::get('categ'), Input::get('max'));
 
-            $encontrados = '<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody>';
-            foreach ($videoList as $video) {
-
-                $img = $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'};
-                // $encontrados=$encontrados.'<div class="col-sm-6 col-md-3"><div class="thumbnail">'.$video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'}.'<div class="caption"><h3>'.$video->{'snippet'}->{'channelTitle'}.'</h3><p>'.$video->{'snippet'}->{'localized'}->{'title'}.'</p><p>Video ID: '.$video->{'id'}.'</p><input type="checkbox" class="ajoomla"> OK</input></p></div></div></div></div>';
-                // $encontrados=$encontrados.'<div style="with=20%" ><a href="#" class="thumbnail"><p class="small">'.$video->{'snippet'}->{'localized'}->{'title'}.'</p>'.$emb.'</a></div>';
-                $encontrados = $encontrados . '<tr><td><input class="ajoomla" type="checkbox" name="elemento1" id="' . $video->{'id'} . '" value="' . $video->{'id'} . '"/></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span></a></td><td id="video_emb"><img src="' . $img . '" height="100" width="100"></td><td id="video_id">' . $video->{'id'} . '</td><td id="video_title">' . $video->{'snippet'}->{'title'} . '</td><td id="video_desc">' . $video->{'snippet'}->{'description'} . '</td></tr>';
+            $var = array( );
+            foreach ($videoList as  $video) {
+                        array_push($var,array('titl' => $video->{'snippet'}->{'title'} , 'desc' => $video->{'snippet'}->{'description'} , 'ima' => $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'} , 'ide' => $video->{'id'}));    
             }
+            $table=YouTubeController::GeneraTabla($var);
 
-            $encontrados = $encontrados . '</tbody><tfoot><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></tfoot></table>';
             return Response::json(array(
                         'success' => 'true',
-                        'resultobt' => $encontrados
+                        'list' => $table
                     ));
 
         }
     }
-
     //categorias
     public function getVideoCategories() {
         $videoList = Youtube::getVideosCategory();
@@ -82,19 +85,16 @@ class YouTubeController extends BaseController {
     public function getMostViewed() {
         $videoList = Youtube::getMostViewed(Input::get('order'), Input::get('max'));
 
-        $encontrados = '<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody>';
-        foreach ($videoList as $video) {
-
-            $img = $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'};
-
-            $encontrados = $encontrados . '<tr><td><input class="ajoomla" type="checkbox" name="elemento1" id="' . $video->{'id'}->{'videoId'} . '" value="' . $video->{'id'}->{'videoId'} . '"/></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span></a></td><td id="video_emb"><img src="' . $img . '" height="100" width="100"></td><td id="video_id">' . $video->{'id'}->{'videoId'} . '</td><td id="video_title">' . $video->{'snippet'}->{'title'} . '</td><td id="video_desc">' . $video->{'snippet'}->{'description'} . '</td></tr>';
+        $var = array( );
+        foreach ($videoList as  $video) {
+                    array_push($var,array('titl' => $video->{'snippet'}->{'title'} , 'desc' => $video->{'snippet'}->{'description'} , 'ima' => $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'} , 'ide' => $video->{'id'}->{'videoId'}));    
         }
 
-        $encontrados = $encontrados . '</tbody><tfoot><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></tfoot></table>';
+        $table=YouTubeController::GeneraTabla($var);
 
         return Response::json(array(
                     'success' => 'true',
-                    'list' => $encontrados
+                    'list' => $table
                 ));
     }
 
@@ -115,113 +115,157 @@ class YouTubeController extends BaseController {
 
         $videoList = Youtube::searchVideos(Input::get('q'), Input::get('max'), Input::get('evento'), Input::get('restri'), Input::get('sub'), Input::get('cat'), Input::get('def'), Input::get('dim'), Input::get('dur'), Input::get('emb'), Input::get('lic'), Input::get('syn'), Input::get('tipo'), Input::get('order'), $despues2, $antes2);
 
-        $encontrados = '<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody>';
-        foreach ($videoList as $video) {
-            // $emb = "<iframe type='text/html' src='http://www.youtube.com/embed/".$video->{'id'}->{'videoId'}."' width='160' height='100' frameborder='0' allowfullscreen='true' />";
-            $img = $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'};
-            $encontrados = $encontrados . '<tr><td><input class="ajoomla" type="checkbox" name="elemento1" id="' . $video->{'id'}->{'videoId'} . '" value="' . $video->{'id'}->{'videoId'} . '"/></td><td><a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-primary btn-large"><span class="fa fa-edit" aria-hidden="true"></span></a></td><td id="video_emb"><img src="' . $img . '" height="100" width="100"></td><td id="video_id">' . $video->{'id'}->{'videoId'} . '</td><td id="video_title">' . $video->{'snippet'}->{'title'} . '</td><td id="video_desc">' . $video->{'snippet'}->{'description'} . '</td></tr>';
+        $var = array( );
+        foreach ($videoList as  $video) {
+                    array_push($var,array('titl' => $video->{'snippet'}->{'title'} , 'desc' => $video->{'snippet'}->{'description'} , 'ima' => $video->{'snippet'}->{'thumbnails'}->{'default'}->{'url'} , 'ide' => $video->{'id'}->{'videoId'}));    
         }
-
-        $encontrados = $encontrados . '</tbody><tfoot><tr><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th><th>Seleccionar</th><th>Editar</th></tr></tfoot></table>';
+        
+        $table=YouTubeController::GeneraTabla($var);
 
         return Response::json(array(
                     'success' => 'true',
-                    'list' => $encontrados
+                    'list' => $table
                 ));
     }
 
     public function SaveAlavista(){
+
+        $mensaje='';  
+        $comprobar=0;
+        $datosvideo=Input::get('videos');
+        // $elem=count($datosvideo);
+        $vacio=YouTubeController::EstaVacio($datosvideo);
+        if($vacio!=0){
+            foreach ($datosvideo as $key => $value) {
+               $comprobar+=YouTubeController::GuardarBD($value);
+            }
+            if ($comprobar==$vacio) {
+                $mensaje.='Se inserto Correctamente';
+            }
+            else{
+                $mensaje.='Se inserto Correctamente, ignorando los videos que ya se encuentran insertados';
+            }
+        }
+        else{
+            $mensaje.='Seleccione al Menos un Video';
+        }
+
+
+        
+        // echo $mensaje;
+        return Response::json(array(
+            'success' => 'true',
+            'list' => $mensaje
+        ));
+    
+    }
+
+    static public function EstaVacio($datos){
+        $cont=0;
+        foreach ($datos as $key => $value) {
+               if (in_array('true', $value)) {
+                $cont++;
+               }
+        }
+        return $cont;
+    }
+
+    static public function GuardarBD($datos) {
         DB::beginTransaction();
-        $mes = 0;
-        $res = '';
+        $mess = 0;
+
+
         try {
-            foreach (Input::get('videos') as $datos) {
-                foreach ($datos as $value) {
-                    if ($value['sel'] == 'true') {
-                        $count = Video::where('videourl', '=', 'https://www.youtube.com/watch?v=' . $value['ide'])->count();
-                        $counta = VideoOpenpub::where('VideoId', '=', $value['ide'])->count();
-                        if ($count == 0 && $counta == 0) {
-                            if (strlen($value['titulo']) > 1 || strlen($value['titulo']) < 255) {
-                                $titlemarket=preg_replace('([^A-Za-zÁÉÍÓÚÑáéíóúñ0-9\s])','', $value['titulo']);
-                                $market = array('VideoId' => $value['ide'], 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $titlemarket, 'VideoUrl' => 'https://www.youtube.com/watch?v=' . $value['ide'], 'VideoImage' => 'http://img.youtube.com/vi/' . $value['ide'] . '/mqdefault.jpg', 'VideoDate' => date("Y-m-d H:i:s"));
-                                VideoOpenpub::create($market);
 
-                                $thum = 'http://img.youtube.com/vi/' . $value['ide'] . '/mqdefault.jpg';
-                                $thumh = 'https://i.ytimg.com/vi/' . $value['ide'] . '/maxresdefault.jpg';
-                                date_default_timezone_set('America/Guayaquil');
+                if (in_array('true', $datos)) {
+                    // var_dump($datos);
+                    $id=$datos[0];
+                    $titulo=$datos[1];
+                    $descrip=$datos[2];
+                    $img=$datos[3];
+                    $categ=$datos[4];
+                    $selec=$datos[5];
+                    $tags=$datos[6];
+                    $urltag=$datos[7];
+                    $urlvi='https://www.youtube.com/watch?v=' . $id;
+                    $vidav = Video::where('videourl', '=', 'https://www.youtube.com/watch?v=' . $id)->count();
+                    $vidop = VideoOpenpub::where('VideoId', '=', $id)->count();
 
-                                //eliminar car. especiales
-                                $seo = $value['titulo'];
-                                $seo = trim($seo);
-
-                                $seo = str_replace(array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $seo);
-                                $seo = str_replace(array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $seo);
-                                $seo = str_replace(array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $seo);
-                                $seo = str_replace(array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'), array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $seo);
-                                $seo = str_replace(array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $seo);
-                                $seo = str_replace(array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C'), $seo);
-                                $seo = preg_replace('([^A-Za-z0-9[:space:]])','', $seo);
+                    $seo=YouTubeController::SeoTitulo($titulo);
+                    // echo '<br>av '.$vidav.' y op'.$vidop;
+                    if ($vidav == 0 && $vidop == 0 ) {
+                        // if ($vidop === 0) {
+                            if (strlen($titulo) > 1 || strlen($titulo) < 255) {
+                                // echo $vidav.' av y op'.$vidop;
                                 
-                                $seo = str_replace(" ", "-", $seo);
-                                $seo = strtolower($seo);
+                                //Guardar en hdflv_upload
+                                $thum = 'http://img.youtube.com/vi/' . $id . '/mqdefault.jpg';
+                                $thumh = 'https://i.ytimg.com/vi/' . $id . '/maxresdefault.jpg';
+                                $tituav = str_replace(array('“', '”', '"', '\''), '' , $titulo);
+                                $DataVideo = array('memberid' => 539, 'published' => 1, 'title' => $tituav, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => $urlvi, 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $categ, 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $descrip, 'targeturl' => $urltag, 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $tags, 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
 
-                                $titu = $titlemarket;
-                                $titu = str_replace(array('“', '”', '"', '\''), '' , $titu);
-                                // 42
-                                $DataVideo = array('memberid' => 539, 'published' => 1, 'title' => $titu, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => 'https://www.youtube.com/watch?v='.$value['ide'], 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $value['cat'], 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $value['descr'], 'targeturl' => $value['turl'], 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $value['tag'], 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
+                                //Guardar en VideoCategoria
                                 $newVideo = Video::create($DataVideo);
-                                $VidCat = array('vid' => $newVideo->id, 'catid' => $value['cat']);
+                                $VidCat = array('vid' => $newVideo->id, 'catid' => $categ);
                                 VideoCategory::create($VidCat);
 
-                                
+                                //Guardar en OP
+                                $market = array('VideoId' => $id, 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $titulo, 'VideoUrl' => $urlvi, 'VideoImage' => $img , 'VideoDate' => date("Y-m-d H:i:s"));
+                                VideoOpenpub::create($market);
 
-                                DB::commit();
-                                $res = 'Se inserto Correctamente';
-
                                 
+                                $mess=1;
                             }
+                        // }
 
-                        }
-                        else{
-                            $mes = 1;
-                        }
                     }
                 }
-            }
-            if ($mes == 1) {
-                $res = 'Se inserto Correctamente, ignorando los videos que ya se encuentran en AlavistaTV';
-            }
-            if ($mes == 2) {
-                $res = 'Seleccione al menos un video';
-            }
-
-            return Response::json(array(
-            'success' => 'true',
-            'list'    => $res
-            ));
-            
-        } catch (ValidationException $e) {
+            DB::commit();
+        } 
+        catch (Exception $e) {
             DB::rollback();
-            return Response::json(array(
-            'success' => 'false',
-            'list' => $e->getErrors()
-            ));
+            $mess=0;
+            var_dump($e);
         }
+        return $mess;
 
     }
 
+    static public function SeoTitulo($seo){
+        $seo = str_replace(array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $seo);
+        $seo = str_replace(array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $seo);
+        $seo = str_replace(array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $seo);
+        $seo = str_replace(array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'), array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $seo);
+        $seo = str_replace(array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $seo);
+        $seo = str_replace(array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C'), $seo);
+
+        $conservar = '0-9a-zA-Z'; // juego de caracteres a conservar
+        $regex = sprintf('~[^%s]++~i', $conservar); // case insensitive
+        $seo = preg_replace($regex, '-', $seo);
+
+        $seo = strtolower($seo);
+
+        return $seo;
+    }
 
     public function Tags() {
         $string = Input::get('cad');
         $string = trim($string);
-
+        $string = trim($string);
+        $string = str_replace(array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $string);
+        $string = str_replace(array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $string);
+        $string = str_replace(array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $string);
+        $string = str_replace(array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'), array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $string);
+        $string = str_replace(array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $string);
+        $string = str_replace(array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C'), $string);
+        $string = str_replace(array(',',')'), array( '',''), $string);
         $conservar = '0-9a-zA-Z[:space:]'; // juego de caracteres a conservar
         $regex = sprintf('~[^%s]++~i', $conservar); // case insensitive
         $string = preg_replace($regex, ',', $string);
 
         // $string = str_replace(array("\\", "‘", "_", "¨", "º", "-", "~", "#", "@", "|", "!", "\"", "·", "$", "%", "&", "/", "(", ")", "?", "'", "¡", "¿", "[", "^", "`", "]", "+", "}", "{", "¨", "´", ">", "< ", ";", ":", ".", "●", "○", "☑", "↕", "☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○", "◙", "♂", "♀", "♪", "♫", "☼", "►", "◄", "↕", "‼", "¶", "§", "▬", "↨", "↑", "↓", "→", "←", "∟", "↔", "▲", "▼", "❤", "❥", "웃", "유", "♋", "☮", "✌", "☏", "☢", "☠", "✔", "☑", "♚", "▲", "♪", "✈", "❞", "¿", "♥", "❣", "♂", "♀", "☿", "Ⓐ", "✍", "✉", "☣", "☤", "✘", "☒", "♛", "▼", "♫", "⌘", "❝", "¡", "ღ", "ツ", "☼", "☁", "❅", "♒", "✎", "©", "®", "™", "Σ", "✪", "✯", "☭", "➳", "卐", "✞", "°", "✿", "ϟ", "☃", "☂", "✄", "¢", "€", "£", "∞", "✫", "★", "½", "☯", "✡", "☪", "ß", "Γ", "π", "Σ", "σ", "µ", "τ", "Φ", "Θ", "Ω", "δ", "∞", "φ", "ε", "∩", "≡", "±", "≥", "≤", "⌠", "⌡", "÷", "≈", "°", "∙", "·", "√", "ⁿ", "²", "■", "░", "▒", "▓", "│", "┤", "╡", "╢", "╖", "╕", "╣", "║", "╗", "╝", "╜", "╛", "┐", "└", "┴", "┬", "├", "─", "┼", "╞", "╟", "╚", "╔", "╩", "╦", "╠", "═", "╬", "╧", "╨", "╤", "╥", "╙", "╘", "╒", "╓", "╫", "╪", "┘", "┌", "█", "▄", "▌", "▐", "▀", "α"), ',', $string);
         return Response::json(array(
-                    'success' => true,
+                    'success' => 'true',
                     'list' => $string
                 ));
     }

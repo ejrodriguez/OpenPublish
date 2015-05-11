@@ -145,15 +145,16 @@ class VideoController extends BaseController {
 	}
 
 
-	public function DatatableDelete()
+public function DatatableDelete()
 	{	
 		$campos = array('id', 'title', 'videourl','rate','times_viewed','thumburl');
 		$tabla2= [];
 		$ind = 0; 
-	    $tabla = Datatable::collection( Video::where('published', '=', 1)->get($campos) )
+	    $tabla = Datatable::collection( Video::where('published', '=', 1)->where('memberid', '=', 539)->where('filepath', '!=', 'File')->get($campos) )
 	    
 	    ->showColumns('id', 'title', 'videourl','rate','times_viewed','thumburl')
 	    ->searchColumns('title')
+	    ->orderColumns('id', 'title')
 	    ->orderColumns('id','title')
 	    ->make();
 
@@ -165,15 +166,19 @@ class VideoController extends BaseController {
 				$alavista = Video::where('videourl', '=', $tabla['aaData'][$i][2])->count();
 				$enmark='';$enav='';
 
-				if ($market==1) {$enmark='<center><i class="fa fa-check txt-success"></i></center>';} else{$enmark='<center><i class="fa fa-times txt-danger"></i></center>';}
-				if ($alavista==1) {$enav='<center><i class="fa fa-check txt-success"></i></center>';} else{$enav='<center><i class="fa fa-times txt-danger"></i></center>';}
+				if ($market>0) {$enmark='<center><i class="fa fa-check txt-success"></i></center>';} else{$enmark='<center><i class="fa fa-times txt-danger"></i></center>';}
+				if ($alavista>0) {$enav='<center><i class="fa fa-check txt-success"></i></center>';} else{$enav='<center><i class="fa fa-times txt-danger"></i></center>';}
 				
-	    		$tabla2['aaData'][$ind][0] = '<input class="ajoomla" type="checkbox" name="elemento1" id="' . $tabla['aaData'][$i][0]. '" value="' . $tabla['aaData'][$i][2] . '"/>';
-	    		$tabla2['aaData'][$ind][1] =  $enmark;
-	    		$tabla2['aaData'][$ind][2] =  $enav;
-	    		$tabla2['aaData'][$ind][3] =  '<img src="'.$tabla['aaData'][$i][5]. '" width="160" height="100">';
-	    		$tabla2['aaData'][$ind][4] =  $tabla['aaData'][$i][1];
-	    		$tabla2['aaData'][$ind][5] =  '<a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-danger btn-large"><span class="fa fa-trash-o" aria-hidden="true"></span></a>';
+				$tabla2['aaData'][$ind][0] =  '';
+	    		$tabla2['aaData'][$ind][1] = '<input class="ajoomla" type="checkbox" name="elemento'.$tabla['aaData'][$i][0].'" id="' . $tabla['aaData'][$i][0]. '" value="' . $tabla['aaData'][$i][0] . '"/>';
+	    		$tabla2['aaData'][$ind][2] =  $enmark;
+	    		$tabla2['aaData'][$ind][3] =  $enav;
+	    		// $tabla2['aaData'][$ind][4] ='<a class="fancybox-media" href="'.$tabla['aaData'][$i][2].'" title="'.$tabla['aaData'][$i][1].'"><img src="'.$tabla['aaData'][$i][5].'" width="240px" height="137px" alt="" /></a>';
+	    		$tabla2['aaData'][$ind][4] =  '<img src="'.$tabla['aaData'][$i][5]. '" width="160" height="100">';
+	    		$tabla2['aaData'][$ind][5] =  $tabla['aaData'][$i][1];
+	    		// $tabla2['aaData'][$ind][6] =  '<a id="callmodal" data-toggle="modal" href="#modaldataedit" class="btn btn-danger btn-large"><span class="fa fa-trash-o" aria-hidden="true"></span></a>';
+	    		$tabla2['aaData'][$ind][6] =  '<center><b>'.$tabla['aaData'][$i][4].'</b></center>';
+	    		$tabla2['aaData'][$ind][7] =  '<center><b>'.$tabla['aaData'][$i][3].'</b></center>';
 
 				$ind += 1; 
 	    }
@@ -184,6 +189,83 @@ class VideoController extends BaseController {
 	    $tabla2['sEcho'] = $tabla['sEcho'];
 
 	    return $tabla2;
+	}
+
+	public function EliminarVideos()
+	{	
+		$mensaje='';
+		$idvideos=Input::get('videose');
+		$campos = array('videourl');
+		$elem=count($idvideos);
+		$count=0;
+		if ($elem!=0) {
+			foreach ($idvideos as $value) {
+				$url=Video::where('id', '=', $value)->get($campos);
+				$url=$url->toArray();
+				foreach ($url as  $viur) {
+					
+					$count+=VideoController::EliminarAlvista($viur["videourl"],$value);
+					
+				}
+
+			}
+			if ($elem==$count) {
+				$mensaje.='Se eliminaron los videos seleccionados';
+			}
+			else{
+				$mensaje.='Eliminados';
+			}
+		}
+		else{
+			$mensaje.='Seleccione al menos un Video';
+		}
+
+		return Response::json(array(
+            'success' => 'true',
+            'list' => $mensaje
+        ));
+	}
+
+	static public function EliminarAlvista($str,$id){
+		$vidave = Video::where('videourl', '=', $str)->where('id','=',$id)->count();
+		$vidaop = VideoOpenpub::where('VideoUrl', '=', $str)->count();
+		DB::beginTransaction();
+        $mess = 0;
+		try {
+			if (($vidave==1 && $vidaop==0))  {
+				$ViAv = Video::find( $id );
+				$ViAv->delete();
+				
+				$vid=$id;
+				$ne=VideoCategory::find($id);
+				$ne->delete();
+				// var_dump($ne);
+				$mess=1;
+				// echo  'eliminado';
+			}
+			if (($vidave==1 && $vidaop==1)){
+				$ViAv = Video::find( $id );
+				$ViAv->delete();
+				
+				$vid=$id;
+				$ne=VideoCategory::find($id);
+				$ne->delete();
+
+				$idop=str_replace(array('https://www.youtube.com/watch?v=','https://vimeo.com/'), '' , $str);
+				$opp=VideoOpenpub::find($idop);
+				$opp->delete();
+				// var_dump($ne);
+				$mess=1;
+				// echo  'eliminado';
+
+			}
+		DB::commit();			
+		} catch (Exception $e) {
+			DB::rollback();
+            $mess=0;
+            var_dump($e);
+		}
+		return $mess;
 	}
 
 }

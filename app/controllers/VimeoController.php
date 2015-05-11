@@ -171,82 +171,121 @@ class VimeoController extends BaseController {
 
     public function SaveAlavista()
     {
-    	DB::beginTransaction();
-        $mes = 0;
-        $res = '';
+    	$mensaje='';  
+        $comprobar=0;
+        $datosvideo=Input::get('videos');
+        // $elem=count($datosvideo);
+        $vacio=YouTubeController::EstaVacio($datosvideo);
+        if($vacio!=0){
+            foreach ($datosvideo as $key => $value) {
+               $comprobar+=VimeoController::GuardarBD($value);
+            }
+            if ($comprobar==$vacio) {
+                $mensaje.='Se inserto Correctamente';
+            }
+            else{
+                $mensaje.='Se inserto Correctamente, ignorando los videos que ya se encuentran insertados';
+            }
+        }
+        else{
+            $mensaje.='Seleccione al Menos un Video';
+        }
+
+        // echo $mensaje;
+        return Response::json(array(
+            'success' => 'true',
+            'list' => $mensaje
+        ));
+    }
+
+    static public function EstaVacio($datos){
+        $cont=0;
+        foreach ($datos as $key => $value) {
+               if (in_array('true', $value)) {
+                $cont++;
+               }
+        }
+        return $cont;
+    }
+
+    static public function GuardarBD($datos) {
+        DB::beginTransaction();
+        $mess = 0;
+
+
         try {
-            foreach (Input::get('videos') as $datos) {
-                foreach ($datos as $value) {
-                    if ($value['sel'] == 'true') {
-                        $count = Video::where('videourl', '=', 'https://vimeo.com/' . $value['ide'])->count();
-                        $counta = VideoOpenpub::where('VideoId', '=', $value['ide'])->count();
-                        if ($count == 0 && $counta == 0) {
-                            if (strlen($value['titulo']) > 1 || strlen($value['titulo']) < 255) {
-                                $titlemarket=preg_replace('([^A-Za-zÁÉÍÓÚÑáéíóúñ0-9\s])','', $value['titulo']);
-                                $market = array('VideoId' => $value['ide'], 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $titlemarket, 'VideoUrl' => 'https://vimeo.com/' . $value['ide'], 'VideoImage' => $value['emb'], 'VideoDate' => date("Y-m-d H:i:s"));
-                                VideoOpenpub::create($market);
 
-                                $thum = $value['emb'];
-                                $thumh = $value['emb'];
-                                date_default_timezone_set('America/Guayaquil');
+                if (in_array('true', $datos)) {
+                    // var_dump($datos);
+                    $id=$datos[0];
+                    $titulo=$datos[1];
+                    $descrip=$datos[2];
+                    $img=$datos[3];
+                    $categ=$datos[4];
+                    $selec=$datos[5];
+                    $tags=$datos[6];
+                    $urltag=$datos[7];
+                    $urlvi='https://vimeo.com/' . $id;
+                    $vidav = Video::where('videourl', '=', 'https://vimeo.com/' . $id)->count();
+                    $vidop = VideoOpenpub::where('VideoId', '=', $id)->count();
 
-                                //eliminar car. especiales
-                                $seo = $value['titulo'];
-                                $seo = trim($seo);
-
-                                $seo = str_replace(array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $seo);
-                                $seo = str_replace(array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $seo);
-                                $seo = str_replace(array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $seo);
-                                $seo = str_replace(array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'), array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $seo);
-                                $seo = str_replace(array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $seo);
-                                $seo = str_replace(array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C'), $seo);
-                                $seo = preg_replace('([^A-Za-z0-9[:space:]])','', $seo);
+                    $seo=VimeoController::SeoTitulo($titulo);
+                    // echo '<br>av '.$vidav.' y op'.$vidop;
+                    if ($vidav == 0 && $vidop == 0 ) {
+                        // if ($vidop === 0) {
+                            if (strlen($titulo) > 1 || strlen($titulo) < 255) {
+                                // echo $vidav.' av y op'.$vidop;
                                 
-                                $seo = str_replace(" ", "-", $seo);
-                                $seo = strtolower($seo);
+                                //Guardar en hdflv_upload
+                                $thum = $img;
+                                $thumh = $img;
+                                $tituav = str_replace(array('“', '”', '"', '\''), '' , $titulo);
+                                $DataVideo = array('memberid' => 539, 'published' => 1, 'title' => $tituav, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => $urlvi, 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $categ, 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $descrip, 'targeturl' => $urltag, 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $tags, 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
 
-                                $titu = $titlemarket;
-                                $titu = str_replace(array('“', '”', '"', '\''), '' , $titu);
-                                // 42
-                                $DataVideo = array('memberid' => 539, 'published' => 1, 'title' => $titu, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => 'https://vimeo.com/'.$value['ide'], 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $value['cat'], 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $value['descr'], 'targeturl' => $value['turl'], 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $value['tag'], 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
+                                //Guardar en VideoCategoria
                                 $newVideo = Video::create($DataVideo);
-                                $VidCat = array('vid' => $newVideo->id, 'catid' => $value['cat']);
+                                $VidCat = array('vid' => $newVideo->id, 'catid' => $categ);
                                 VideoCategory::create($VidCat);
 
-                                
+                                //Guardar en OP
+                                $market = array('VideoId' => $id, 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $titulo, 'VideoUrl' => $urlvi, 'VideoImage' => $img , 'VideoDate' => date("Y-m-d H:i:s"));
+                                VideoOpenpub::create($market);
 
-                                DB::commit();
-                                $res = 'Se inserto Correctamente';
-
                                 
+                                $mess=1;
                             }
+                        // }
 
-                        }
-                        else{
-                            $mes = 1;
-                        }
                     }
                 }
-            }
-            if ($mes == 1) {
-                $res = 'Se inserto Correctamente, ignorando los videos que ya se encuentran en AlavistaTV';
-            }
-            if ($mes == 2) {
-                $res = 'Seleccione al menos un video';
-            }
-
-            return Response::json(array(
-            'success' => 'true',
-            'list'    => $res
-            ));
-            
-        } catch (ValidationException $e) {
+            DB::commit();
+        } 
+        catch (Exception $e) {
             DB::rollback();
-            return Response::json(array(
-            'success' => 'false',
-            'list' => $e->getErrors()
-            ));
+            $mess=0;
+            var_dump($e);
         }
+        return $mess;
+
     }
+
+    static public function SeoTitulo($seo){
+        $seo = str_replace(array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $seo);
+        $seo = str_replace(array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $seo);
+        $seo = str_replace(array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $seo);
+        $seo = str_replace(array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'), array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $seo);
+        $seo = str_replace(array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $seo);
+        $seo = str_replace(array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C'), $seo);
+
+        $conservar = '0-9a-zA-Z'; // juego de caracteres a conservar
+        $regex = sprintf('~[^%s]++~i', $conservar); // case insensitive
+        $seo = preg_replace($regex, '-', $seo);
+
+        $seo = strtolower($seo);
+
+        return $seo;
+    }
+
+
 
 }
