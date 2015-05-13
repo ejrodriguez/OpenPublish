@@ -3,6 +3,7 @@
 
 // You can find the keys here : https://console.developers.google.com
 // "alaouy/youtube": "dev-master",
+$config = ConfigApp::First()->get();
 return array(
-	'KEY' => 'AIzaSyDAK5Z4xO61h23oyh4Q1Ovj744R7fGE-AU'
+	'KEY' => $config[0]["YouTubeKey"]
 );

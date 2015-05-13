@@ -1,5 +1,6 @@
 <?php
 
+$config = ConfigApp::First()->get();
 return [
 
 	/*
@@ -12,7 +13,7 @@ return [
 	|
 	*/
 
-	'client_id' => '227050094132256',
+	'client_id' => $config[0]["VimeoClientId"],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ return [
 	|
 	*/
 
-	'client_secret' => '2eae7e80de8de813fe82c8b7db3533cb',
+	'client_secret' => $config[0]["VimeoClientSecret"],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -35,6 +36,6 @@ return [
 	| or generated using OAuth 2.
 	*/
 
-	'access_token' => '3c8325a1ab1b9715b9c5e1bef7ec2785',
+	'access_token' => $config[0]["VimeAccessToken"],
 
 ];

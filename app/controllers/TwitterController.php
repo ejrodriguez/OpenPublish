@@ -268,8 +268,7 @@ public function Trending()
 						if (isset($result->errors) == 0 ){
 								foreach ($result[0]->trends as $value) 
 								{
-								$trnd.='<span class="fc-button  fc-state-default fc-corner-center">'.$value->name.' '.'</span>'; 
-										
+								$trnd.='<span class="fc-button  fc-state-default fc-corner-center">'.$value->name.' '.'</span>'; 		
 								}
 						}
 						else

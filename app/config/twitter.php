@@ -1,7 +1,8 @@
 <?php
+$config = ConfigApp::First()->get();
 return  array(
-	'consumer_key'=>'BpoMERowO6TmIsCpLrJlAdj01',
-	'consumer_secret'=>'WxeSUTw2h3TxHfwedJSOoztfWdYAVweyiwjZhGXqAnhsb1Ac3N',
+	'consumer_key'=>$config[0]["ConsumerKeyTw"],
+	'consumer_secret'=>$config[0]["ConsumerSecretTw"],
 	'ouath_callback'=> url('twitter/callback')
 	//'ouath_callback'=> 'oob'
 )
