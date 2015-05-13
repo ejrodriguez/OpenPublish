@@ -41,13 +41,13 @@
 					</div>
 					<div class="form-group">
 						<label class="col-sm-1 control-label">Clave</label>
-						<div class="col-sm-11">
+						<div class="col-sm-5">
 							<input type="password" class="form-control" name="clave" id="clave" />
 						</div>
-					</div>
-					<div class="form-group " >
-						<label class="col-sm-1 control-label">Repetir clave</label>
-						<div class="col-md-11">
+					<!-- </div> -->
+					<!-- <div class="form-group " > -->
+						<label class="col-sm-1 control-label">Repetir</label>
+						<div class="col-md-5">
 							<input type="password" class="form-control" name="reclave" id="reclave" />
 						</div>
 					</div>
@@ -89,11 +89,10 @@
 								
 							</select>
 						</div>
-					</div>
-
-					
+					</div>	
 				</fieldset>
 				<div class="form-group">
+					<div class="col-sm-8 "></div>
 					<div class="col-sm-4 ">
 						<button id="save" type="submit" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button>
 					</div>
@@ -142,6 +141,7 @@
 function DemoSelect2(){
 	$('#sestado').select2();
 	$('#srol').select2();
+	$('#joomla').select2();
 	$('#smenu').select2({placeholder: "Seleccione Menu"});
 }
 // Run timepicker

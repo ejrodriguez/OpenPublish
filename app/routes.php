@@ -45,6 +45,7 @@ Route::post('/user/edit',array('as' => 'useredit', 'uses' => 'UserController@upd
 
 Route::post('/user/delete',array('as' => 'userdel', 'uses' => 'UserController@destroy'))->before("auth_user");
 
+Route::get('/admin/config',array('as' => 'config', 'uses' => 'ConfigController@ViewConfig'))->before("auth_user");
 
 //rutear a administracionvideos
 

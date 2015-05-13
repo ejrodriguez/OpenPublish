@@ -215,7 +215,6 @@ class UserController extends \BaseController {
 	}
 
 
-
 	public function update()
 	{
 		if(Request::ajax())
