@@ -47,6 +47,16 @@ Route::post('/user/delete',array('as' => 'userdel', 'uses' => 'UserController@de
 
 Route::get('/admin/config',array('as' => 'config', 'uses' => 'ConfigController@ViewConfig'))->before("auth_user");
 
+Route::post('/admin/save/youtube',array('as' => 'saveyoutube', 'uses' => 'ConfigController@SaveYoutube'))->before("auth_user");
+
+Route::post('/admin/save/vimeo',array('as' => 'savevimeo', 'uses' => 'ConfigController@SaveVimeo'))->before("auth_user");
+
+Route::post('/admin/save/facebook',array('as' => 'savefacebook', 'uses' => 'ConfigController@SaveFacebook'))->before("auth_user");
+
+Route::post('/admin/save/twitter',array('as' => 'savetwitter', 'uses' => 'ConfigController@SaveTwitter'))->before("auth_user");
+
+Route::get('/admin/save/joomlauser',array('as' => 'saveuserjoomla', 'uses' => 'ConfigController@SaveUserJoomla'))->before("auth_user");
+
 //rutear a administracionvideos
 
 Route::get('/video',array('as' => 'downloadxml', 'uses' => 'VideoController@showVideoAdmin'))->before("auth_user");
