@@ -150,7 +150,8 @@ public function DatatableDelete()
 		$campos = array('id', 'title', 'videourl','rate','times_viewed','thumburl');
 		$tabla2= [];
 		$ind = 0; 
-	    $tabla = Datatable::collection( Video::where('published', '=', 1)->where('memberid', '=', 539)->where('filepath', '!=', 'File')->get($campos) )
+        $config = ConfigApp::First()->get();
+	    $tabla = Datatable::collection( Video::where('published', '=', 1)->where('memberid', '=', $config[0]["UserJoomla"])->where('filepath', '!=', 'File')->get($campos) )
 	    
 	    ->showColumns('id', 'title', 'videourl','rate','times_viewed','thumburl')
 	    ->searchColumns('title')

@@ -7,9 +7,10 @@
 <!-- <script type="text/javascript" language="javascript" src="plugins/bootstrapvalidator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" language="javascript" src="plugins/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js"></script> -->
 <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.js"></script>
-<script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.min.js"></script>
+<!-- <script type="text/javascript" language="javascript" src="js/jsfunctions/jquery.dataTables.min.js"></script> -->
 <script type="text/javascript" language="javascript" src="js/jsfunctions/dataTables.responsive.js"></script>
 <script type="text/javascript" language="javascript" src="js/jsfunctions/bootstrap-switch.js"></script>
+
 </head>
 <body>
 <br>
@@ -42,7 +43,7 @@
 							<li><a data-toggle="tooltip" data-placement="bottom" title="Vimeo" href="#tabs-2"><i class="fa fa-vimeo-square txt-info"></i> Vimeo</a></li>
 							<li><a data-toggle="tooltip" data-placement="bottom" title="Facebook" href="#tabs-3"><i class="fa fa-facebook-square txt-primary"></i> Facebook</a></li>
 							<li><a data-toggle="tooltip" data-placement="bottom" title="Twitter" href="#tabs-4"><i class="fa fa-twitter-square txt-info"></i> Twitter</a></li>
-							<!-- <li><a data-toggle="tooltip" data-placement="bottom" title="Usuario" href="#tabs-5"><i class="fa fa-user txt-success"></i> Usuario</a></li> -->
+							<li><a data-toggle="tooltip" data-placement="bottom" title="Usuario" href="#tabs-5"><i class="fa fa-user txt-success"></i> Usuario</a></li>
 						</ul>
 
 						<!-- 
@@ -60,7 +61,7 @@
 									<div class="panel panel-default">
 		 								<div class="panel panel-danger">
 											<div class="form-group" >
-												<label class="col-sm-1 control-label">Api Key</label>
+												<label class="col-sm-2 control-label">Api Key</label>
 												<div class="col-sm-7">
 													<input type="text" class="form-control" name="modal_nombre" id="ykey" value='{{ $items[0]["YouTubeKey"] }}' />
 												</div>
@@ -220,7 +221,7 @@
 						 * [interfaz de funciones de busqueda de vimeo]
 						 * @type {html}
 						 -->
-						<!-- <div id="tabs-5">
+						<div id="tabs-5">
 
 									<div class="bg-success" role="alert">
 									  <i class="fa fa-user" ></i> 
@@ -230,20 +231,34 @@
 										<div class="panel panel-default">
 			 								<div class="panel panel-success">
 			 									<div id="impression"></div>
+
 												<div class="form-group" >
+													<div id="" class="box-content">
+					 									<div class="form-group" >
+					 										<!-- <center> -->
+						 										<div class="col-sm-4"></div>
+																<label class="col-sm-2 control-label">Actual</label>
+																<div class="col-sm-2">
+																	<input type="text" class="form-control" name="modal_nombre" disabled id="keyu" value='{{ $items[0]["UserJoomla"] }}' /><br>
+																</div>
+															<!-- </center> -->
+														</div>
+													    <div id="cargar"></div>
+													</div>
 													<div class="col-sm-9"></div>
+													
 													<div class="col-sm-3">
-														<button  data-loading-text="Loading..." id="guardart" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-save"></i></span> Guardar</button>
+														<button  data-loading-text="Loading..." id="guardaru" type="submit" class="btn btn-primary btn-label-left"><span><i class="fa fa-save"></i></span> Guardar</button>
 													</div>													
 
 												</div>
-												<div id="impression">
+												<div id="erroru">
 													
 												</div>
 											</div>	
 										</div>
 									</div>
-						</div> -->
+						</div>
 						<!-- 
 						 * [fin de interfaz de funciones de busqueda de vimeo]
 						 -->						 					
@@ -295,11 +310,172 @@
  -->
 
 <script type="text/javascript">
-/**
- * Inicio
- * [Funciones  para config ]
- * @type {[js]}
- */
+
+
+
+$('#guardaru').click(function(e) {
+	e.preventDefault();
+	$('#errory').html("<center><label class='col-sm-12 txt-danger'></label></center>");
+	var sel = $('#datatable-1').DataTable();
+	if (sel.row('.selected').node()!=null) {
+		// console.log(sel.row('.selected').data());
+		$.ajax({
+			url: "{{URL::route('idsave')}}",
+			type: 'POST',
+			data: {idu: sel.row('.selected').data()},
+			beforeSend: function(){
+	            $('#guardaru').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+            },
+	        error: function(jqXHR, exception) {
+		        if (jqXHR.status === 0) {
+		            alert('Error de conexión, verifica tu instalación.');
+		        } else if (jqXHR.status == 404) {
+		            alert('La página no ha sido encontrada. [404]');
+		        } else if (jqXHR.status == 500) {
+		            var msg=jQuery.parseJSON(jqXHR.responseText);
+				    VerError(msg);
+		        } else if (exception === 'parsererror') {
+		            alert('Error parse JSON.');
+		        } else if (exception === 'timeout') {
+		            alert('Exceso tiempo.');
+		        } else if (exception === 'abort') {
+		            alert('Petición ajax abortada.');
+		        } else {
+		            alert('Error desconocido: ' + jqXHR.responseText);
+		        }
+		    },
+		})
+		.done(function(data) {
+			if(data.success=='true'){
+				$('#keyu').val(data.actual);
+				$('#erroru').html("<center><label class='col-sm-12 alert alert-success'>"+data.list+"</label></center>");
+			}
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			$('#guardaru').html('<span><i class="fa fa-save"></i></span> Guardar');
+		});
+		
+		
+	}
+	else{
+		$('#erroru').html("<center><label class='col-sm-12 txt-danger'>Seleccione un Usuario</label></center>");
+	};
+});
+
+function CambiarColorTabla(){
+	var sel = $('#datatable-1').DataTable();
+
+    $('#datatable-1 tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            sel.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+}
+
+function VerTablaVacia(){
+	$('#cargar').html('<table  id="datatable-1" class="display responsive nowrap" cellspacing="0" width="100%"><thead><tr><th>Sel</th><th>Edit</th><th>Video</th><th>Id</th><th>Titulo</th><th>Descripcion</th></tr></thead><tbody></tbody></table>');
+	$('#datatable-1').DataTable({
+		
+		"lengthMenu": [ 10, 20, 30, 40, 50, 100 ],
+		"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+						"paginate": {
+					       				 	"next": "Siguiente",
+					       				 	"previous": "Anterior",
+					       				 	"sFirst": "Primero",
+                                            "sLast": "Ultimo",
+
+										},
+							"search": "Buscar:",
+							"infoEmpty": "No hay registros que mostrar",
+							"infoFiltered": " - filtrados en _MAX_ registros en total",
+							"emptyTable": "No hay registros en la tabla",
+							"lengthMenu": "Ver _MENU_ registros",
+							"loadingRecords": "Espere un momento - cargando...",
+							"zeroRecords": "No hay registros coincidentes encontrados",
+					},
+		
+		});
+}
+
+
+function VerTablaUsuarios(datos){
+	
+	$('#cargar').html(datos.list);
+	$('#datatable-1').DataTable({
+		
+		"lengthMenu": [ 15, 25, 35, 40, 50, 100 ],
+		"language": {
+						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+						"paginate": {
+					       				 	"next": "<i class='fa fa-forward'></i>",
+					       				 	"previous": "<i class='fa fa-backward'>",
+
+										},
+							"search": "Buscar:",
+							"infoEmpty": "No hay registros que mostrar",
+							"infoFiltered": " - filtrados en _MAX_ registros en total",
+							"emptyTable": "No hay registros en la tabla",
+							"lengthMenu": "Ver _MENU_ registros",
+							"loadingRecords": "Espere un momento - cargando...",
+							"zeroRecords": "No hay registros coincidentes encontrados",
+					},
+		
+		});
+}
+
+
+function Users(){
+	$.ajax({
+		url: "{{URL::route('saveuserjoomla')}}",
+		type: 'POST',
+        error: function(jqXHR, exception) {
+	        if (jqXHR.status === 0) {
+	            alert('Error de conexión, verifica tu instalación.');
+	        } else if (jqXHR.status == 404) {
+	            alert('La página no ha sido encontrada. [404]');
+	        } else if (jqXHR.status == 500) {
+	        	var msg=jQuery.parseJSON(jqXHR.responseText);
+	        	 VerError(msg);
+	            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
+	        } else if (exception === 'parsererror') {
+	            alert('Error parse JSON.');
+	        } else if (exception === 'timeout') {
+	            alert('Exceso tiempo.');
+	        } else if (exception === 'abort') {
+	            alert('Petición ajax abortada.');
+	        } else {
+	            alert('Error desconocido: ' + jqXHR.responseText);
+	        }
+	    },
+	})
+	.done(function(data) {
+		if (data.success=='true') {
+			// console.log(data);
+			VerTablaUsuarios(data);
+			CambiarColorTabla();
+			// SeleccionClick();
+		}
+		else
+		{
+			VerTablaVacia();
+		}
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
+}
 jQuery(document).ready(function($) {
 	// Create jQuery-UI tabs
 	$("#tabs").tabs();
@@ -308,7 +484,11 @@ jQuery(document).ready(function($) {
 		items: "div.col-sm-2",
 		appendTo: 'div.box-content'
 	});
+
+	Users();
+
 });
+
 
 $('#guardary').click(function(e) {
 	e.preventDefault();
@@ -369,7 +549,7 @@ $('#guardarv').click(function(e) {
 					type: 'POST',
 					data: {id: $('#idv').val() ,secret: $('#secv').val() ,token: $('#tokenv').val()},
 					beforeSend: function(){
-			            $('#guardary').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+			            $('#guardarv').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
 		            },		
 			        error: function(jqXHR, exception) {
 				        if (jqXHR.status === 0) {
@@ -537,52 +717,6 @@ function VerError(data){
 							});
 }
 
-
-// $(function() {
-//     // 1.
-//     // var ca=$('#pagi').val();
-//     // var ord=$('#orden').val();
-//     // var forma=$('#por').val();
-//     function getPaginationSelectedPage(url) {
-//         var chunks = url.split('?');
-//         // alert(chunks); link de siguiente pag
-//         var baseUrl = chunks[0];
-//         // alert(baseUrl); url base
-//         var querystr = chunks[1].split('&');
-//         // alert(querystr);pagina
-//         var pg = 1;
-//         for (i in querystr) {
-//             var qs = querystr[i].split('=');
-//             if (qs[0] == 'page') {
-//                 pg = qs[1];
-//                 // alert(pg); # pagina
-//                 break;
-//             }
-//         }
-//         return pg;
-//     }
-
-//     // 2.
-//     $('#impression').on('click', '.pagination a', function(e) {
-//         e.preventDefault();
-//         var pg = getPaginationSelectedPage($(this).attr('href'));
-        
-//         $.ajax({
-//             url: "{{URL::route('saveuserjoomla')}}",
-//             // data: { page: pg , can:ca , orde:ord , por:forma },
-//             success: function(data) {
-//                 $('#impression').html(data);
-//             }
-//         });
-//     });
-
-
-//     $('#impression').load("{{URL::route('saveuserjoomla')}}"+"?page=1");
-// });
-
-/**
- * Fin de funciones js para config
- */
 
 </script>
 

@@ -21,8 +21,9 @@ class GaleryController extends BaseController {
 		$ordenar_items = Input::get('orde');
 		$forma_orden = Input::get('por');
 		$campos = array('id', 'title', 'videourl','rate','times_viewed','thumburl');
-
-        $items = Video::where('published', '=', 1)->orderBy($ordenar_items, $forma_orden)->select($campos)->paginate($items_per_page);
+        $config = ConfigApp::First()->get();
+        
+        $items = Video::where('published', '=', 1)->where('memberid', '=', $config[0]["UserJoomla"])->where('filepath', '!=', 'File')->orderBy($ordenar_items, $forma_orden)->select($campos)->paginate($items_per_page);
         if ($items->isEmpty()) {
 		   echo '<div class="box-content"><legend id="uniq" class="alert alert-info">No hay videos para visualizar</legend></div>';
 		   exit;

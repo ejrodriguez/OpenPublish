@@ -55,7 +55,9 @@ Route::post('/admin/save/facebook',array('as' => 'savefacebook', 'uses' => 'Conf
 
 Route::post('/admin/save/twitter',array('as' => 'savetwitter', 'uses' => 'ConfigController@SaveTwitter'))->before("auth_user");
 
-Route::get('/admin/save/joomlauser',array('as' => 'saveuserjoomla', 'uses' => 'ConfigController@SaveUserJoomla'))->before("auth_user");
+Route::post('/admin/save/joomlauser',array('as' => 'saveuserjoomla', 'uses' => 'ConfigController@SaveUserJoomla'))->before("auth_user");
+
+Route::post('/admin/save/idsave',array('as' => 'idsave', 'uses' => 'ConfigController@IdSaveOP'))->before("auth_user");
 
 //rutear a administracionvideos
 

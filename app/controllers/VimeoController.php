@@ -228,7 +228,7 @@ class VimeoController extends BaseController {
                     $urlvi='https://vimeo.com/' . $id;
                     $vidav = Video::where('videourl', '=', 'https://vimeo.com/' . $id)->count();
                     $vidop = VideoOpenpub::where('VideoId', '=', $id)->count();
-
+                    $config = ConfigApp::First()->get();
                     $seo=VimeoController::SeoTitulo($titulo);
                     // echo '<br>av '.$vidav.' y op'.$vidop;
                     if ($vidav == 0 && $vidop == 0 ) {
@@ -240,7 +240,8 @@ class VimeoController extends BaseController {
                                 $thum = $img;
                                 $thumh = $img;
                                 $tituav = str_replace(array('“', '”', '"', '\''), '' , $titulo);
-                                $DataVideo = array('memberid' => 539, 'published' => 1, 'title' => $tituav, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => $urlvi, 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $categ, 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $descrip, 'targeturl' => $urltag, 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $tags, 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
+
+                                $DataVideo = array('memberid' => $config[0]["UserJoomla"], 'published' => 1, 'title' => $tituav, 'seotitle' => $seo, 'featured' => 1,'type' => 0, 'rate' => 2, 'rateduser' => '', 'ratecount' => 0, 'times_viewed' => 1, 'videos' => '', 'filepath' => 'Youtube', 'videourl' => $urlvi, 'thumburl' => $thum, 'previewurl' => $thumh, 'hdurl' => '', 'home' => 0, 'playlistid' => $categ, 'duration' => '', 'ordering' => 0, 'streamerpath' => '', 'streameroption' => '', 'postrollads' => 0, 'prerollads' => 0, 'midrollads' => 0, 'description' => $descrip, 'targeturl' => $urltag, 'download' => 0, 'prerollid' => 0, 'postrollid' => 0, 'created_date' => date("Y-m-d H:i:s"), 'addedon' => date("Y-m-d H:i:s"), 'usergroupid' => '8', 'tags' => $tags, 'useraccess' => 0, 'islive' => 0, 'imaads' => 0, 'embedcode' => '', 'subtitle1' => '', 'subtitle2' => '', 'subtile_lang2' => '', 'subtile_lang1' => '', 'amazons3' => 0 );
 
                                 //Guardar en VideoCategoria
                                 $newVideo = Video::create($DataVideo);

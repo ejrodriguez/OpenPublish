@@ -280,8 +280,8 @@ $(document).ready(function() {
 		"language": {
 						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
 						"paginate": {
-					       				 	"next": "Siguiente",
-					       				 	"previous": "Anterior",
+					       				 	"next": "<i class='fa fa-forward'></i>",
+					       				 	"previous": "<i class='fa fa-backward'>",
 
   									},
   						"search": "Buscar:",

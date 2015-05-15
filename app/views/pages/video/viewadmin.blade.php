@@ -985,6 +985,8 @@ function VerTablaVacia(datos){
 						"paginate": {
 					       				 	"next": "Siguiente",
 					       				 	"previous": "Anterior",
+					       				 	"sFirst": "Primero",
+                                            "sLast": "Ultimo",
 
 										},
 							"search": "Buscar:",
@@ -1117,7 +1119,7 @@ function SeleccionClick(){
 		$.each(viav, function(n,value) {
 			 /* iterate through array or object */
 			 // var aux=viav[n];
-			 console.log(value[5]);
+			 // console.log(value[5]);
 			 if (value[0]==$('#idalavista').text()) {
 			 	$('#tituloalavista').val(value[1]);
 			 	$('#wysiwig_full').val((value[2]));
@@ -1400,8 +1402,8 @@ function VerTablaYoutube(datos){
 		"language": {
 						"info": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
 						"paginate": {
-					       				 	"next": "Siguiente",
-					       				 	"previous": "Anterior",
+											"next": "<i class='fa fa-forward'></i>",
+					       				 	"previous": "<i class='fa fa-backward'>",
 
 										},
 							"search": "Buscar:",
