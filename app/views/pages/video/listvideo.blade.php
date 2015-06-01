@@ -9,6 +9,43 @@
 <body>
 <br>
 <div class="col-xs-12 col-sm-12">
+		<!-- contenedor de pagina -->
+		<div class="box">
+			<div class="box-header">
+				<div class="box-name">
+					<i class="fa fa-table"></i>
+					<span>Páginas</span>
+				</div>
+				<div class="box-icons">
+					<a class="collapse-link">
+						<i class="fa fa-chevron-up"></i>
+					</a>
+					<a class="expand-link">
+						<i class="fa fa-expand"></i>
+					</a>
+					
+				</div>
+				<div class="no-move"></div>
+			</div>
+				<div class="box-content" style="display:none">
+					<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
+	        		<fieldset>
+						<div class="form-group" >
+						<label class="col-sm-3 control-label">Página</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" name="mensaje2" id="mensaje2"/>
+							</div>
+						</div>						
+					</fieldset>
+					<legend>Cuentas:</legend>
+					<fieldset>
+					<div class="form-group">
+					<div id="cuentas2"></div>
+					</fieldset>
+				</form>
+				</div>
+		</div>
+		<!--  contenedor de videos -->
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
@@ -28,7 +65,7 @@
 			</div>
 				<div class="box-content">
 					
-						<div  >
+						<div>
 							<div id="listresult">
 							    {{ Datatable::table() 
 							    ->addColumn('Video','Titulo','Descripción','Publicar')  
@@ -36,7 +73,7 @@
 							    ->render() 
 							    }}
 							</div> 
-					</div>
+						</div>
 				</div>
 
 		</div>
@@ -118,7 +155,6 @@ $(document).ready(function() {
 	    	if(data.success== true)
 	    	{
 				$('#cuentas').html(data.list);
-				
 				<?php $accounts = Account::get()->count();
 				echo 'cuentas ='.$accounts.';';?>
 				
@@ -145,6 +181,50 @@ $(document).ready(function() {
 		console.log("error");
 		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Facebook, Seleccione nuevamente la opcion del menu Redes Sociales, Facebook para obtener las cuentas de facebook.</p>');
 	    })
+
+
+//--------------cargar cuentas facebook para paginas
+		$.ajax({
+	    	
+	    	url: "{{URL::route('accounts2')}}",
+	    	type: 'GET',
+		    beforeSend: function(){
+	                    $('#cuentas2').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+	    })
+	    .done(function(data) {
+	    	if(data.success== true)
+	    	{
+				$('#cuentas2').html(data.list);
+				//$('#cuentas2').html(data.list);
+				<?php $accounts = Account::get()->count();
+				echo 'cuentas ='.$accounts.';';?>
+				
+				function SelectCat()
+				{
+					for (var i = 1; i <= cuentas; i++) 
+					{
+						$('#groups2'+i).select2();
+						$('#groups2'+i).select2({placeholder: "Seleccione sus grupos"});
+						$('#pages2'+i).select2();
+						$('#pages2'+i).select2({placeholder: "Seleccione sus páginas"});
+						$('#events2'+i).select2();
+						$('#events2'+i).select2({placeholder: "Seleccione sus eventos"});
+					};
+				}			
+				LoadSelect2Script(SelectCat);
+			}
+		else
+			{
+				alert(data.list);
+			}
+		})
+		.fail(function() {
+		console.log("error");
+		$('#cuentas2').html('<p class="alert alert-danger">Problemas de conexión con la API de Facebook, Seleccione nuevamente la opcion del menu Redes Sociales, Facebook para obtener las cuentas de facebook.</p>');
+	    })   
+//--------------fin---------------------------------
+
 });	
 //funcion para publicar perfil
 	function showModal(seoname,seocategoria,title,image)
@@ -245,7 +325,93 @@ $(document).ready(function() {
 			console.log("complete");
 		}); 	
 	}
+//------------------publicar pagina
+//funcion para compartir
+	function Share2(identificador)
+	{
+		link = document.getElementById("mensaje2").value;
+		mensaje = "";
+		descripcion = "";
+		cuenta = document.getElementById(identificador).value;  
+		idcuenta = document.getElementById('idcuenta'+identificador).value;  
+		grupos = $('#groups2'+identificador).val();
+		paginas = $('#pages2'+identificador).val();
+		eventos = $('#events2'+identificador).val();
+		var ids = [];
+		//lista de id de las cuentas donde se publicara. 
+		if($("#checkm2"+identificador).is(':checked')) {
+			ids = [cuenta];
+		}
+		if (grupos != null){
+			for (var i = 0; i <  grupos.length ; i++) {
+			 	ids.push(grupos[i]);
+			 };
+		}
 
+		if (paginas != null){
+			for (var i = 0; i <  paginas.length ; i++) {
+			 	ids.push(paginas[i]);
+			 };
+		}
+		
+		if (eventos != null){
+			for (var i = 0; i <  eventos.length ; i++) {
+			 	ids.push(eventos[i]);
+			 };
+		}
+		$.ajax({
+			url: "{{URL::route('share')}}",
+			type: 'POST',
+			data: {link:link,mensaje:mensaje,descripcion:descripcion,ids:ids,idcuenta:idcuenta},
+			beforeSend: function(){
+		    			
+	                    $('#resultshare2'+identificador).html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+	        error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			            alert('Internal Server Error [500].');
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+		})
+		.done(function(data) {
+			$('#resultshare2'+identificador).html('<label></label>');
+			// console.log("success");
+			if(data.success=='true'){
+
+						// alert(data.msg);
+						$('#resultshare2'+identificador).html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+					}
+			if(data.success=='false'){
+
+						// alert(data.msg);
+						$('#resultshare2'+identificador).html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					}
+			if(data.success=='falserollb'){
+
+						alert('Internal Server Error [500].');
+					}
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		}); 	
+	}
+
+//------------------fin-----------
 //funcion agregar todos los elementos de un select
 	function checkTodos(id,idcheck) {
 

@@ -111,6 +111,7 @@ Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'Vi
 Route::get('/redsocial',array('as' => 'sharefb', 'uses' => 'VideoController@LoadVideo'))->before("auth_user");
 //cargar cuentas
 Route::get('/facebook/account',array('as' => 'accounts', 'uses' => 'FacebookController@Listaccounts'))->before("auth_user");
+Route::get('/facebook/account2',array('as' => 'accounts2', 'uses' => 'FacebookController@Listaccounts2'))->before("auth_user");
 //Route::post('/redsocial/alavista/list',array('as' => 'listvideos', 'uses' => 'VideoController@ListVideo'))->before("auth_user");
 Route::post('/facebook/share',array('as' => 'share', 'uses' => 'FacebookController@share'))->before("auth_user");
 //listar cuentas de facebok,crear vista
@@ -139,6 +140,7 @@ Route::post('/twitter/account/delete',array('as' => 'accountdeltw', 'uses' => 'T
 Route::get('/twitter',array('as' => 'sharetw', 'uses' => 'VideoController@LoadVideoTw'))->before("auth_user");
 // listar cuentas twiiter
 Route::get('/twitter/account',array('as' => 'accountstw', 'uses' => 'TwitterController@ListAccounttw'))->before("auth_user");
+Route::get('/twitter/account2',array('as' => 'accountstw2', 'uses' => 'TwitterController@ListAccounttw2'))->before("auth_user");
 // twittear 
 Route::post('/twitter/twittear',array('as' => 'twittear', 'uses' => 'TwitterController@Twittear'))->before("auth_user");
 //listar videos
@@ -153,6 +155,7 @@ Route::post('/twitter/twittear',array('as' => 'twittear', 'uses' => 'TwitterCont
 Route::get('datatables', array('as'=>'datatables', 'uses'=>'VideoController@Datatable'))->before("auth_user");
 //listar treanding
 Route::get('/twitter/trending',array('as' => 'trending', 'uses' => 'TwitterController@Trending'))->before("auth_user");
+Route::get('/twitter/trending2',array('as' => 'trending2', 'uses' => 'TwitterController@Trending2'))->before("auth_user");
 
 // Galeria
 

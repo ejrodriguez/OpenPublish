@@ -8,10 +8,72 @@
 <style type="text/css" media="Screen">
   #leftcolumn a{cursor:pointer;}
 </style>
+<style type="text/css" media="Screen">
+  #leftcolumn2 a{cursor:pointer;}
+</style>
 </head>
 <body>
 <br>
 <div class="col-xs-12 col-sm-12">
+	<!-- contenedor de pagina --> 
+		<div class="box">
+			<div class="box-header">
+				<div class="box-name">
+					<i class="fa fa-table"></i>
+					<span>Páginas</span>
+				</div>
+				<div class="box-icons">
+					<a class="collapse-link">
+						<i class="fa fa-chevron-up"></i>
+					</a>
+					<a class="expand-link">
+						<i class="fa fa-expand"></i>
+					</a>
+				</div>
+				<div class="no-move"></div>
+			</div>
+				<div class="box-content" style="display:none">			
+	        	<form id="ShareProfileForm" method="POST"  action="" class="form-horizontal">
+						<div class="form-group">
+							<div  class="col-sm-12">
+								<fieldset>
+								<legend>Página:</legend>
+								<!--el tamaño del mensaje en twitter solo admite 140 caracters, reduciendo la longitud de un link para el video,
+								gracias a twitter los link solo ocupan 22 caracteres, mas un espació, el total de texto disponible es 117-->
+								<textarea class="form-control" name="mensaje2" id="mensaje2"  maxlength="140"   onKeyDown="valida_longitud2()" ></textarea>
+								<h5 class="col-sm-8" id="contador2" class="control-label"></h5>
+								</fieldset>
+								<div class="form-group">
+									<fieldset>
+										<legend>&nbsp;&nbsp;Tendencia:</legend>
+										<div id="leftcolumn2" class="col-xs-12"> </div>
+									</fieldset>
+								</div>
+								<fieldset>
+								<div class="form-group">
+								<legend>&nbsp;&nbsp;Cuentas:</legend>
+								<center>
+									<div id="cuentas2" style="width:96%" ></div>
+								</center>								
+								<div class="checkbox"  style="left:2%">
+									<p>	&nbsp;Seleccionar todos
+									<label>
+									<input id="checka2" onclick="CheckAll2()"  name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+							     	</label>
+									</p>
+								</div>
+								<br>&nbsp;&nbsp;&nbsp;
+								<span onclick="Share2()" class="dtr-data"><a id="callmodalshare" data-toggle="modal" class="btn btn-default btn-large">
+								<span class="fa  fa-twitter txt-primary" aria-hidden="true"></span>  Twittear</a></span>
+								<div id="resultshare2"></div>
+								</div>
+								</fieldset>
+							</div>
+						</div>
+				</form>				
+				</div>
+		</div>
+	<!-- para videos -->
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
@@ -25,7 +87,6 @@
 					<a class="expand-link">
 						<i class="fa fa-expand"></i>
 					</a>
-					
 				</div>
 				<div class="no-move"></div>
 			</div>
@@ -82,7 +143,7 @@
 						<div class="form-group">
 							<fieldset>
 								<legend>Tendencia:</legend>
-								<div id="leftcolumn" class="col-xs-12"> </div>
+								<div id="leftcolumn" class="col-xs-12"></div>
 							</fieldset>
 						</div>
 						<fieldset>
@@ -157,7 +218,38 @@ $(document).ready(function() {
 		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
 		$('#cuentas').html('<p class="alert alert-danger">Problemas de conexión con la API de Twitter, Seleccione nuevamente la opcion del menu Redes Sociales, Twitter para obtener las nuevamente las cuentas.</p>');
 	    })
+//------------cargar cuantas para paginas
+		$.ajax({
+	    	
+	    	url: "{{URL::route('accountstw2')}}",
+	    	type: 'GET',
+		    beforeSend: function(){
+	                    $('#cuentas2').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
 
+	    })
+	    .done(function(data) {
+	    	if(data.success== true)
+	    	{
+				$('#cuentas2').html(data.list);
+				
+				function SelectCat()
+				{
+					$('#account2').select2();
+					$('#account2').select2({placeholder: "Seleccione las cuentas"});
+				}			
+				LoadSelect2Script(SelectCat);
+			}
+		else
+			{
+				alert(data.list);
+			}
+		})
+		.fail(function() {
+		console.log("error");
+		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
+		$('#cuentas2').html('<p class="alert alert-danger">Problemas de conexión con la API de Twitter, Seleccione nuevamente la opcion del menu Redes Sociales, Twitter para obtener las nuevamente las cuentas.</p>');
+	    })
 //--------------cargar trending
 		$.ajax({
 	    	
@@ -173,12 +265,6 @@ $(document).ready(function() {
 	    	{
 	    		//alert(data.msg);
 				$('#leftcolumn').html(data.list);
-				//function SelectCat()
-				//{
-				//	$('#trending').select2();
-				//	$('#trending').select2({placeholder: "Seleccione las cuentas"});
-				//}			
-				//LoadSelect2Script(SelectCat);
 				$('#ClickWordList span').click(function() { 
 				    $("#mensaje").insertAtCaret($(this).text());
 				    return false
@@ -203,6 +289,45 @@ $(document).ready(function() {
 		$('#trending').html('<p class="alert alert-danger">Problemas de conexión con la API de Twitter, Seleccione nuevamente la opcion del menu Redes Sociales, Twitter para obtener nuevamente las tendencias.</p>');
 	    })
 });	
+//cargar trending para paginas
+		$.ajax({
+	    	
+	    	url: "{{URL::route('trending2')}}",
+	    	type: 'GET',
+		    beforeSend: function(){
+	                    $('#trending2').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+
+	    })
+	    .done(function(data) {
+	    	if(data.success== true)
+	    	{
+	    		//alert(data.msg);
+				$('#leftcolumn2').html(data.list);
+				$('#ClickWordList2 span').click(function() { 
+				    $("#mensaje2").insertAtCaret2($(this).text());
+				    return false
+				  });
+				  $("#ClickWordList2 span").draggable({helper: 'clone'});
+				  $("#mensaje2").droppable({
+				    accept: "#ClickWordList2 span",
+				    drop: function(ev, ui) {
+				      $(this).insertAtCaret(ui.draggable.text());
+				    }
+				  });
+				//
+			}
+		else
+			{
+				alert(data.list);
+			}
+		})
+		.fail(function() {
+		console.log("error");
+		//$('#cuentas').html('<p>Error al conectar con servidor de facebook</p>');
+		$('#trending').html('<p class="alert alert-danger">Problemas de conexión con la API de Twitter, Seleccione nuevamente la opcion del menu Redes Sociales, Twitter para obtener nuevamente las tendencias.</p>');
+	    })
+
 //----------función para insertar el trending topic al texto
 	$.fn.insertAtCaret = function (myValue) {
 	  return this.each(function(){
@@ -229,7 +354,33 @@ $(document).ready(function() {
 	      }
 	  });
 	};
-//funcion para publicar perfil
+//función para insertar el trending topic al texto para las paginas
+	$.fn.insertAtCaret2 = function (myValue) {	
+	  return this.each(function(){
+	      //IE support
+	      if (document.selection) {
+	          this.focus();
+	          sel = document.selection.createRange();
+	          sel.text = myValue;
+	          this.focus();
+	      }
+	      //MOZILLA / NETSCAPE support
+	      else if (this.selectionStart || this.selectionStart == '0') {
+	          var startPos = this.selectionStart;
+	          var endPos = this.selectionEnd;
+	          var scrollTop = this.scrollTop;
+	          this.value = this.value.substring(0, startPos)+ myValue+ this.value.substring(endPos,this.value.length);
+	          this.focus();
+	          this.selectionStart = startPos + myValue.length;
+	          this.selectionEnd = startPos + myValue.length;
+	          this.scrollTop = scrollTop;
+	      } else {
+	          this.value += myValue;
+	          this.focus();
+	      }
+	  });
+	}; 
+//función para publicar perfil
 function showModal(seoname,seocategoria,title,image)
 {
 	
@@ -306,6 +457,68 @@ function Share()
 		});
 	}
 }
+//twittear pagina
+function Share2()
+{
+	message = document.getElementById("mensaje2").value;
+	accounts = $('#account2').val();
+	if(accounts == null)
+    {alert("Seleccione por lo menos una cuenta de twitter.")}
+	else
+	{
+		$.ajax({
+			url: "{{URL::route('twittear')}}",
+			type: 'POST',
+			data: {message:message,accounts:accounts},
+			beforeSend: function(){
+		    			
+	                    $('#resultshare2').html('<img src="img/devoops_getdata.gif"  alt="preloader"/>');
+	                },
+	        error: function(jqXHR, exception) {
+			        if (jqXHR.status === 0) {
+			            alert('Error de conexión, verifica tu instalación.');
+			        } else if (jqXHR.status == 404) {
+			            alert('La página no ha sido encontrada. [404]');
+			        } else if (jqXHR.status == 500) {
+			            alert('Internal Server Error [500].');
+			        } else if (exception === 'parsererror') {
+			            alert('Error parse JSON.');
+			        } else if (exception === 'timeout') {
+			            alert('Exceso tiempo.');
+			        } else if (exception === 'abort') {
+			            alert('Petición ajax abortada.');
+			        } else {
+			            alert('Error desconocido: ' + jqXHR.responseText);
+			        }
+			    },
+		})
+		.done(function(data) {
+			$('#resultshare2').html('<label></label>');
+			console.log(data.msg)
+			if(data.success=='true'){
+
+						// alert(data.msg);
+						$('#resultshare2').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+					}
+			if(data.success=='false'){
+
+						// alert(data.msg);
+						$('#resultshare2').html('<legend id="uniq" class="alert alert-danger">'+data.msg+'</legend>');
+					}
+			if(data.success=='falserollb'){
+
+						alert('Internal Server Error [500].');
+					}
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+	}
+}
+
 
 //funciones para contabilizar el maximo de caracters para hacer el tweet
 contenido_textarea = "" 
@@ -332,6 +545,36 @@ function valida_longitud(){
    }
 
 } 
+//-----------validar longitud para la página
+
+function valida_longitud2(){ 
+   cuenta2() 
+   num_caracteres = document.getElementById("mensaje2").value.length;
+   if (num_caracteres >= 135){
+   		//rojo
+      document.getElementById("contador2").style.color = "#FF0000";
+   }
+   else
+	{
+	   	if (num_caracteres > 100)
+	   	{ 
+	   		//naranja
+	       document.getElementById("contador2").style.color = "#FF9900";
+	   	}
+	   	else{
+	   			//negro
+	   			document.getElementById("contador2").style.color = "#000000";
+	   		}
+   }
+
+}
+	//para el contador para pagina
+	function cuenta2(){ 
+		c= num_permitidos - ($('#mensaje2').val().length);
+
+		$('#contador2').text('Maximo de caracteres:  '+ c);
+	} 
+
 	//para presentar el contador
 	function cuenta(){ 
 		c= num_permitidos - ($('#mensaje').val().length +24);
@@ -360,6 +603,26 @@ function CheckAll() {
 			}
         }  
    } 
+   //funcion seleecionar todas las cuentas para las páginas
+function CheckAll2() {
 
+        if($("#checka2").is(':checked')) {  
+            elem=document.getElementById("account2").options;
+			for(i=0;i<elem.length;i++)
+				{
+					elem[i].selected=true; 
+					//$("#"+id).find("option:contains("+i+")").prop('selected',true).parent().focus();
+					$("#account2").change();
+				}
+        } else {   
+            elem=document.getElementById("account2").options;
+			for(i=0;i<elem.length;i++)
+			{
+				elem[i].selected=false; 
+				//$("#"+id).find("option:contains("+i+")").prop('selected',false).parent().focus();
+				$("#account2").change();
+			}
+        }  
+   } 
 </script>
 </body>

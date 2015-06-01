@@ -392,7 +392,303 @@ class FacebookController extends \BaseController {
 			'list' => $encontrados
             )); 
 	}
+//-----------------------Listar cuentas para publicar paginas.
+//listar cuentas
+	public function Listaccounts2()
+	{ 
+		$accounts = Account::all();
 
+		$contador =0;
+		$encontrados='<div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">';
+		
+		if (count($accounts) == 0)
+		{
+			$encontrados = $encontrados.'<h4>No existe cuentas de facebook registradas, agregue las cuentas en Adminsitración de Facebook</h4></div>';
+		}
+		else
+		{
+			foreach ($accounts as $account) 
+			{
+				//comprobar si el usuario autenticado es el adm presentar todas las cuentas. 
+				//con el rol si es igual a 1 es adm.
+				if(Auth::user()->get()->RolId  != 1 )
+				{
+					//si no es adm listar solo sus cuentas. 
+					if($account->usuario_id == Auth::user()->get()->id)
+					{				
+						$grp="";
+						$pgs="";
+						$evts="";
+						//obtener token de la base de datos
+						$token= $account->access_token_fb;
+						//generateSessionFromToken
+						$session=$this->fb->generateSessionFromToken($token);
+						//identificador de la cuenta para publicar en el perfil. 
+						$id = $account->id_account;
+
+						//obtener grupos.
+						$groups = $this->fb->getGraphGroups($session);
+
+						//verificar si se pudo iniciar sesion retornara un array
+						//caso contrario retornara un string con un mensaje de error.
+						//is_string($var) determina si la variable es un string. 
+						if (is_string($groups) == 1 )
+						{
+							$encontrados = $encontrados.'<p class="alert alert-danger">
+							Cuenta de '.
+							$account->name.'  obtubo un error: '.  $groups.'<p>'; 
+						} 
+						else
+						{
+								$groups = $groups->getProperty('data');
+								if($groups != NULL)
+									{
+										$groups = $groups->asArray();
+										foreach ($groups as $group) {
+											$grp.='<option value='.$group->id.'>'.$group->name.'</option>';
+										}
+									}
+								//obtener paginas
+								$pages = $this->fb->getGraphPages($session);
+								if (is_string($pages) != 1 )
+								{
+									$pages = $pages->getProperty('data');
+									if($pages !=NULL)
+										{
+											$pages = $pages->asArray();		
+											foreach ($pages as $page) {
+												$pgs.='<option value='.$page->id.'>'.$page->name.'</option>';
+											}
+										}
+								}
+								//obtener eventos
+								$events = $this->fb->getGraphEvents($session);
+								if(is_string($events) !=1 )
+								{
+									$events = $events->getProperty('data');
+									if($events != NULL)
+										{
+											$events = $events->asArray();
+											foreach ($events as $event) {
+												$evts.='<option value='.$event->id.'>'.$event->name.'</option>';
+											}
+										}
+								}
+								//variables para enviar que imput llenar automaticamente. 
+								$contador +=1;
+								$allg = "'".'groups2'.$contador."'";
+								$checkg = "'".'checkg2'.$contador."'"; 
+								$allp = "'".'pages2'.$contador."'";
+								$checkp = "'".'checkp2'.$contador."'"; 
+								$alle = "'".'events2'.$contador."'";
+								$checke = "'".'checke2'.$contador."'"; 
+								$encontrados= $encontrados.'
+											<div  class="panel panel-default">
+											<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse2'.$contador.'" aria-expanded="false" aria-controls="collapse'.$contador.'">
+											    <div  class="panel-heading" role="tab" id="heading2'.$contador.'">
+												    <h4 class="panel-title">									       
+													     '.$account->name.' <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info1" class="" ></a>
+													</h4>	
+												</div>
+											</a>
+
+											<div id="collapse2'.$contador.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'.$contador.'">
+											    <div class="panel-body">
+											    <p id="id'.$contador.'"> ID Cuenta: '.$id.'</p>
+												<div class="checkbox">
+													<p>&nbsp;&nbsp;Seleccionar perfil
+													<label>
+													<input id="checkm2'.$contador.'" name="check"  type="checkbox"/><i class="fa fa-square-o"></i>
+													</label>
+													</p>
+												</div>
+											    <input type="text" id="'.$contador.'" value="'.$id.'" style="display:none"/>
+											    <input type="text" id="idcuenta'.$contador.'" value="'.$account->id.'" style="display:none"/>
+											    <h5>Grupos</h5>
+											    <select id="groups2'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
+												'.$grp.'						
+												</select>
+												<div class="checkbox">
+													<p>&nbsp;&nbsp;Seleccionar todos
+													<label>
+													<input id="checkg2'.$contador.'" onclick="checkTodos('.$allg.','.$checkg.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+												   </label>
+													</p>
+												</div>
+											    <h5>Páginas</h5>
+											    <select id="pages2'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
+												'.$pgs.'						
+												</select>
+												<div class="checkbox">
+													<p>&nbsp;&nbsp;Seleccionar todos
+													<label>
+													<input id="checkp2'.$contador.'" onclick="checkTodos('.$allp.','.$checkp.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+											     	</label>
+													</p>
+												</div>
+											    <h5>Eventos</h5>
+											    <select id="events2'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
+												'.$evts.'						
+												</select>
+												<div class="checkbox">
+													<p>&nbsp;&nbsp;Seleccionar todos
+													<label>
+													<input id="checke2'.$contador.'" onclick="checkTodos('.$alle.','.$checke.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+													</label>
+													</p>
+												</div>
+												<br><br>
+												 <button onclick="Share2('.$contador.')" type="button" class="btn btn-default" aria-label="Left Align">
+					               				 <span class="fa fa-share-square " aria-hidden="true">Publicar</span>
+											</div>
+											<div id="resultshare2'.$contador.'"></div>
+											</div>
+											</div>';
+						}
+					}	
+				}
+				else
+				{
+
+						$grp="";
+						$pgs="";
+						$evts="";
+						//obtener token de la base de datos
+						$token= $account->access_token_fb;
+						//generateSessionFromToken
+						$session=$this->fb->generateSessionFromToken($token);
+						//identificador de la cuenta para publicar en el perfil. 
+						$id=$account->id_account;
+
+						//obtener grupos
+						$groups = $this->fb->getGraphGroups($session);
+						//verificar si se pudo iniciar sesion retornara un array
+						//caso contrario retornara un string con un mensaje de error.
+						if (is_string($groups) == 1 )
+						{
+							$encontrados = $encontrados.'<p class="alert alert-danger">
+							Cuenta de '.
+							$account->name.'  obtubo un error: '.  $groups.'<p>'; 
+						} 
+						else
+						{
+							$groups = $groups->getProperty('data');
+
+							if($groups != NULL)
+								{
+									$groups = $groups->asArray();
+									foreach ($groups as $group) {
+										$grp.='<option value='.$group->id.'>'.$group->name.'</option>';
+									}
+								}
+
+							//obtener paginas
+							$pages = $this->fb->getGraphPages($session);
+							if(is_string($pages) != 1 )
+							{
+								$pages = $pages->getProperty('data');
+								if($pages !=NULL)
+									{
+										$pages = $pages->asArray();		
+										foreach ($pages as $page) {
+											$pgs.='<option value='.$page->id.'>'.$page->name.'</option>';
+										}
+									}
+							}
+							//obtener eventos
+							$events = $this->fb->getGraphEvents($session);
+							if(is_string($events) != 1)
+							{
+							$events = $events->getProperty('data');
+							if($events != NULL)
+								{
+									$events = $events->asArray();
+									foreach ($events as $event) {
+										$evts.='<option value='.$event->id.'>'.$event->name.'</option>';
+									}
+								}
+							}
+							//variables para enviar que imput llenar automaticamente. 
+							$contador +=1;
+							$allg = "'".'groups2'.$contador."'";
+							$checkg = "'".'checkg2'.$contador."'"; 
+							$allp = "'".'pages2'.$contador."'";
+							$checkp = "'".'checkp2'.$contador."'"; 
+							$alle = "'".'events2'.$contador."'";
+							$checke = "'".'checke2'.$contador."'"; 
+							$encontrados= $encontrados.'
+										<div  class="panel panel-default">
+										<a class="collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse2'.$contador.'" aria-expanded="false" aria-controls="collapse'.$contador.'">
+										    <div  class="panel-heading" role="tab" id="heading2'.$contador.'">
+											    <h4 class="panel-title">									       
+												     '.$account->name.' <a tabindex="0" data-toggle="popover" data-trigger="focus" id="info1" class="" ></a>
+												</h4>	
+											</div>
+										</a>
+
+										<div id="collapse2'.$contador.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'.$contador.'">
+										    <div class="panel-body">
+										    <p id="id'.$contador.'"> ID Cuenta: '.$id.'</p>
+											<div class="checkbox">
+												<p>&nbsp;&nbsp;Seleccionar perfil
+												<label>
+												<input id="checkm2'.$contador.'" name="check"  type="checkbox"/><i class="fa fa-square-o"></i>
+												</label>
+												</p>
+											</div>
+										    <input type="text" id="'.$contador.'" value="'.$id.'" style="display:none"/>
+										    <input type="text" id="idcuenta'.$contador.'" value="'.$account->id.'" style="display:none"/>
+										    <h5>Grupos</h5>
+										    <select id="groups2'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
+											'.$grp.'						
+											</select>
+											<div class="checkbox">
+												<p>&nbsp;&nbsp;Seleccionar todos
+												<label>
+												<input id="checkg2'.$contador.'" onclick="checkTodos('.$allg.','.$checkg.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+											   </label>
+												</p>
+											</div>
+										    <h5>Páginas</h5>
+										    <select id="pages2'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
+											'.$pgs.'						
+											</select>
+											<div class="checkbox">
+												<p>&nbsp;&nbsp;Seleccionar todos
+												<label>
+												<input id="checkp2'.$contador.'" onclick="checkTodos('.$allp.','.$checkp.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+										     	</label>
+												</p>
+											</div>
+										    <h5>Eventos</h5>
+										    <select id="events2'.$contador.'" name="modal_menu" multiple="multiple" class="populate placeholder" >
+											'.$evts.'						
+											</select>
+											<div class="checkbox">
+												<p>&nbsp;&nbsp;Seleccionar todos
+												<label>
+												<input id="checke2'.$contador.'" onclick="checkTodos('.$alle.','.$checke.')" name="checkAll" type="checkbox" /><i class="fa fa-square-o"></i>
+												</label>
+												</p>
+											</div>
+											<br><br>
+											 <button onclick="Share2('.$contador.')" type="button" class="btn btn-default" aria-label="Left Align">
+				               				 <span class="fa fa-share-square " aria-hidden="true">Publicar</span>
+										</div>
+										<div id="resultshare2'.$contador.'"></div>
+										</div>
+										</div>';
+						}
+				}			
+			}	
+		}		
+		return Response::json(array(
+			'success' => true,
+			'list' => $encontrados
+            )); 
+	}
+
+//-----------------------fin---------------------------------
 	//cargar cuentas facebook
 	public function AdmFacebook(){
 
