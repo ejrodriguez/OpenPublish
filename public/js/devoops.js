@@ -2298,6 +2298,38 @@ function DemoFormValidator(){
 		}
 	});
 
+
+	$('#Profile').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+		fields: {
+
+			reclave: {
+				validators: {
+					notEmpty: {
+						message: 'El campo repetir clave es requerido'
+					},
+					identical: {
+						field: 'modal_clave',
+						message: 'La clave y su confirmación no son las mismas'
+					},
+					stringLength: {
+						min: 6,
+						max: 30,
+						message: 'La clave debe ser mayor a 6 y menor a 30 caracteres de longitud'
+					},
+				}
+			},
+			
+		}
+	});
+
+
+
 }
 //
 // Function for Dynamically Change input size on Form Layout page

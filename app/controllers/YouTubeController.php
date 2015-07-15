@@ -211,7 +211,7 @@ class YouTubeController extends BaseController {
                                 VideoCategory::create($VidCat);
 
                                 //Guardar en OP
-                                $market = array('VideoId' => $id, 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $titulo, 'VideoUrl' => $urlvi, 'VideoImage' => $img , 'VideoDate' => date("Y-m-d H:i:s"));
+                                $market = array('VideoId' => $id, 'UserId' => Auth::user()->get()->id, 'VideoTitle' => $tituav, 'VideoUrl' => $urlvi, 'VideoImage' => $img , 'VideoDate' => date("Y-m-d H:i:s"));
                                 VideoOpenpub::create($market);
 
                                 
@@ -226,7 +226,7 @@ class YouTubeController extends BaseController {
         catch (Exception $e) {
             DB::rollback();
             $mess=0;
-            var_dump($e);
+            // var_dump($e);
         }
         return $mess;
 

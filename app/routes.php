@@ -27,6 +27,12 @@ Route::get('/logout',array( 'as' => 'makelogout', 'uses' => 'AuthController@make
 
 Route::get('/welcome',array('as' => 'showwelcome', 'uses' => 'AuthController@showWelcome'))->before("auth_user");
 
+Route::get('/profile',array('as' => 'showprofile', 'uses' => 'UserController@showProfile'))->before("auth_user");
+
+Route::post('/profile/data',array('as' => 'dataprofile', 'uses' => 'UserController@showDataProfile'))->before("auth_user");
+
+Route::post('/profile/edit',array('as' => 'editprofile', 'uses' => 'UserController@EditProfile'))->before("auth_user");
+
 //rutear a administracion
 
 Route::get('/user/create',array('as' => 'createuser', 'uses' => 'UserController@showCreate'))->before("auth_user");

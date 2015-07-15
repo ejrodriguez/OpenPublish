@@ -9,6 +9,39 @@ class UserController extends \BaseController {
 		return View::make('pages.createuser');
 	}
 
+	public function showProfile()
+	{
+		return View::make('pages.profile');
+	}
+
+	public function showDataProfile()
+	{
+		$rol=Rol::find(Auth::user()->get()->RolId);
+		$nombrerol=$rol->RolDescrip;
+        return Response::json(array(
+            'success' => 'true',
+            'cod' =>	Auth::user()->get()->id,
+            'nombre' => Auth::user()->get()->UserName,
+            'email' => Auth::user()->get()->email,
+            'creado' =>	Auth::user()->get()->created_at,
+            'ultima' =>	Auth::user()->get()->updated_at,
+            'rol'	=>	$nombrerol,
+        ));
+
+	}
+
+	public function EditProfile()
+	{
+		$user=User::find(Auth::user()->get()->id);
+
+		$user->password=Hash::make(Input::get('clave'));
+		$user->save();
+	     return Response::json(array(
+	        'success'         =>     'true',
+	        'list'         =>      'La clave ha sido actualizada'
+	        ));			
+	}
+
 	public function create()
 	{
 		if(Request::ajax())

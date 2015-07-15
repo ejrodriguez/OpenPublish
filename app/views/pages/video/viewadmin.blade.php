@@ -1063,21 +1063,22 @@ function CrearObjeto(){
 				async: false,
 				error: function(jqXHR, exception) {
 			        if (jqXHR.status === 0) {
-			            alert('Error de conexión, verifica tu instalación.');
+			            console.log('Error de conexión, verifica tu instalación.')
 			        } else if (jqXHR.status == 404) {
-			            alert('La página no ha sido encontrada. [404]');
+			            console.log('La página no ha sido encontrada. [404]');
 			        } else if (jqXHR.status == 500) {
-			        	var msg=jQuery.parseJSON(jqXHR.responseText);
-			        	 VerError(msg);
+			        	// var msg=jQuery.parseJSON(jqXHR.responseText);
+			        	console.log(jqXHR.responseText);
+			        	 // VerError(msg);
 			            // alert("Error: "+msg.error.message+" Linea: "+msg.error.line+" File: "+msg.error.file);
 			        } else if (exception === 'parsererror') {
-			            alert('Error parse JSON.');
+			           console.log('Error parse JSON.');
 			        } else if (exception === 'timeout') {
-			            alert('Exceso tiempo.');
+			           console.log('Exceso tiempo.');
 			        } else if (exception === 'abort') {
-			            alert('Petición ajax abortada.');
+			            console.log('Petición ajax abortada.');
 			        } else {
-			            alert('Error desconocido: ' + jqXHR.responseText);
+			           console.log('Error desconocido: ' + jqXHR.responseText);
 			        }
 			    },
 			})
@@ -2238,7 +2239,7 @@ $("#buscar4").click(function(e) {
 				if(($('#datetime_antesq').val()!='') && ($('#datetime_despuesq').val()!=''))
 				{
 
-					if(validarFechaMenorMayor($('#datetime_antesq').val(),$('#datetime_despuesq').val())){
+					if(validarFechaMenorMayor($('#datetime_despuesq').val(),$('#datetime_antesq').val())){
 									$.ajax({
 								url: "{{URL::route('busquedaavanzada')}}",
 								type: 'POST',
