@@ -70,11 +70,12 @@
 				<div class="form-group">
 					<div class="col-sm-4 "></div>
 					<div class="col-sm-4 ">
-						<button  data-loading-text="Loading..." id="save" type="button" class="btn btn-primary btn-label-left"><span><i class="fa fa-search"></i></span> Guardar</button>
+						<button  data-loading-text="Loading..." id="save" type="button" class="btn btn-primary btn-label-left"><span><i class="fa fa-save"></i></span> Guardar</button>
 						<!-- <button id="save" type="button" class="btn btn-primary btn-label-left btn-lg"><span><i class="fa fa-save"></i></span> Guardar</button> -->
 					</div>					
 				</div>
 			</form>
+			<div  id='uniq'></div>
 			</div>
 		</div>
 
@@ -106,6 +107,7 @@ function CargarDatos(){
 };
 
 function GuardarDatos(){
+	$('#uniq').html('<label></label>');
 	if($('#clave').val() !='' )
 	{
 		if($('#clave').val().length > 5 && $('#clave').val().length < 30)
@@ -115,78 +117,60 @@ function GuardarDatos(){
 				if ($('#reclave').val().length > 5 && $('#reclave').val().length < 30) {
 					if($('#clave').val() == $('#reclave').val())
 						{
-							// alert('pasa');
 							$.ajax({
 								url: "{{URL::route('editprofile')}}",
 								type: 'POST',
 								data: {clave: $('#reclave').val()},
+								beforeSend: function(){
+	    										$('#uniq').html('<label></label>');
+							                    $('#save').html('<span><i class="fa fa-spinner fa-spin"></i></span> Loading...');
+							                },
 							})
 							.done(function(data) {
 								if(data.success=='true')
 								{
-									alert('se realizo el cambio');
+									$('#uniq').html('<legend id="uniq" class="alert alert-success">Se ha guardado correctamente</legend>');
 								}
 								else
 								{
-									alert('no se realizo el cambio intente mas tarde');
+									$('#uniq').append('<legend id="uniq" class="alert alert-danger">No se realizo el cambio intente mas tarde</legend>');
 								}
+								$('#save').html('<span><i class="fa fa-save"></i></span> Loading...');
 							})
 							.fail(function() {
 								console.log("error");
+								$('#save').html('<span><i class="fa fa-save"></i></span> Loading...');
 							})
 							.always(function() {
 								console.log("complete");
+								$('#save').html('<span><i class="fa fa-save"></i></span> Loading...');
 							});
 							
 						}
 						else
 						{
-							alert('no son iguales');	
+							$('#uniq').append('<legend id="uniq" class="alert alert-danger">Las Claves no son iguales</legend>');
 						}
 				}
 				else
 				{
-					alert('no tam reclave');
+					$('#uniq').append('<legend id="uniq" class="alert alert-danger">El campo Repetir permite de entre 6 a 30 caracteres</legend>');
 				}
 			}
 			else
 			{
-				alert('no  reclave');
+				$('#uniq').append('<legend id="uniq" class="alert alert-danger">El campo Repetir no admite vacios</legend>');
 			}
 		}
 		else
 		{
-			alert('no  tam clave');
+			$('#uniq').append('<legend id="uniq" class="alert alert-danger">La Clave permite de entre 6 a 30 caracteres</legend>');
 		}
 	}
 	else
 	{
-		alert('no clave');
+		$('#uniq').append('<legend id="uniq" class="alert alert-danger">El campo Clave no admite vacios</legend>');
 	}
-
-
-	// if($('#clave').val() !='' || $('#reclave').val()!='')
-	// {
-	// 	$.ajax({
-	// 		url: "{{URL::route('editprofile')}}",
-	// 		type: 'POST',
-	// 		data: {param1: 'value1'},
-	// 	})
-	// 	.done(function() {
-	// 		console.log("success");
-	// 	})
-	// 	.fail(function() {
-	// 		console.log("error");
-	// 	})
-	// 	.always(function() {
-	// 		console.log("complete");
-	// 	});
-		
-	// }
-	// else
-	// {
-	// 	alert('no');
-	// }
 
 }
 
