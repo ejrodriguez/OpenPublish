@@ -51,7 +51,7 @@
 							<input type="checkbox" data-label-text="Todos" id="checkall" name="checkall" data-on-color="success" data-off-color="warning" data-size="small" data-on-text="Si" data-off-text="No">
 							
 						</div>
-						<button id="eliminar" type="submit" class="btn btn-danger btn-app"><i class="fa fa-trash-o"></i></button>
+						<button id="eliminar" type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
 						<!-- <button id="enviaralavista" type="submit" class="btn btn-danger btn-label-left btn-lg"><span><i class="fa fa-trash-o"></i></span> Eliminar</button> -->
 											
 				</div>
@@ -332,7 +332,7 @@ $("#eliminar").click(function(e) {
 	})
 	.always(function() {
 		console.log("complete");
-		$('#eliminar').html('<span><i class="fa fa-search"></i></span> Buscar');
+		$('#eliminar').html('<span><i class="fa fa-trash-o"></i></span> Eliminar');
 	});
 	
 	

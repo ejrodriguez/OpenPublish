@@ -14,6 +14,6 @@ return  array(
 */
 	'app_id'=> $config[0]["AppIdFacebook"],
 	'app_secret'=>$config[0]["AppSecretFacebook"],
-	'app_scopes'=> array('email','read_friendlists','user_online_presence','publish_actions','publish_pages','user_groups','manage_pages','user_events')
+	'app_scopes'=> array('email','publish_actions','publish_pages','user_groups','manage_pages','user_events')
 )
 ?>

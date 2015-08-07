@@ -169,13 +169,22 @@ Route::get('/galery/simple',array('as' => 'viewgalery', 'uses' => 'GaleryControl
 
 Route::get('/galery/items/ajax', array('as' => 'itemstype','uses' => 'GaleryController@PaginacionVideos'))->before("auth_user");
 
+Route::get('/galery/simple',array('as' => 'viewgalery', 'uses' => 'GaleryController@showGalery'))->before("auth_user");
+
+Route::get('/video/infor', array('as'=>'showinformacion', 'uses'=>'VideoController@ShowListaInfor'))->before("auth_user");
+
+Route::get('/galery/items/popular', array('as' => 'itemspopulares','uses' => 'VideoController@PaginacionPopulares'))->before("auth_user");
+
+Route::get('/video/momento', array('as'=>'showinmomento', 'uses'=>'VideoController@ShowListaMomento'))->before("auth_user");
+
+Route::get('/galery/items/momento', array('as' => 'itemsmomento','uses' => 'VideoController@PaginacionMomento'))->before("auth_user");
+
 // Administracion Eliminar Videos
 
 Route::get('/video/delete',array('as' => 'delvideo', 'uses' => 'VideoController@showVideoDelete'))->before("auth_user");
 
 Route::get('/video/delete/datatable', array('as'=>'datatabledel', 'uses'=>'VideoController@DatatableDelete'))->before("auth_user");
 
-Route::post('/video/delete/eliminar', array('as'=>'eliminarvideo', 'uses'=>'VideoController@EliminarVideos'))->before("auth_user");
 
 //rutear a errores
 App::missing(function($exception)

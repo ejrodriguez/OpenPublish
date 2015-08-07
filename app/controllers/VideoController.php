@@ -269,5 +269,55 @@ public function DatatableDelete()
 		return $mess;
 	}
 
+	public function ShowListaInfor() {
+		return View::make('pages.video.viewpopular');
+	}
+
+	public function PaginacionPopulares()
+	{
+		$items_per_page = Input::get('can');
+		$ordenar_items = 'times_viewed';
+		$forma_orden = 'desc';
+		$campos = array('id', 'title', 'videourl','rate','times_viewed','thumburl');
+        $config = ConfigApp::First()->get();
+        
+        $items = Video::where('published', '=', 1)->where('memberid', '=', $config[0]["UserJoomla"])->where('filepath', '!=', 'File')->orderBy($ordenar_items, $forma_orden)->select($campos)->paginate($items_per_page);
+        if ($items->isEmpty()) {
+		   echo '<div class="box-content"><legend id="uniq" class="alert alert-info">No hay videos para visualizar</legend></div>';
+		   exit;
+		}
+		else
+		{
+			$view = View::make('pages.video.populares')->with('items', $items);
+		    echo $view;
+		    exit;
+		}
+	}
+
+	public function ShowListaMomento() {
+		return View::make('pages.video.viewmomento');
+	}
+
+	public function PaginacionMomento()
+	{
+		$items_per_page = Input::get('can');
+		$ordenar_items = 'rate';
+		$forma_orden = 'desc';
+		$campos = array('id', 'title', 'videourl','rate','times_viewed','thumburl');
+        $config = ConfigApp::First()->get();
+        
+        $items = Video::where('published', '=', 1)->where('memberid', '=', $config[0]["UserJoomla"])->where('filepath', '!=', 'File')->orderBy($ordenar_items, $forma_orden)->select($campos)->paginate($items_per_page);
+        if ($items->isEmpty()) {
+		   echo '<div class="box-content"><legend id="uniq" class="alert alert-info">No hay videos para visualizar</legend></div>';
+		   exit;
+		}
+		else
+		{
+			$view = View::make('pages.video.momento')->with('items', $items);
+		    echo $view;
+		    exit;
+		}
+	}
+
 }
 

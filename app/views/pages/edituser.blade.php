@@ -590,10 +590,12 @@ $("#erase").click(function(e) {
 
 					// alert(data.msg);
 					$('#uniqdel').html('<legend id="uniq" class="alert alert-success">'+data.msg+'</legend>');
+
 				}
 		if(data.success=='falserollb'){
 
 					alert('Internal Server Error [500].');
+					
 				}
 	})
 	.fail(function() {
@@ -618,6 +620,8 @@ $('#modaldataedit').on('hidden.bs.modal', function (){
  	$('#uniqedit').html('<legend id="uniq"></legend>');
   
 });
+
+
 
 
 

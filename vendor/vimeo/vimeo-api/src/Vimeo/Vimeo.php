@@ -143,7 +143,7 @@ class Vimeo
         $curl = curl_init($url);
 
         curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
         
         curl_setopt_array($curl, $curl_opts);

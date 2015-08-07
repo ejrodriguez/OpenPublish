@@ -384,7 +384,7 @@ $(document).ready(function() {
 function showModal(seoname,seocategoria,title,image)
 {
 	
-	link = 'http://alavista.tv/index.php/es/player/'+seocategoria+'/'+seoname;
+	link = 'http://perspectivas.espoch.edu.ec/index.php/es/player/'+seocategoria+'/'+seoname;
 	$('#titlevideo').text(title);
 	document.getElementById("mensaje").value="";
 	document.getElementById("linkvideo").value = link;

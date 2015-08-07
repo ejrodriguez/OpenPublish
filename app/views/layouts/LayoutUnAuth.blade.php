@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Open Publish</title>
     <meta name="description" content="Video Publish">
-    <meta name="author" content="DevOOPS">
+    <meta name="author" content="GenGy">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="plugins/bootstrap/bootstrap.css" rel="stylesheet">
     <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">

@@ -579,7 +579,7 @@ class Youtube {
 		$tuCurl = curl_init();
 		//direccion de certificado
 		curl_setopt($tuCurl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
-		curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, false);
 		//direccion de certificado
 
 		
